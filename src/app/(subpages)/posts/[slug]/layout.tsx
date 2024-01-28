@@ -8,7 +8,7 @@ export default async function PostLayout({
 }) {
   return (
     <>
-      <article className="prose md:prose-lg lg:prose-xl">{children}</article>
+      <article className="prose lg:prose-2xl w-full">{children}</article>
     </>
   );
 }
