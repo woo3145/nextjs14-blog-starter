@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "concurrently \"yarn:build-*\"",
+    "build-next": "next build",
+    "build-rss": "ts-node --project ./node.tsconfig.json scripts/rss",
     "start": "next start",
     "lint": "next lint"
   },
@@ -38,12 +40,14 @@
     "@types/react-dom": "^18",
     "@types/rss": "^0.0.32",
     "autoprefixer": "^10.0.1",
+    "concurrently": "^8.2.2",
     "eslint": "^8",
     "eslint-config-next": "14.1.0",
     "marked": "^11.2.0",
     "postcss": "^8",
     "rss": "^1.2.2",
     "tailwindcss": "^3.3.0",
+    "ts-node": "^10.9.2",
     "typescript": "^5"
   }
 }
