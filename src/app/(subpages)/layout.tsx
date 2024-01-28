@@ -1,4 +1,4 @@
-import Header from '@/lib/components/header';
+import Header from './components/header';
 
 export const metadata = {
   title: 'Posts',
