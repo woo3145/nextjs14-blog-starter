@@ -1,11 +1,15 @@
 ---
-title: Building a blog with Next.js 14 and React Server Components
-description: Use MDX, RSC, and Bright to build a blog with Next.js 14.
+title: 테스트 파일
+description: 설명
 slug: 1_test
-date: Apr 16, 2023
+date: 2024-01-29
+published: true
 ---
 
 # Markdown: Syntax
+
+❤️
+🧶
 
 - [Overview](#overview)
   - [Philosophy](#philosophy)
