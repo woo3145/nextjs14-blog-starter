@@ -1,3 +1,5 @@
+import { cn } from '@/lib/utils';
+
 export default async function PostLayout({
   children,
 }: {
@@ -8,7 +10,13 @@ export default async function PostLayout({
 }) {
   return (
     <>
-      <article className="prose lg:prose-2xl w-full">{children}</article>
+      <article
+        className={cn(
+          'prose lg:prose-2xl dark:prose-invert w-full bg-background text-foreground'
+        )}
+      >
+        {children}
+      </article>
     </>
   );
 }
