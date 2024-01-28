@@ -311,3 +311,16 @@ Unlike a pre-formatted code block, a code span indicates code within a
 normal paragraph. For example:
 
 Use the `printf()` function.
+
+```tsx
+// layout.tsx
+export default function Layout({ children }: PropsWithChildren) {
+  return (
+    <>
+      // Your layout content here
+      {children}
+      // Or here
+    </>
+  );
+}
+```
