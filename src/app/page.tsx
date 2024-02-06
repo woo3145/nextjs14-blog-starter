@@ -1,9 +1,26 @@
-import { Button } from '@/components/ui/button';
+import getPosts from '@/lib/get-posts';
+import { HeroCard } from './_components/hero-card';
+import { PostList } from './_components/post-list';
 
-export default function Home() {
+export default async function Home() {
+  const posts = await getPosts();
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <Button>Test</Button>
-    </main>
+    <div className="w-full flex flex-col px-6 pt-8">
+      <div className="w-full flex max-w-screen-md mx-auto">
+        <div className="w-full lg:shrink-0 flex flex-col">
+          <HeroCard />
+
+          <div className="h-screen bg-slate-400">
+            <PostList posts={posts} />
+          </div>
+        </div>
+
+        <div className="hidden 2xl:block w-1/3 right-0 shrink-0 translate-x-10">
+          <div className="sticky top-40 bg-red-200">
+            <p className="text-xl font-semibold">Tags</p>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
