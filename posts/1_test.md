@@ -4,9 +4,10 @@ description: 설명
 slug: 1_test
 date: 2024-01-29
 published: true
+tags:
+  - 'test'
+  - 'test2'
 ---
-
-# Markdown: Syntax
 
 ❤️
 🧶
