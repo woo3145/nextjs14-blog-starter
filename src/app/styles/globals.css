@@ -51,10 +51,10 @@
 
 @layer base {
   * {
-    @apply border-border text-base leading-relaxed;
+    @apply border-border text-base leading-relaxed bg-background text-foreground;
   }
   body {
-    @apply flex flex-col relative bg-background text-foreground;
+    @apply flex flex-col relative;
   }
 
   article {

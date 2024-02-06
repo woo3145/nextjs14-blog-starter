@@ -21,11 +21,11 @@ export default async function PostPage({
       <header
         className={cn(
           'prose-ul:m-0 prose-ul:p-0 prose-li:m-0 prose-li:p-0 prose-h2:m-0',
-          'flex flex-col gap-4 py-4 mb-4'
+          'flex flex-col gap-4 py-4'
         )}
       >
         <h2 className="">{post.title}</h2>
-        <div className="flex items-center space-x-8">
+        <div className="flex items-center space-x-4">
           <span className="text-foreground/60 font-semibold">
             {post.date.toISOString().split('T')[0]}
           </span>

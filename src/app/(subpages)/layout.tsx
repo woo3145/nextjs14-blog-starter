@@ -14,8 +14,7 @@ export default function SubLayout({
 }>) {
   return (
     <>
-      <Header />
-      {children}
+      <div>{children}</div>
     </>
   );
 }

@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 import './styles/globals.css';
 import { ThemeProvider } from '@/components/providers/theme-provider';
 import { DarkModeToggle } from '@/components/darkmode-toggle';
+import Header from './(subpages)/components/header';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -69,7 +70,8 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <Header />
+          <div className="pt-16">{children}</div>
           <DarkModeToggle />
         </ThemeProvider>
       </body>
