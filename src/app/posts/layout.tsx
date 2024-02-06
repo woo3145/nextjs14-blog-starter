@@ -1,5 +1,3 @@
-import Header from './components/header';
-
 export const metadata = {
   title: 'Posts',
   alternates: {
@@ -14,7 +12,7 @@ export default function SubLayout({
 }>) {
   return (
     <>
-      <div>{children}</div>
+      <div className="pt-8">{children}</div>
     </>
   );
 }

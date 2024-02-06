@@ -1,8 +1,8 @@
 import { notFound } from 'next/navigation';
-import { PostBody } from '../components/post-body';
+import { PostBody } from '../_components/post-body';
 import { getPost } from '@/lib/get-posts';
 import { getHeadings } from '@/lib/get-heading';
-import { TableOfContents } from '../components/table-of-contents';
+import { TableOfContents } from '../_components/table-of-contents';
 import { cn } from '@/lib/utils';
 import { Separator } from '@/components/ui/separator';
 

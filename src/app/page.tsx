@@ -10,13 +10,13 @@ export default async function Home() {
         <div className="w-full lg:shrink-0 flex flex-col">
           <HeroCard />
 
-          <div className="h-screen bg-slate-400">
+          <div className="py-12">
             <PostList posts={posts} />
           </div>
         </div>
 
         <div className="hidden 2xl:block w-1/3 right-0 shrink-0 translate-x-10">
-          <div className="sticky top-40 bg-red-200">
+          <div className="sticky top-40">
             <p className="text-xl font-semibold">Tags</p>
           </div>
         </div>

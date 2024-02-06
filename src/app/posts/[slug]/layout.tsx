@@ -12,7 +12,7 @@ export default async function PostLayout({
     <>
       <article
         className={cn(
-          'prose lg:prose-2xl dark:prose-invert w-full bg-background text-foreground pt-8'
+          'prose lg:prose-2xl dark:prose-invert w-full bg-background text-foreground'
         )}
       >
         {children}

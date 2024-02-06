@@ -3,6 +3,11 @@ title: 테스트 파일
 description: 설명
 slug: 1_test
 date: 2024-01-29
+excerpt:
+  Markdown is intended to be as easy-to-read and easy-to-write as is feasible.
+  Readability, however, is emphasized above all else. A Markdown-formatted
+  document should be publishable as-is, as plain text, without looking
+  like it's been marked up with tags or formatting instructions. While
 published: true
 tags:
   - 'test'
