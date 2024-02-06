@@ -4,28 +4,29 @@ import './styles/globals.css';
 import { ThemeProvider } from '@/components/providers/theme-provider';
 import { DarkModeToggle } from '@/components/darkmode-toggle';
 import Header from './_components/header';
+import { siteMetadata } from '@/data/siteMetadata';
 
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: {
-    template: '%s | Woo3145',
-    default: 'Woo3145',
+    template: `%s | ${siteMetadata.hero.author}`,
+    default: `${siteMetadata.hero.author}`,
   },
-  description: 'Full-stack developer.',
+  description: `${siteMetadata.description}`,
   openGraph: {
-    title: 'Woo3145',
-    description: 'Full-stack developer.',
-    url: '',
-    siteName: "Woo3145's site",
-    locale: 'ko_KR',
+    title: `${siteMetadata.title}`,
+    description: `${siteMetadata.description}`,
+    url: `${siteMetadata.siteUrl}`,
+    siteName: `${siteMetadata.title}`,
+    locale: `${siteMetadata.locale}`,
     type: 'website',
     // To use your own endpoint, refer to https://vercel.com/docs/concepts/functions/edge-functions/og-image-generation
     // Note that an official `app/` solution is coming soon.
     images: [
       {
-        url: `https://mysite.com/api/og?title=${encodeURIComponent(
-          "Woo3145's site"
+        url: `${siteMetadata.siteUrl}/api/og?title=${encodeURIComponent(
+          siteMetadata.title
         )}`,
         width: 1200,
         height: 630,
@@ -34,17 +35,17 @@ export const metadata: Metadata = {
     ],
   },
   twitter: {
-    title: 'Woo3145',
+    title: siteMetadata.title,
     card: 'summary_large_image',
-    creator: '@max_leiter',
+    creator: `@${siteMetadata.hero.author}`,
   },
   icons: {
-    shortcut: 'https://mysite.com/favicons/favicon.ico',
+    shortcut: `/favicon.ico`,
   },
   alternates: {
     types: {
       // See the RSS Feed section for more details
-      'application/rss+xml': 'https://mysite.com/feed.xml',
+      'application/rss+xml': `${siteMetadata.siteUrl}/feed.xml`,
     },
   },
 };

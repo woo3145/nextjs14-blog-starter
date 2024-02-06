@@ -1,7 +1,9 @@
+import { siteMetadata } from '@/data/siteMetadata';
+
 export const metadata = {
   title: 'Posts',
   alternates: {
-    canonical: 'https://mysite.com/posts',
+    canonical: `${siteMetadata.siteUrl}/posts`,
   },
 };
 
