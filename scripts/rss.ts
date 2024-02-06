@@ -3,6 +3,7 @@ import RSS from 'rss';
 import path from 'path';
 import { marked } from 'marked';
 import matter from 'gray-matter';
+import { siteMetadata } from '@/data/siteMetadata';
 
 const posts = fs
   .readdirSync(path.resolve(__dirname, '../posts/'))
@@ -32,21 +33,21 @@ const renderPost = (md: string) => marked.parse(md);
 
 const main = () => {
   const feed = new RSS({
-    title: 'Woo3145',
-    site_url: 'https://localhost:3000',
-    feed_url: 'https://localhost:3000/feed.xml',
-    language: 'en',
-    description: "woo3145's blog",
+    title: siteMetadata.title,
+    site_url: siteMetadata.siteUrl,
+    feed_url: `${siteMetadata.siteUrl}/feed.xml`,
+    language: 'ko',
+    description: siteMetadata.description,
   });
 
   posts.forEach(async (post) => {
-    const url = `https://localhost:3000/posts/${post.slug}`;
+    const url = `${siteMetadata.siteUrl}/posts/${post.slug}`;
 
     feed.item({
       title: post.title,
       description: await renderPost(post.body),
       date: new Date(post?.date),
-      author: 'woo3145',
+      author: siteMetadata.hero.author,
       url,
       guid: url,
     });

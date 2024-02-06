@@ -21,22 +21,18 @@ export const metadata: Metadata = {
     siteName: `${siteMetadata.title}`,
     locale: `${siteMetadata.locale}`,
     type: 'website',
-    // To use your own endpoint, refer to https://vercel.com/docs/concepts/functions/edge-functions/og-image-generation
-    // Note that an official `app/` solution is coming soon.
     images: [
       {
-        url: `${siteMetadata.siteUrl}/api/og?title=${encodeURIComponent(
-          siteMetadata.title
-        )}`,
+        url: siteMetadata.siteLogo,
         width: 1200,
         height: 630,
-        alt: '',
+        alt: 'logo',
       },
     ],
   },
   twitter: {
     title: siteMetadata.title,
-    card: 'summary_large_image',
+    card: 'summary',
     creator: `@${siteMetadata.hero.author}`,
   },
   icons: {
