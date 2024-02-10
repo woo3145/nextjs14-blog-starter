@@ -1,7 +1,7 @@
 'use client';
 import React, { useState, useEffect, useRef } from 'react';
 
-export const SnakeBeam = ({ className }: { className: string }) => {
+export const SnakeBeam = ({ className }: { className?: string }) => {
   const requestIdRef = useRef(0);
   const [gradientValues, setGradientValues] = useState({
     x1: 250,
