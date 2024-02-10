@@ -32,4 +32,28 @@ export async function getPost(slug: string) {
   return posts.find((post) => post?.slug === slug);
 }
 
-export default getPosts;
+export const getTags = cache(async () => {
+  const posts = await fs.readdir('./posts/');
+
+  const tags = await Promise.all(
+    posts
+      .filter((file) => path.extname(file) === '.md')
+      .map(async (file) => {
+        const filePath = `./posts/${file}`;
+        const postContent = await fs.readFile(filePath, 'utf8');
+        const { data } = matter(postContent);
+
+        // published가 false이거나 tags 필드가 없으면 무시
+        if (data.published === false || !data.tags) {
+          return null;
+        }
+
+        return data.tags;
+      })
+  );
+
+  // null 값 제거, 태그 배열을 단일 배열로 평탄화, 중복 제거
+  const uniqueTags = Array.from(new Set(tags.flat().filter(Boolean)));
+
+  return uniqueTags;
+});
