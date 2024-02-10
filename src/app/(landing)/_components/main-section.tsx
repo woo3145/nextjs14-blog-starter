@@ -3,7 +3,6 @@ import FlipCard from './flip-card';
 import { SnakeBeam } from './snake-beam';
 import { Spotlight } from './spotlight';
 import { TypewriterEffect } from './typewriter-effect';
-import Image from 'next/image';
 
 export const MainSection = () => {
   const words = [
@@ -19,7 +18,7 @@ export const MainSection = () => {
     },
   ];
   return (
-    <div className="h-screen w-full rounded-md flex md:items-center md:justify-center relative overflow-hidden">
+    <div className="h-auto md:h-screen w-full rounded-md flex md:items-center md:justify-center relative overflow-hidden">
       <Spotlight
         className="-top-40 left-0 md:left-60 md:-top-20 fill-primary"
         fill="white"

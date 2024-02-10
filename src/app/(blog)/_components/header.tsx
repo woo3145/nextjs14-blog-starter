@@ -6,8 +6,8 @@ import { siteMetadata } from '@/data/siteMetadata';
 
 export default function Header() {
   return (
-    <header className="fixed top-0 left-0 w-full shadow-sm">
-      <div className="flex items-center justify-between w-full max-w-screen-2xl mx-auto h-16 bg-background">
+    <header className="fixed top-0 left-0 w-full shadow-sm bg-background z-40">
+      <div className="flex items-center justify-between w-full max-w-screen-2xl mx-auto h-16">
         <Link
           href="/"
           className={cn(
