@@ -3,7 +3,7 @@ import RSS from 'rss';
 import path from 'path';
 import { marked } from 'marked';
 import matter from 'gray-matter';
-import { siteMetadata } from '@/data/siteMetadata';
+import { siteMetadata } from '../data/siteMetadata';
 
 const posts = fs
   .readdirSync(path.resolve(__dirname, '../posts/'))
