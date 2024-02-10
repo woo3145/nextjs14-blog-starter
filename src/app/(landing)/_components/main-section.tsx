@@ -1,4 +1,5 @@
 'use client';
+import FlipCard from './flip-card';
 import { SnakeBeam } from './snake-beam';
 import { Spotlight } from './spotlight';
 import { TypewriterEffect } from './typewriter-effect';
@@ -31,14 +32,7 @@ export const MainSection = () => {
           </h1>
           <TypewriterEffect words={words} />
           <div className="flex items-center justify-center h-40 md:h-60">
-            <Image
-              src="/문어_1.png"
-              alt="avatar"
-              className="w-40 h-40 md:w-60 md:h-60"
-              width={240}
-              height={240}
-              priority
-            />
+            <FlipCard />
           </div>
         </div>
       </div>
