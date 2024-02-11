@@ -18,6 +18,11 @@ const navItems = [
     link: '/posts',
     icon: <LibraryIcon className="h-4 w-4 text-neutral-500 dark:text-white" />,
   },
+  {
+    name: 'Docs',
+    link: '/docs',
+    icon: <LibraryIcon className="h-4 w-4 text-neutral-500 dark:text-white" />,
+  },
 ];
 
 export default function BlogLayout({
