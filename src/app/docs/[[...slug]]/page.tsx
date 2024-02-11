@@ -1,5 +1,5 @@
 import { Bread } from '../_components/bread';
-import { getDoc } from '@/lib/get-docs';
+import { getDoc, getDocs } from '@/lib/get-docs';
 import { MdxBody } from '@/components/mdx/mdx-body';
 import { notFound } from 'next/navigation';
 import { cn } from '@/lib/utils';
@@ -15,12 +15,20 @@ interface DocPageProps {
 async function getDocFromParams({ params }: DocPageProps) {
   const slug = params.slug?.join('/') || '';
   const doc = await getDoc(slug);
-  console.log(slug);
   if (!doc) {
     return null;
   }
 
   return doc;
+}
+
+export async function generateStaticParams(): Promise<
+  DocPageProps['params'][]
+> {
+  const docs = await getDocs();
+  return docs.map((doc) => ({
+    slug: doc.slug.split('/'),
+  }));
 }
 
 export default async function DocPage({ params }: DocPageProps) {

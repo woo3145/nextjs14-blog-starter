@@ -8,8 +8,8 @@ export default async function sitemap() {
   const postPages = posts.map((post) => ({
     url: `${siteMetadata.siteUrl}/blog/posts/${post.slug}`,
   }));
-  const docPages = docs.map((post) => ({
-    url: `${siteMetadata.siteUrl}/docs/${post.slug}`,
+  const docPages = docs.map((doc) => ({
+    url: `${siteMetadata.siteUrl}/docs/${doc.slug}`,
   }));
 
   const routes = ['', '/blog', '/blog/posts', '/docs'].map((route) => ({
