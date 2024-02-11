@@ -62,18 +62,18 @@ export const viewport = {
 
 const navItems = [
   {
-    name: 'Landing',
-    link: '/landing',
+    name: 'Main',
+    link: '/',
     icon: <HomeIcon className="h-4 w-4 text-foreground/60" />,
   },
   {
     name: 'Blog',
-    link: '/',
+    link: '/blog',
     icon: <NotebookPenIcon className="h-4 w-4 text-foreground/60" />,
   },
   {
     name: 'Posts',
-    link: '/posts',
+    link: '/blog/posts',
     icon: <LibraryIcon className="h-4 w-4 text-foreground/60" />,
   },
   {

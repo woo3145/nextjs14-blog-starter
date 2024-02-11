@@ -1,5 +1,5 @@
-import { MainSection } from '../_components/main-section/main-section';
-import { SkillSection } from '../_components/skill-section/skill-section';
+import { MainSection } from './_components/main-section/main-section';
+import { SkillSection } from './_components/skill-section/skill-section';
 
 export default async function Landing() {
   return (

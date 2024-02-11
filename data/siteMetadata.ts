@@ -4,7 +4,7 @@ export const siteMetadata = {
   description: 'woo3145의 개발블로그입니다.',
   language: 'ko-kr',
   siteUrl: 'https://woo3145.com',
-  siteRepo: 'https://github.com/woo3145/nextjs14-blog-starter',
+  siteRepo: 'https://github.com/woo3145/woo3145.com',
   siteLogo: '/문어_1.png',
   email: 'lcwoo3145@gmail.com',
   github: 'https://github.com/woo3145',
