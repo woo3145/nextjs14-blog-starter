@@ -1,7 +1,13 @@
 'use client';
 import React, { useState, useEffect, useRef } from 'react';
 
-export const SnakeBeam = ({ className }: { className?: string }) => {
+export const SnakeBeam = ({
+  className,
+  rotation = 0,
+}: {
+  className?: string;
+  rotation?: number;
+}) => {
   const requestIdRef = useRef(0);
   const [gradientValues, setGradientValues] = useState({
     x1: 250,
@@ -50,6 +56,12 @@ export const SnakeBeam = ({ className }: { className?: string }) => {
     };
   }, [isAnimating, gradientValues.x1, gradientValues.x2, gradientValues.y2]);
 
+  // SVG의 회전을 위한 스타일
+  const rotationStyle = {
+    transform: `rotate(${rotation}deg)`,
+    transformOrigin: '118px 34px', // SVG의 중심을 기준으로 회전
+  };
+
   return (
     <svg
       className={className}
@@ -58,6 +70,7 @@ export const SnakeBeam = ({ className }: { className?: string }) => {
       viewBox="0 0 236 68"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      style={rotationStyle}
     >
       <path
         d="M0.5 0.5H89C90.6569 0.5 92 1.84315 92 3.5V29C92 30.6569 93.3431 32 95 32H148.5C150.157 32 151.5 33.3431 151.5 35V64C151.5 65.6569 152.843 67 154.5 67H235.5"
