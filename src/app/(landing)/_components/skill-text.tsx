@@ -1,11 +1,7 @@
 'use client';
 import React, { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
-import {
-  slideInFromLeft,
-  slideInFromRight,
-  slideInFromTop,
-} from '@/lib/motion';
+import { slideInFromLeft, slideInFromRight } from '@/lib/motion';
 
 const SkillText = () => {
   const ref = useRef(null);
@@ -26,13 +22,13 @@ const SkillText = () => {
       </motion.div>
       <motion.div
         variants={slideInFromLeft(0.5)}
-        className="text-[30px] text-white font-medium mt-[10px] text-center mb-[15px]"
+        className="text-[30px] text-foreground font-medium mt-[10px] text-center mb-[15px]"
       >
         I love creating full-stack apps
       </motion.div>
       <motion.div
         variants={slideInFromRight(0.5)}
-        className="cursive text-[20px] text-gray-200 mb-10 mt-[10px] text-center"
+        className="cursive text-[20px] text-foreground/40 mb-10 mt-[10px] text-center"
       >
         also, I love learning and enjoy bringing my ideas to life.
       </motion.div>
