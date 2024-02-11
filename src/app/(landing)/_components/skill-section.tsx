@@ -157,7 +157,7 @@ const otherSkills: Skill[] = [
 
 export const SkillSection = () => {
   return (
-    <section className="h-auto w-full flex justify-center">
+    <section className="h-auto w-full flex justify-center overflow-hidden">
       <div className="w-full max-w-screen-xl space-y-4">
         <SkillText />
         <div className="space-y-12">

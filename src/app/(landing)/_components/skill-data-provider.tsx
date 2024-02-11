@@ -57,14 +57,14 @@ export const SkillDataProvider = ({
             width={width}
             height={height}
             alt="skill image"
-            className="fill-foreground hidden dark:block"
+            className="hidden dark:block"
           />
           <Image
             src={src}
             width={width}
             height={height}
             alt="skill image"
-            className="fill-foreground block dark:hidden"
+            className="block dark:hidden"
           />
         </>
       ) : (

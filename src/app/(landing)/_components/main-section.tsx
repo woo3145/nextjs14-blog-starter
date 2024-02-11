@@ -18,7 +18,7 @@ export const MainSection = () => {
     },
   ];
   return (
-    <div className="h-auto md:h-screen w-full rounded-md flex md:items-center md:justify-center relative overflow-hidden">
+    <div className="h-[40rem] md:h-screen w-full rounded-md flex md:items-center md:justify-center relative overflow-hidden">
       <Spotlight
         className="-top-40 left-0 md:left-60 md:-top-20"
         fill="white"
@@ -30,7 +30,7 @@ export const MainSection = () => {
             Lee Chang Woo
           </h1>
           <TypewriterEffect words={words} />
-          <div className="flex items-center justify-center h-40 md:h-60">
+          <div className="flex items-center justify-center h-40 md:h-60 mt-10">
             <FlipImage
               frontImage={
                 <Image
@@ -39,10 +39,17 @@ export const MainSection = () => {
                   width={300}
                   height={300}
                   priority
+                  className="px-10 md:px-0"
                 />
               }
               backImage={
-                <Image src="/문어_2.png" alt="back" width={300} height={300} />
+                <Image
+                  src="/문어_2.png"
+                  alt="back"
+                  width={300}
+                  height={300}
+                  className="px-10 md:px-0"
+                />
               }
             />
           </div>

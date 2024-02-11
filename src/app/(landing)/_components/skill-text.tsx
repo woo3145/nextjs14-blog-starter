@@ -16,9 +16,14 @@ const SkillText = () => {
     >
       <motion.div
         variants={slideInFromRight(0.5)}
-        className="Welcome-box py-[8px] px-[7px] border border-[#7042f88b] opacity-[0.9] rounded-md"
+        className="flex items-center gap-2"
       >
-        <h1 className="Welcome-text text-[13px]">my skills</h1>
+        <div className="py-2 px-2 border border-[#7042f88b] opacity-[0.9] rounded-md">
+          <h1 className="text-xs">Skills</h1>
+        </div>
+        <div className="py-2 px-2 border border-[#7042f88b] opacity-[0.9] rounded-md">
+          <h1 className="text-xs">Experience</h1>
+        </div>
       </motion.div>
       <motion.div
         variants={slideInFromLeft(0.5)}
