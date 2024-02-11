@@ -4,6 +4,13 @@ import './styles/globals.css';
 import { ThemeProvider } from '@/components/providers/theme-provider';
 import { DarkModeToggle } from '@/components/darkmode-toggle';
 import { siteMetadata } from '@/data/siteMetadata';
+import {
+  FileCode2Icon,
+  HomeIcon,
+  LibraryIcon,
+  NotebookPenIcon,
+} from 'lucide-react';
+import { FloatingNav } from '@/components/ui/floating-navbar';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -52,6 +59,29 @@ export const viewport = {
   ],
 };
 
+const navItems = [
+  {
+    name: 'Landing',
+    link: '/landing',
+    icon: <HomeIcon className="h-4 w-4 text-foreground/60" />,
+  },
+  {
+    name: 'Blog',
+    link: '/',
+    icon: <NotebookPenIcon className="h-4 w-4 text-foreground/60" />,
+  },
+  {
+    name: 'Posts',
+    link: '/posts',
+    icon: <LibraryIcon className="h-4 w-4 text-foreground/60" />,
+  },
+  {
+    name: 'Docs',
+    link: '/docs',
+    icon: <FileCode2Icon className="h-4 w-4 text-foreground/60" />,
+  },
+];
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -66,7 +96,11 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <div>{children}</div>
+          <FloatingNav navItems={navItems} />
+
+          <div className="h-auto min-h-screen w-full rounded-md bg-background bg-grid-black/[0.04] dark:bg-grid-white/[0.04]">
+            {children}
+          </div>
           <DarkModeToggle />
         </ThemeProvider>
       </body>

@@ -40,23 +40,33 @@ export const docsConfig: DocsConfig = {
           items: [],
         },
         {
-          title: 'Nest-test(mongoose)',
+          title: 'Nest-testing(mongoose)',
           href: '/docs/nest-test-mongoose',
           items: [],
         },
         {
-          title: 'Nest-test(typeorm)',
+          title: 'Nest-testing(typeorm)',
           href: '/docs/nest-test-typeorm',
           items: [],
         },
       ],
     },
     {
-      title: 'Components',
+      title: '재사용 컴포넌트',
       items: [
         {
           title: 'card',
           href: '/docs/components/card',
+          items: [],
+        },
+      ],
+    },
+    {
+      title: '배포',
+      items: [
+        {
+          title: 'docker',
+          href: '/docs/deploy',
           items: [],
         },
       ],
