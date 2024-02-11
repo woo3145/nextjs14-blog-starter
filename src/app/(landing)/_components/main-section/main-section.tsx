@@ -1,8 +1,8 @@
 import Image from 'next/image';
-import { FlipImage } from './flip-image';
-import { SnakeBeam } from './snake-beam';
-import { Spotlight } from './spotlight';
-import { TypewriterEffect } from './typewriter-effect';
+import { FlipImage } from '../flip-image';
+import { SnakeBeam } from '../main-section/snake-beam';
+import { Spotlight } from '../main-section/spotlight';
+import { TypewriterEffect } from '../main-section/typewriter-effect';
 
 export const MainSection = () => {
   const words = [
