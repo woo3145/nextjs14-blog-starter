@@ -11,7 +11,9 @@ export const getPosts = cache(async () => {
 
   return Promise.all(
     posts
-      .filter((file) => path.extname(file) === '.md')
+      .filter(
+        (file) => path.extname(file) === '.md' || path.extname(file) === '.mdx'
+      )
       .map(async (file) => {
         const filePath = `./posts/${file}`;
         const postContent = await fs.readFile(filePath, 'utf8');
@@ -37,7 +39,9 @@ export const getTags = cache(async () => {
 
   const tags = await Promise.all(
     posts
-      .filter((file) => path.extname(file) === '.md')
+      .filter(
+        (file) => path.extname(file) === '.md' || path.extname(file) === '.mdx'
+      )
       .map(async (file) => {
         const filePath = `./posts/${file}`;
         const postContent = await fs.readFile(filePath, 'utf8');

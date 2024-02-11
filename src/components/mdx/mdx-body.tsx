@@ -3,8 +3,9 @@ import rehypeSlug from 'rehype-slug';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import { mdxComponents } from './markdown-components';
 import { MDXRemote } from 'next-mdx-remote/rsc';
+import rehypePrismPlus from 'rehype-prism-plus';
 
-export function PostBody({ children }: { children: string }) {
+export function MdxBody({ children }: { children: string }) {
   return (
     <MDXRemote
       source={children}
@@ -15,7 +16,11 @@ export function PostBody({ children }: { children: string }) {
             remarkGfm,
           ],
           // rehypeSlug: 헤더에 아이디를 추가해줌, rehypeAutolinkHeadings: 헤더에 링크를 생성해줌 #overview
-          rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings],
+          rehypePlugins: [
+            rehypeSlug,
+            rehypeAutolinkHeadings,
+            rehypePrismPlus as any,
+          ],
         },
       }}
       components={mdxComponents}

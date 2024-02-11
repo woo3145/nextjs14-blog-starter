@@ -1,11 +1,11 @@
 import { notFound } from 'next/navigation';
-import { PostBody } from '../_components/post-body';
 import { getPost } from '@/lib/get-posts';
 import { getHeadings } from '@/lib/get-heading';
 import { TableOfContents } from '../_components/table-of-contents';
 import { cn } from '@/lib/utils';
 import { Separator } from '@/components/ui/separator';
 import { TracingBeam } from '@/components/ui/tracking-beam';
+import { MdxBody } from '@/components/mdx/mdx-body';
 
 export default async function PostPage({
   params,
@@ -40,8 +40,8 @@ export default async function PostPage({
           </div>
         </header>
         <div className="w-full flex">
-          <div className="w-full lg:shrink-0">
-            <PostBody>{post.body}</PostBody>
+          <div className="w-full lg:shrink-0 mdx">
+            <MdxBody>{post.body}</MdxBody>
           </div>
 
           <div className="hidden 2xl:block w-1/3 right-0 shrink-0 translate-x-10">
