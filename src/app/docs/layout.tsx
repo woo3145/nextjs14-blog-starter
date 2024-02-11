@@ -15,7 +15,7 @@ export default function DocsLayout({ children }: DocsLayoutProps) {
         </ScrollArea>
       </aside>
 
-      <div>{children}</div>
+      <div className="relative py-6 lg:gap-10 lg:py-8">{children}</div>
     </div>
   );
 }

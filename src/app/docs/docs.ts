@@ -14,6 +14,11 @@ export const docsConfig: DocsConfig = {
           href: '/docs',
           items: [],
         },
+        {
+          title: '구현된 mdx',
+          href: '/docs/mdx-syntax',
+          items: [],
+        },
       ],
     },
     {

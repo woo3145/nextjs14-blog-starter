@@ -6,9 +6,27 @@ import { cn } from '@/lib/utils';
 import { TracingBeam } from '@/components/ui/tracking-beam';
 import '@/app/styles/mdx.css';
 
-export default async function IntroducePage() {
-  const doc = await getDoc('introduce');
+interface DocPageProps {
+  params: {
+    slug: string[];
+  };
+}
+
+async function getDocFromParams({ params }: DocPageProps) {
+  const slug = params.slug?.join('/') || '';
+  const doc = await getDoc(slug);
+  console.log(slug);
+  if (!doc) {
+    return null;
+  }
+
+  return doc;
+}
+
+export default async function DocPage({ params }: DocPageProps) {
+  const doc = await getDocFromParams({ params });
   if (!doc) return notFound();
+
   return (
     <div className="w-full flex flex-col md:px-6">
       <Bread items={['Docs', 'Introduce']} />
