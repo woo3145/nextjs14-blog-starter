@@ -1,5 +1,5 @@
-'use client';
-import FlipCard from './flip-card';
+import Image from 'next/image';
+import { FlipImage } from './flip-image';
 import { SnakeBeam } from './snake-beam';
 import { Spotlight } from './spotlight';
 import { TypewriterEffect } from './typewriter-effect';
@@ -20,7 +20,7 @@ export const MainSection = () => {
   return (
     <div className="h-auto md:h-screen w-full rounded-md flex md:items-center md:justify-center relative overflow-hidden">
       <Spotlight
-        className="-top-40 left-0 md:left-60 md:-top-20 fill-primary"
+        className="-top-40 left-0 md:left-60 md:-top-20"
         fill="white"
       />
       <div className="w-full max-w-screen-lg">
@@ -31,7 +31,20 @@ export const MainSection = () => {
           </h1>
           <TypewriterEffect words={words} />
           <div className="flex items-center justify-center h-40 md:h-60">
-            <FlipCard />
+            <FlipImage
+              frontImage={
+                <Image
+                  src="/문어_1.png"
+                  alt="front"
+                  width={300}
+                  height={300}
+                  priority
+                />
+              }
+              backImage={
+                <Image src="/문어_2.png" alt="back" width={300} height={300} />
+              }
+            />
           </div>
         </div>
       </div>

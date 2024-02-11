@@ -1,9 +1,13 @@
 'use client';
-import React, { useState } from 'react';
+import React, { ReactNode, useState } from 'react';
 import { motion } from 'framer-motion';
-import Image from 'next/image';
 
-const FlipCard = () => {
+interface Props {
+  frontImage: ReactNode;
+  backImage: ReactNode;
+}
+
+export const FlipImage = ({ frontImage, backImage }: Props) => {
   const [isFlipped, setIsFlipped] = useState(false);
 
   const variants = {
@@ -33,8 +37,7 @@ const FlipCard = () => {
             backfaceVisibility: 'hidden',
           }}
         >
-          {/* Front of the card */}
-          <Image src="/문어_1.png" alt="front" width={300} height={300} />
+          {frontImage}
         </motion.div>
         <motion.div
           style={{
@@ -43,12 +46,9 @@ const FlipCard = () => {
             backfaceVisibility: 'hidden',
           }}
         >
-          {/* Back of the card */}
-          <Image src="/문어_2.png" alt="back" width={300} height={300} />
+          {backImage}
         </motion.div>
       </motion.div>
     </div>
   );
 };
-
-export default FlipCard;
