@@ -11,7 +11,7 @@ export const siteMetadata = {
   locale: 'ko-KR',
   hero: {
     author: 'woo3145',
-    avatarUrl: '/펭귄_1.png',
+    avatarUrl: '/문어_1.png',
     text_1: 'Woo3145',
     text_2: 'Back-End 개발자 이창우 입니다.',
     text_3: 'Front/Back 상관없이 js 생태계에 관심이 많습니다.',
