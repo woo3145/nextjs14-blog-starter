@@ -2,7 +2,6 @@ import { MDXComponents } from 'mdx/types';
 import { MDXImage } from './mdx-image';
 import { cn } from '@/lib/utils';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ComponentSource } from '@/components/ui/component-source';
 import { CodeBlockWrapper } from '@/components/ui/code-block-wrapper';
 import Image from 'next/image';
 
@@ -203,7 +202,6 @@ export const mdxComponents: MDXComponents = {
       {...props}
     />
   ),
-  ComponentSource,
   CodeBlockWrapper: ({ ...props }) => (
     <CodeBlockWrapper className="rounded-md border" {...props} />
   ),
