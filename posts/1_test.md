@@ -1,7 +1,7 @@
 ---
 title: 테스트 파일
 description: 설명
-slug: 1_test
+slug: test
 date: 2024-01-29
 excerpt:
   Markdown is intended to be as easy-to-read and easy-to-write as is feasible.

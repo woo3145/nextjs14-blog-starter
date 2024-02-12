@@ -3,10 +3,10 @@ import path from 'path';
 import fs from 'fs/promises';
 import { cache } from 'react';
 import { Doc } from '@/types/doc';
+import { getFiles } from './get-files';
 
 export const getDocs = cache(async () => {
-  const docs = await fs.readdir('./docs/');
-
+  const docs = await getFiles('./docs/');
   return Promise.all(
     docs
       .filter(

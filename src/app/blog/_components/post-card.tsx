@@ -10,7 +10,7 @@ interface Props {
 export const PostCard = ({ post }: Props) => {
   return (
     <li className={'p-4 hover:tarnslate-x-2 transition-transform'}>
-      <Link href={`/posts/${post.slug}`} className="">
+      <Link href={`/blog/posts/${post.slug}`} className="">
         <h3 className="text-3xl font-semibold pb-2 hover:underline">
           {post.title}
         </h3>
@@ -20,7 +20,7 @@ export const PostCard = ({ post }: Props) => {
           return (
             <li key={tag}>
               <Link
-                href={`/posts?tag=${tag}`}
+                href={`/blog/posts?tag=${tag}`}
                 className={cn(
                   badgeVariants({ variant: 'outline' }),
                   'hover:bg-primary hover:text-primary-foreground'
@@ -32,7 +32,7 @@ export const PostCard = ({ post }: Props) => {
           );
         })}
       </ul>
-      <Link href={`/posts/${post.slug}`} className="hover:underline">
+      <Link href={`/blog/posts/${post.slug}`} className="hover:underline">
         <p>{post.excerpt}</p>
       </Link>
     </li>
