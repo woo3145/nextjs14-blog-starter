@@ -206,3 +206,7 @@ pre[class*='language-'] {
 .mdx > .steps:first-child > h3:first-child {
   @apply mt-0;
 }
+
+h3 p:first-child {
+  @apply text-lg;
+}

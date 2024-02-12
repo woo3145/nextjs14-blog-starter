@@ -140,6 +140,308 @@ const copiedObject1 = fastCopy(object); // fast-copy는 복사에 특화되어 2
 const copiedObject2 = lodash.cloneDeep(obj);
 ```
 
+## 모듈
+
+#### 항상 import / export 사용
+
+```js
+// Best - 필요한 것만 import/export
+import {es6} from './AirbnbStyleGuide';
+export default es6;
+
+// Good - import / export 사용
+import AirbnbStyleGuide from './AirbnbStyleGuide';
+export default AirbnbStyleGuide.es6;
+
+// Bad - 다른 로드 방식 혼용
+const AirbnbStyleGuide = require('./AirbnbStyleGuide');
+module.exports = AirbnbStyleGuide.es6;
+```
+
+#### wildcard import는 사용 X
+
+식별자 충돌 가능성 존재
+
+```js
+// Bad
+import * from './AirbnbStyleGuide';
+
+// Good
+import * as AirbnbStyleGuide from './AirbnbStyleGuide';
+```
+
+#### import문으로부터 바로 export하지 않기
+
+```js
+// Bad
+export { es6 as default } from './airbnbStyleGuide';
+```
+
+## 데이터형 판별
+
+```js
+// 배열
+Array.isArray(arr);
+
+// 객체
+typeof obj === 'object' && obj !== null && !Array.isArray(obj);
+
+// 문자열
+typeof str === 'string';
+
+// 숫자
+typeof num === 'number' && !isNaN(num);
+
+// 불리언
+typeof bool === 'boolean';
+
+// 함수
+typeof func === 'function';
+
+// undefined (typeof 가 없으면 변수 자체가 선언되지 않았을때 참조 에러 발생)
+typeof undefinedVariable === 'undefined';
+
+// null
+variable === null;
+```
+
+```js
+// NaN
+isNaN(value) && typeof value === 'number';
+
+// 정규표현식
+obj instanceof RegExp;
+
+// 날짜
+obj instanceof Date;
+
+// Promise
+obj instanceof Promise || (obj && typeof obj.then === 'function');
+
+// Map / Set
+obj instanceof Map;
+obj instanceof Set;
+```
+
 ## 함수 & 화살표 함수
 
-... 작성중
+#### 화살표 함수 본체가 하나라면 암시적 반환 활용
+
+```js
+// Bad
+[1, 2, 3].reduce((y, x) => {
+  return x + y;
+});
+
+// Good
+[1, 2, 3].reduce((y, x) => x + y);
+```
+
+#### 함수 표현식 대신 화살표 함수 사용
+
+화살표 함수는 별도의 this 바인딩 없이 상위 컨텍스트에 바인딩되기 때문에 함수 표현식보다 혼란이 적고 추론하기 편함
+
+```js
+// Bad
+[1, 2, 3].map(function (x) {
+  const y = x + 1;
+  return x * y;
+});
+
+// Good
+[1, 2, 3].map((x) => {
+  const y = x + 1;
+  return x * y;
+});
+```
+
+#### 블록 스코프에서는 함수 표현식(화살표 함수) 사용 (선언문 사용 x)
+
+호이스팅으로 인해 블록 밖으로 함수가 끌어올려지지만 블록 스코프는 해당 스코프 내에서만 유효하다는 인식으로 인해 오해의 소지 발생
+
+```js
+// Bad
+if (condition) {
+  function someFunction() {
+
+  }
+} else {
+  function someFunction() {
+
+  }
+}
+
+// Good
+let someFunction;
+
+if (condition) {
+  someFunction = () => {
+    ...
+  }
+} else {
+  someFunction = () => {
+    ...
+  }
+}
+```
+
+#### 즉시 실행함수는 아래와 같이 사용
+
+```js
+(function() {
+  ...
+})();
+```
+
+## this 바인딩 정리
+
+<Steps>
+  <Step>
+  전역 컨텍스트 - 전역 스코프에서 this는 전역 객체를 참조
+
+```js
+// browser
+this === window;
+// node
+this === global;
+// 엄격모드
+this === undefined;
+```
+
+  </Step>
+  <Step>
+  함수 호출 - 일반 함수 호출에서 this는 전역 객체를 참조
+
+```js
+function foo() {
+  console.log(this);
+}
+foo(); // window
+```
+
+  </Step>
+  <Step>
+  메서드 호출 - 객체의 메서드로서 함수가 호출될 때 this는 해당 메서드를 호출한 객체를 참조
+
+```js
+const user = {
+  name: 'Woo',
+  sayName: function () {
+    console.log(this.name);
+  },
+};
+user.sayName(); // Woo
+```
+
+  </Step>
+  <Step>
+  생성자 함수 호출 - new 키워드를 사용하여 함수를 생성자로 호출할 때 this는 새로 생성된 객체 인스턴스를 참조
+
+```js
+function User(name) {
+  this.name = name;
+  this.sayName = function () {
+    console.log(this.name);
+  };
+}
+const woo = new User('Lee'); // this에 woo객체 바인딩
+woo.sayName();
+```
+
+  </Step>
+  <Step>
+  명시적 바인딩 - call, apply, bind 메서드를 사용하여 함수를 호출할 때 this는 명시적으로 첫 번째 인자로 전달된 객체를 참조
+
+```js
+const foo = function () {
+  console.log(this);
+};
+// 1. 일반 함수 호출
+foo(); // this === window
+
+// 2. 메서드 호출
+const obj = { foo: foo };
+obj.foo(); // this === obj
+
+// 3. 생성자 함수 호출
+const instance = new foo(); // this === instance
+
+// 4. apply/call/bind 호출
+const bar = { name: 'bar' };
+foo.call(bar); // this === bar
+foo.apply(bar); // this === bar
+foo.bind(bar)(); // this === bar
+```
+
+  </Step>
+
+  <Step>
+  화살표 함수 - 내부에서 this는 함수가 **선언된 시점**의 렉시컬 컨텍스트의 this를 참조
+
+객체는 자체는 별도의 this를 생성하지 않기 때문에 아래와 같은 경우는 this가 user가 아닌 global이 됨
+
+```js
+const user = {
+  name: 'Woo',
+  sayName: () => {
+    console.log(this.name); // 여기서 this는 렉시컬 컨텍스트의 this를 참조
+  },
+};
+
+user.sayName(); // undefined
+```
+
+  </Step>
+
+  <Step>
+  이벤트 핸들러 - DOM 이벤트 핸들러 내에서 this는 이벤트가 바인딩된 요소를 참조
+
+```html
+<button id="myButton">Click me</button>
+<script>
+  document.getElementById('myButton').addEventListener('click', function () {
+    console.log(this); // 이벤트가 바인딩된 요소, 여기서는 button 요소
+  });
+</script>
+```
+
+  </Step>
+</Steps>
+
+## this 주의점
+
+<Steps>
+  <Step>
+    메서드 vs. 함수
+
+    객체의 메서드로 정의된 함수에서 this는 해당 객체를
+    참조한다. 그러나 동일한 함수를 일반 함수로 호출하면 this는 전역 객체(또는
+    엄격 모드에서는 undefined)를 참조한다
+
+  </Step>
+  <Step>
+    화살표 함수 사용 시 주의
+    
+    화살표 함수는 자신의 this를 가지지 않는다.
+    따라서 클래스 메서드나 생성자 함수 내에서 화살표 함수를 사용할 때 this의
+    값이 예상과 다를 수 있다.
+  </Step>
+  <Step>
+    생성자 함수
+    
+    생성자 함수 내에서 this는 새로 생성된 객체를 참조한다. new
+    키워드 없이 생성자 함수를 호출하면 this는 전역 객체를 참조하게 된다.
+  </Step>
+  <Step>
+    명시적 바인딩 우선순위
+    
+    call, apply, bind 메서드를 사용한 명시적
+    바인딩은 대부분의 다른 규칙보다 우선한다.
+  </Step>
+  <Step>
+    화살표 함수를 둘러싼 컨텍스트 확인
+    
+     화살표 함수를 사용할 때는 함수를
+    둘러싼 (즉, 선언된) 컨텍스트의 this가 무엇인지 확인해야 한다.
+  </Step>
+</Steps>
