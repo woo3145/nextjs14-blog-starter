@@ -121,12 +121,13 @@ module.exports = {
   ],
 };
 
+// 현재 생성된 tailwind의 color palette를 추출하여 css 변수를 생성해준다.
+// ex. style={{ backgroundColor: 'var(--red-400)' }} 처럼 사용가능
 function addVariablesForColors({ addBase, theme }: any) {
   let allColors = flattenColorPalette(theme('colors'));
   let newVars = Object.fromEntries(
     Object.entries(allColors).map(([key, val]) => [`--${key}`, val])
   );
-
   addBase({
     ':root': newVars,
   });

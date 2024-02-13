@@ -80,8 +80,8 @@ export const docsConfig: DocsConfig = {
       title: '재사용 컴포넌트',
       items: [
         {
-          title: 'card',
-          href: '/docs/components/card',
+          title: 'grid-background',
+          href: '/docs/components/grid-background',
           items: [],
         },
       ],

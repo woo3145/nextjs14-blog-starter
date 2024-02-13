@@ -3,6 +3,8 @@ import { MDXImage } from './mdx-image';
 import { cn } from '@/lib/utils';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { CodeBlockWrapper } from '@/components/ui/code-block-wrapper';
+import GridBackgroundPreview from '../preview/grid-background-preview';
+import DotBackgroundPreview from '../preview/dot-background-preview';
 import Image from 'next/image';
 
 // 마크다운 파일에 사용할 커스텀 구성요소
@@ -205,4 +207,6 @@ export const mdxComponents: MDXComponents = {
   CodeBlockWrapper: ({ ...props }) => (
     <CodeBlockWrapper className="rounded-md border" {...props} />
   ),
+  GridBackgroundPreview,
+  DotBackgroundPreview,
 };
