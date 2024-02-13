@@ -6,12 +6,63 @@ slug: 'mdx-syntax'
 
 ## 기능 정리
 
-<Tabs defaultValue="step">
+<Tabs defaultValue="codeblock">
 
 <TabsList>
-  <TabsTrigger value="step">Step 기능</TabsTrigger>
+  <TabsTrigger value="codeblock">CodeBlock</TabsTrigger>
   <TabsTrigger value="codeblock-wrapper">CodeBlock 접기</TabsTrigger>
+  <TabsTrigger value="step">Step 기능</TabsTrigger>
 </TabsList>
+
+<TabsContent value="codeblock" >
+<br/>
+## Preview
+
+```diff-ts {6-11} showLineNumbers
+class Singleton {
+  private static instance: Singleton;
+
+  private constructor() {}
+
+  public static getInstance(): Singleton {
+    if (!Singleton.instance) {
+      Singleton.instance = new Singleton();
+    }
+    return Singleton.instance;
+  }
+
+-  public someBusinessLogic() {}
++  public otherBusinessLogic() {}
+}
+```
+
+## Usage
+
+- showLineNumbers: 라인 숫자 표시
+- \{1, 6-11\}: 하이라이팅 할 라인
+- +, - 표시: deleted, inserted 된 코드 라인 처음에 +, - 작성 (langage가 diff- 접미사 붙여줘야함)
+
+````js
+```diff-ts {6-11} showLineNumbers
+class Singleton {
+  private static instance: Singleton;
+
+  private constructor() {}
+
+  public static getInstance(): Singleton {
+    if (!Singleton.instance) {
+      Singleton.instance = new Singleton();
+    }
+    return Singleton.instance;
+  }
+
+- public someBusinessLogic() {}
++ public otherBusinessLogic() {}
+}
+```;
+````
+
+</TabsContent>
 
 <TabsContent value="step" >
 <br/>
@@ -27,7 +78,7 @@ yarn add woo3145
 
 <Step>2단계</Step>
 
-```ts title="hi.ts" {5-18}
+```ts
 console.log('Hi!');
 ```
 
@@ -35,7 +86,7 @@ console.log('Hi!');
 
 app/hello.ts
 
-```ts title="hi.ts" {5 - 18}
+```ts
 console.log('Hello!');
 ```
 
@@ -68,7 +119,7 @@ console.log('Hello!');
   className={'my-6 overflow-hidden rounded-md'}
 >
 
-```ts title="motion.ts"
+```ts
 import { Variants } from 'framer-motion';
 
 export const slideInFromTop = (delay?: number): Variants => {
