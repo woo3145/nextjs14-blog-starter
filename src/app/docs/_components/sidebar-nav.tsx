@@ -16,7 +16,7 @@ export function DocsSidebarNav({ items }: DocsSidebarNavProps) {
     <div className="w-full">
       {items.map((item, index) => (
         <div key={index} className={cn('pb-4')}>
-          <h4 className="mb-1 rounded-md px-2 py-1 text-sm font-semibold">
+          <h4 className="mb-1 rounded-md px-2 py-1 text-base font-semibold">
             {item.title}
           </h4>
           {item?.items?.length && (
@@ -38,17 +38,17 @@ export function DocsSidebarNavItems({
   pathname,
 }: DocsSidebarNavItemsProps) {
   return items?.length ? (
-    <div className="grid grid-flow-row auto-rows-max text-sm">
+    <div className="grid grid-flow-row auto-rows-max pl-2">
       {items.map((item, index) =>
         item.href && !item.disabled ? (
           <Link
             key={index}
             href={item.href}
             className={cn(
-              'group flex w-full items-center rounded-md border border-transparent px-2 py-1 hover:underline text-sm',
+              'group flex w-full items-center rounded-md border border-transparent px-2 py-1 hover:underline',
               item.disabled && 'cursor-not-allowed opacity-60',
               pathname === item.href
-                ? 'font-medium text-foreground'
+                ? 'font-medium text-primary'
                 : 'text-muted-foreground'
             )}
             target={item.external ? '_blank' : ''}
@@ -65,7 +65,7 @@ export function DocsSidebarNavItems({
           <span
             key={index}
             className={cn(
-              'flex w-full cursor-not-allowed items-center rounded-md p-2 text-muted-foreground hover:underline',
+              'flex w-full cursor-not-allowed items-center rounded-md px-2 py-1 text-muted-foreground hover:underline',
               item.disabled && 'cursor-not-allowed opacity-60'
             )}
           >
