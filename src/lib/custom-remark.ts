@@ -28,13 +28,13 @@ interface NodesCount {
   [id: string]: number;
 }
 
-export function headingTree() {
+export const headingTree = () => {
   return (node: Node, file: any) => {
     file.data.headings = getHeadings(node);
   };
-}
+};
 
-function getHeadings(root: Node): TransformedNode[] {
+const getHeadings = (root: Node): TransformedNode[] => {
   const nodes: NodesCount = {};
   const output: TransformedNode[] = [];
   const indexMap: IndexMap = {};
@@ -45,14 +45,13 @@ function getHeadings(root: Node): TransformedNode[] {
   });
 
   return output;
-}
+};
 
-function addID(node: HeadingNode, nodes: NodesCount) {
+const addID = (node: HeadingNode, nodes: NodesCount) => {
   const id = (node.children?.map((c: Node) => c.value).join('') || 'default-id')
-    .replace(/[^a-zA-Z\d\s-]/g, '')
-    .split(' ')
-    .join('-')
-    .toLowerCase();
+    .toLowerCase() // 소문자 교체
+    .replace(/\s+/g, '-') // 공백 하이픈 교체
+    .replace(/[^a-z0-9\uAC00-\uD7A3\-]/g, ''); // 안전하지 않은 문자 제거
 
   nodes[id] = (nodes[id] || 0) + 1;
 
@@ -61,13 +60,13 @@ function addID(node: HeadingNode, nodes: NodesCount) {
       id: `${id}${nodes[id] > 1 ? `-${nodes[id] - 1}` : ''}`,
     },
   };
-}
+};
 
-function transformNode(
+const transformNode = (
   node: HeadingNode,
   output: TransformedNode[],
   indexMap: IndexMap
-) {
+) => {
   const transformedNode: TransformedNode = {
     value: toString(node),
     depth: node.depth,
@@ -85,4 +84,4 @@ function transformNode(
       indexMap[node.depth] = transformedNode;
     }
   }
-}
+};
