@@ -2,7 +2,7 @@
 title: 'Tailwind CSS 재사용성과 가독성 높이기'
 description: 설명
 slug: how-to-clean-tailwind
-date: 2024-02-15
+date: 2024-02-14
 excerpt: 자꾸만 길어지는 Tailwind CSS의 className을 정리해보자.
 tags:
   - TypeScript
@@ -16,7 +16,7 @@ published: true
 
 가장 간과하기 쉬운 문제이다. 아래의 코드를 보자
 
-```jsx
+```tsx
 // 1번 - 스타일을 가변인자로 변경
 const Button = ({ width, height }: Props) => {
   return <button className={`w-${width} h-${height}`}>확인</button>;
@@ -33,7 +33,7 @@ const Button = ({ width, height }: Props) => {
 
 왜냐하면 Tailwind CSS는 빌드타임에 tailwind.config.js의 content에 정의된 파일의 정적 분석하여 임의의 값 클래스가 나온 경우 스타일을 추가하기 때문이다.
 
-**하지만 정말 중요한 문제가 있다. 여기까지만 생각한다면 배포했을 때 스타일이 깨질 것이다.**
+**하지만 위와 같은 상황은 배포했을 때 스타일이 적용되지 않는다.**
 
 **이유는 Tailwind의 동작 방식 때문인데, 프로덕션 환경으로 빌드하면 css파일을 줄이기 위해 쓰지 않은 class 들은 모조리 삭제된다.**
 

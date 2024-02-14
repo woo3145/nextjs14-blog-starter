@@ -8,7 +8,7 @@ export default async function Home() {
 
   return (
     <div className="w-full flex flex-col px-6 pt-8">
-      <div className="w-full flex max-w-screen-md mx-auto">
+      <div className="w-full flex max-w-screen-lg mx-auto">
         <div className="w-full lg:shrink-0 flex flex-col">
           <HeroCard />
 
