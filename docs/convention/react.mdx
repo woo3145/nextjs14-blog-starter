@@ -4,4 +4,132 @@ description:
 slug: 'convention/react'
 ---
 
+## 폴더구조
+
+```ts
+
+public/         // 빌드가 필요없는 정적 파일 (favicon, robots.txt, manifest.json)
+src/
+    ㄴ assets   // 번들링이 필요한 정적 자원 (이미지, 폰트) (url 해싱이나 이미지 최적화 가능)
+    ㄴ service/ // api관련 파일
+        ㄴ commons/               // 공용 파일
+          ㄴ axios-request.ts
+          ㄴ api-error-handler.ts
+          ㄴ mutation-error-handler.ts
+    ㄴ apis/                 // api 요청
+        ㄴ user-api.ts
+        ㄴ feed-api.ts
+    ㄴ queries/              // react-query queries(optional)
+        ㄴ user-queries.ts
+    ㄴ mutations/            // react-query mutations(optional)
+        ㄴ user-mutations.ts
+    ㄴ types/                // api관련 타입 (응답, 요청)
+        ㄴ response.interface.ts
+        ㄴ user.interface.ts
+        ㄴ user-response.interface.ts
+        ㄴ user-request.interface.ts
+        ...
+    ㄴ mappers/              // 백엔드와 의존성 낮추고 싶을때 (잦은 변경)
+        ㄴ user.mapper.ts
+        ㄴ feed.mapper.ts
+    ㄴ components/
+        ㄴ ui/                   // 재사용 컴포넌트 (presentational)
+          ㄴ button.tsx
+        ㄴ providers/
+          ㄴ theme-provider.tsx
+        ㄴ modals/
+        ㄴ icons.tsx            // 아이콘 번들링 컴포넌트 (lucide, react-icons의 import를 줄이기)
+        ㄴ footer.tsx
+        ㄴ side-nav.tsx
+        ...
+    ㄴ hooks/     // 공용 hooks
+    ㄴ pages/     // 라우팅 처리 & 페이지 관련
+        ㄴ users/                // 페이지 route를 고려하여 생성 (nextjs 스타일)
+            ㄴ hooks/              // 현재 페이지에서 사용하는 로직 hook
+            ㄴ components/         // 현재 페이지에서 사용하는 컴포넌트
+                ㄴ user-profile.tsx
+                ㄴ user-name-form.tsx
+            ㄴ page.tsx           // 폴더 경로와 일치하는 page 컴포넌트
+            ㄴ layout.tsx         // 필요한 경우 layout 컴포넌트 (page.tsx에서 사용 Wrapping)
+    ㄴ layouts/   // 공용 layouts
+    ㄴ styles/    // stylesheet 파일
+    ㄴ lib/       // utils 파일, 라이브러리 options 파일
+    ㄴ types/     // 앱 types
+        ㄴ nav.interface.ts
+        ㄴ doc.interface.ts
+    ㄴ constants/ // 상수 파일
+    ㄴ store/     // 클라이언트 상태관리 폴더 (redux, zustand, recoil)
+    ㄴ site-config.json // 여러 정적파일
+    ㄴ ...
+```
+
 ## 네이밍
+
+- ### 파일명 - 항상 kebab-case
+
+  components/side-nav.tsx
+  components/top-nav.tsx
+
+  - #### 타입&인터페이스 파일 - .interface 접미사 사용
+    '.d.ts' 파일은 컴파일 시 JavaScript 파일로 변환되지 않음, 오직 타입 체킹과 에디터의 자동 완성 기능을 지원하기 위해 사용
+
+  types/user.interface.ts
+  types/feed.interface.ts
+
+- ### 폴더명 - 폴더안 내용에 따라 복수/단수 사용
+
+  ```txt
+  // 복수형 사용
+  modals/
+    ㄴ register-modal.tsx;
+    ㄴ login-modal.tsx;
+
+  // 단수형 사용
+    ㄴ timer-modal/
+        ㄴ index.tsx
+        ㄴ timer.tsx
+        ㄴ timer-header.tsx
+        ㄴ timer-footer.tsx
+  ```
+
+- ### React Component - PascalCase 사용
+
+  ```tsx
+  export const ProductList = () => {
+    return <div></div>;
+  };
+  export const ProductItem = () => {
+    return <div></div>;
+  };
+  ```
+
+  - #### Props - [ComponentName]Props 형식 사용
+
+    ```tsx
+    interface ProductItemProps {
+      title: string;
+    }
+    export const ProductItem = ({ title }: ProductItemProps) => {
+      return <div>{title}</div>;
+    };
+    ```
+
+- #### Callback Props
+
+  ```tsx
+  // 이벤트 핸들러 Props - on + element + event 규칙
+  // 이벤트 핸들러 Func - handle + element + event 규칙
+  // 이벤트가 하나이거나 명확할땐 onClick, handleClick 처럼 축약 가능
+
+  <UserComponent onUsernameClick={handleUsernameClick} />
+  <MyComponent onUserSelected={handleUserSelected} />
+  <ResetButton onClick={handleClick} />
+  ```
+
+- ### React Custom Hook - 항상 객체로 반환
+
+```ts
+// ✅
+const { products, errors } = useGetProducts();
+const { fontSizes } = useTheme();
+```

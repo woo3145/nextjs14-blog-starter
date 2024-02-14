@@ -54,34 +54,6 @@ const pair = createPair(1, 'a');
 
   Url, Html, Api, ApiUrl
 
-- ### React Component - PascalCase 사용
-
-  ProductItem, ProductsPage
-
-  - #### Props - [ComponentName]Props 형식 사용
-
-    ProductItemProps, ProductsPageProps
-
-  - #### Callback Props
-
-    ```tsx
-    // 이벤트 핸들러 Props - on + element + event 규칙
-    // 이벤트 핸들러 Func - handle + element + event 규칙
-
-    <UserComponent onUsernameClick={handleUsernameClick} />
-    <MyComponent onUserSelected={handleUserSelected} />
-    ```
-
-- ### React Custom Hook
-
-  항상 객체로 반환
-
-```ts
-// ✅
-const { products, errors } = useGetProducts();
-const { fontSizes } = useTheme();
-```
-
 ## 변수
 
 ### Const
