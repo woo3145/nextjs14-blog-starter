@@ -9,10 +9,10 @@ interface Props {
 
 export const PostCard = ({ post }: Props) => {
   return (
-    <li className="p-4 group transition-transform hover:-translate-x-2 duration-200 hover:bg-accent rounded-md px-4">
+    <li className="py-4 px-4 group transition-transform hover:-translate-x-2 duration-200 hover:bg-accent rounded-lg">
       <Link href={`/blog/posts/${post.slug}`}>
-        <h3 className="text-3xl font-semibold pb-2">{post.title}</h3>
-        <p>{post.excerpt}</p>
+        <h3 className="text-xl md:text-3xl font-semibold pb-2">{post.title}</h3>
+        <p className="text-sm md:text-base">{post.excerpt}</p>
       </Link>
 
       <ul className="flex items-center gap-2 pt-2">

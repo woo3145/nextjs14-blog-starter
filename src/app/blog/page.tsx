@@ -7,8 +7,8 @@ export default async function Home() {
   const tags = await getTags();
 
   return (
-    <div className="w-full flex flex-col px-6 pt-8">
-      <div className="w-full flex max-w-screen-lg mx-auto">
+    <div className="w-full flex flex-col px-6 pt-6 md:pt-12">
+      <div className="w-full flex max-w-screen-md mx-auto">
         <div className="w-full lg:shrink-0 flex flex-col">
           <HeroCard />
 
@@ -17,7 +17,7 @@ export default async function Home() {
           </div>
         </div>
 
-        <div className="hidden 2xl:block w-1/3 right-0 shrink-0 translate-x-10">
+        <div className="hidden 2xl:block w-1/3 right-0 shrink-0 pl-4">
           <div className="sticky top-40">
             <p className="text-xl font-semibold">Tags</p>
             {tags.map((tag) => {

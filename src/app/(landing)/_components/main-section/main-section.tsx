@@ -18,7 +18,7 @@ export const MainSection = () => {
     },
   ];
   return (
-    <div className="h-[40rem] md:h-screen w-full rounded-md flex md:items-center md:justify-center relative overflow-hidden">
+    <div className="h-[40rem] md:h-screen w-full rounded-md flex items-center md:justify-center relative overflow-hidden">
       <Spotlight
         className="-top-40 left-0 md:left-60 md:-top-20"
         fill="white"

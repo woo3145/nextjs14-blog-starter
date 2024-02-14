@@ -23,7 +23,7 @@ export default async function PostPage({
     <TracingBeam className="">
       <div className="w-full flex flex-col px-6">
         <header className={cn('flex flex-col gap-4 py-4')}>
-          <h2 className="font-heading mt-2 scroll-m-20 text-5xl font-bold leading-tight">
+          <h2 className="font-heading mt-2 scroll-m-20 text-4xl font-bold leading-tight">
             {post.title}
           </h2>
           <div className="flex items-center space-x-4">
@@ -38,12 +38,12 @@ export default async function PostPage({
             </ul>
           </div>
         </header>
-        <div className="w-full flex prose lg:prose-2xl dark:prose-invert bg-transparent text-foreground">
+        <div className="w-full flex">
           <div className="w-full lg:shrink-0 mdx pt-10">
             <MdxBody>{post.body}</MdxBody>
           </div>
 
-          <div className="hidden xl:block w-1/3 right-0 shrink-0 translate-x-10">
+          <div className="hidden 2xl:block w-1/3 right-0 shrink-0 translate-x-10 prose">
             <TableOfContents nodes={headings} />
           </div>
         </div>
