@@ -55,7 +55,6 @@ export const docsConfig: DocsConfig = {
           title: 'Tailwind CSS',
           href: '/docs/convention/tailwind-css',
           items: [],
-          disabled: true,
         },
         {
           title: 'Next',
