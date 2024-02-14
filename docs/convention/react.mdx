@@ -134,3 +134,99 @@ src/
 const { products, errors } = useGetProducts();
 const { fontSizes } = useTheme();
 ```
+
+## Form 처리
+
+- ### zod + react-hook-form
+  - 컴포넌트를 div로 감싸서 외부에서 layout을 조정할 수 있도록 스타일 전달
+  - zod schema를 한 파일에서 관리
+  - 네이밍
+    - component - 컴포넌트 이름 + Form 접미사 사용
+    - zod shema - 컴포넌트 이름 + Shcema
+    - form type - 컴포넌트 이름 + Values
+    - props - 기본 규칙 적용, React.HTMLAttributes를 확장하여 외부에서 스타일 주입
+  - 소스코드가 200줄을 넘어가면 logic을 hook으로 분리
+
+```tsx
+import * as React from 'react';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import * as z from 'zod';
+
+import { cn } from '@/lib/utils';
+import { buttonVariants } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { toast } from '@/components/ui/use-toast';
+import { Icons } from '@/components/icons';
+
+const loginFormSchema = z.object({
+  email: z.string().email({ message: '유효하지 않은 이메일 주소입니다.' }),
+  password: z
+    .string()
+    .min(8, { message: '비밀번호는 최소 8자 이상이어야 합니다.' }),
+});
+
+type LoginFormValues = z.infer<typeof loginFormSchema>;
+
+interface LoginFormProps extends React.HTMLAttributes<HTMLDivElement> {}
+
+export function LoginForm({ className, ...props }: LoginFormProps) {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormValues>({
+    resolver: zodResolver(userAuthSchema),
+  });
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
+
+  const handleFormSubmit = async (data: LoginFormValues) => {
+    setIsLoading(true);
+    // api 요청
+    setIsLoading(false);
+
+    if (!result?.ok) {
+      // 실패 처리
+      return;
+    }
+    // 성공 처리
+    return;
+  };
+
+  return (
+    <div className={cn('grid gap-6', className)} {...props}>
+      <form onSubmit={handleSubmit(handleFormSubmit)}>
+        <div className="grid gap-2">
+          <div className="grid gap-1">
+            <Label className="sr-only" htmlFor="email">
+              Email
+            </Label>
+            <Input
+              id="email"
+              placeholder="name@example.com"
+              type="email"
+              autoCapitalize="none"
+              autoComplete="email"
+              autoCorrect="off"
+              disabled={isLoading}
+              {...register('email')}
+            />
+            {errors?.email && (
+              <p className="px-1 text-xs text-red-600">
+                {errors.email.message}
+              </p>
+            )}
+          </div>
+          <button className={cn(buttonVariants())} disabled={isLoading}>
+            {isLoading && (
+              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+            )}
+            Sign In with Email
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+}
+```
