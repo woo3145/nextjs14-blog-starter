@@ -1,22 +1,16 @@
 'use client';
-import React, { useState, useEffect, useRef } from 'react';
+import * as React from 'react';
 
-export const SnakeBeam = ({
-  className,
-  rotation = 0,
-}: {
-  className?: string;
-  rotation?: number;
-}) => {
-  const requestIdRef = useRef(0);
-  const [gradientValues, setGradientValues] = useState({
+export const SnakeBeam = ({ className }: { className?: string }) => {
+  const requestIdRef = React.useRef(0);
+  const [gradientValues, setGradientValues] = React.useState({
     x1: 250,
     x2: 350,
-    y2: 50,
+    y2: 60,
   });
-  const [isAnimating, setIsAnimating] = useState(true); // 애니메이션 상태 관리
+  const [isAnimating, setIsAnimating] = React.useState(true); // 애니메이션 상태 관리
 
-  useEffect(() => {
+  React.useEffect(() => {
     const animate = () => {
       // 애니메이션이 끝났는지 확인
       if (
@@ -28,7 +22,7 @@ export const SnakeBeam = ({
         if (isAnimating) {
           setIsAnimating(false); // 애니메이션 중지
           setTimeout(() => {
-            setGradientValues({ x1: 250, x2: 350, y2: 50 }); // 값 리셋
+            setGradientValues({ x1: 250, x2: 350, y2: 60 }); // 값 리셋
             setIsAnimating(true); // 애니메이션 재시작
           }, 1000); // 1초 대기
         }
@@ -39,7 +33,7 @@ export const SnakeBeam = ({
       setGradientValues((prev) => ({
         x1: prev.x1 > -100 ? prev.x1 - (250 + 100) * 0.005 : prev.x1,
         x2: prev.x2 > -100 ? prev.x2 - (350 + 100) * 0.005 : prev.x2,
-        y2: prev.y2 > 0 ? prev.y2 - 50 * 0.005 : prev.y2,
+        y2: prev.y2 > 0 ? prev.y2 - 60 * 0.005 : prev.y2,
       }));
 
       if (isAnimating) {
@@ -56,24 +50,17 @@ export const SnakeBeam = ({
     };
   }, [isAnimating, gradientValues.x1, gradientValues.x2, gradientValues.y2]);
 
-  // SVG의 회전을 위한 스타일
-  const rotationStyle = {
-    transform: `rotate(${rotation}deg)`,
-    transformOrigin: '118px 34px', // SVG의 중심을 기준으로 회전
-  };
-
   return (
     <svg
       className={className}
       width="236"
-      height="68"
-      viewBox="0 0 236 68"
+      height="60"
+      viewBox="0 0 236 60"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      style={rotationStyle}
     >
       <path
-        d="M0.5 0.5H89C90.6569 0.5 92 1.84315 92 3.5V29C92 30.6569 93.3431 32 95 32H148.5C150.157 32 151.5 33.3431 151.5 35V64C151.5 65.6569 152.843 67 154.5 67H235.5"
+        d="M0.5 0.5 H90 V30 H150 V60 H235.5"
         stroke="url(#paint0_linear)"
       ></path>
       <defs>

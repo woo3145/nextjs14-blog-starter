@@ -35,15 +35,32 @@ export const docsConfig: DocsConfig = {
           items: [],
         },
         {
+          title: 'C++',
+          href: '/docs/convention/cpp',
+          items: [],
+          disabled: true,
+        },
+        {
           title: 'React',
           href: '/docs/convention/react',
           items: [],
         },
         {
+          title: 'React-Query',
+          href: '/docs/convention/react-query',
+          items: [],
+          disabled: true,
+        },
+        {
+          title: 'Tailwind CSS',
+          href: '/docs/convention/tailwind-css',
+          items: [],
+          disabled: true,
+        },
+        {
           title: 'Next',
           href: '/docs/convention/next',
           items: [],
-          disabled: true,
         },
         {
           title: 'Express',

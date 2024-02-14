@@ -4,4 +4,111 @@ description:
 slug: 'convention/next'
 ---
 
-## 네이밍
+## 폴더구조
+
+```ts
+public/         // 빌드가 필요없는 정적 파일 (favicon, robots.txt, manifest.json)
+src/
+    ㄴ app      // next app 라우터
+        ㄴ blog/
+          ㄴ hooks/              // 현재 페이지에서 사용하는 hook
+            ㄴ use-create-post.tsx
+          ㄴ actions/              // 현재 페이지에서 사용하는 serverActions
+            ㄴ create-post-action.tsx
+          ㄴ components/         // 현재 페이지에서 사용하는 컴포넌트
+            ㄴ post-card.tsx
+          ㄴ layout.tsx
+          ㄴ page.tsx
+          ㄴ error.tsx
+          ㄴ loading.tsx
+        ㄴ layout.tsx
+        ㄴ page.tsx
+        // ... 이외에 next docs 참고
+
+    ㄴ components/      // 공용 컴포넌트
+        ㄴ ui/                   // 재사용 컴포넌트 (presentational)
+          ㄴ button.tsx
+        ㄴ providers/
+          ㄴ theme-provider.tsx
+        ㄴ modals/
+        ㄴ icons.tsx            // 아이콘 번들링 컴포넌트 (lucide, react-icons의 import를 줄이기)
+        ㄴ footer.tsx
+        ㄴ side-nav.tsx
+        ...
+
+    ㄴ hooks/     // 공용 hooks
+    ㄴ assets   // 번들링이 필요한 정적 자원 (이미지, 폰트) (url 해싱이나 이미지 최적화 가능)
+    ㄴ service/ // api관련 파일
+        ㄴ commons/               // 공용 파일
+          ㄴ axios-request.ts
+          ㄴ api-error-handler.ts
+          ㄴ mutation-error-handler.ts
+        ㄴ apis/                 // api 요청
+            ㄴ user-api.ts
+            ㄴ feed-api.ts
+        ㄴ queries/              // react-query queries(optional)
+            ㄴ user-queries.ts
+        ㄴ mutations/            // react-query mutations(optional)
+            ㄴ user-mutations.ts
+        ㄴ types/                // api관련 타입 (응답, 요청)
+            ㄴ response.interface.ts
+            ㄴ user.interface.ts
+            ㄴ user-response.interface.ts
+            ㄴ user-request.interface.ts
+            ...
+        ㄴ mappers/              // 백엔드와 의존성 낮추고 싶을때 (잦은 변경)
+            ㄴ user.mapper.ts
+            ㄴ feed.mapper.ts
+
+    ㄴ styles/    // stylesheet 파일
+    ㄴ lib/       // utils 파일, 라이브러리 options 파일
+    ㄴ types/     // 앱 types
+        ㄴ nav.interface.ts
+        ㄴ doc.interface.ts
+    ㄴ constants/ // 상수 파일
+    ㄴ store/     // 클라이언트 상태관리 폴더 (redux, zustand, recoil)
+    ㄴ site-config.json // 여러 정적파일
+    ㄴ ...
+```
+
+## 네이밍 & 소스파일
+
+### 리액트 컨벤션과 통일
+
+## 데이터 Fetching
+
+serverActions 경유
+
+<Tabs defaultValue="rest-api">
+
+<TabsList>
+  <TabsTrigger value="rest-api">Rest API</TabsTrigger>
+  <TabsTrigger value="supabase">Supabase</TabsTrigger>
+  <TabsTrigger value="prisma">Prisma</TabsTrigger>
+</TabsList>
+
+<TabsContent value="rest-api">
+
+```ts
+// rest-api
+```
+
+</TabsContent>
+
+<TabsContent value="supabase">
+
+```ts
+// supabase
+```
+
+</TabsContent>
+
+<TabsContent value="prisma">
+
+```ts
+// prisma
+```
+
+</TabsContent>
+
+</Tabs>
