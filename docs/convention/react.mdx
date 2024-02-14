@@ -60,8 +60,50 @@ src/
         ㄴ doc.interface.ts
     ㄴ constants/ // 상수 파일
     ㄴ store/     // 클라이언트 상태관리 폴더 (redux, zustand, recoil)
+    ㄴ main.tsx   // react 렌더링 파일
+    ㄴ app.tsx    // 앱 라우팅 처리 (초기 hooks나 providers, 공동 컴포넌트 등은 root-layout에서 처리)
     ㄴ site-config.json // 여러 정적파일
     ㄴ ...
+```
+
+## 소스 파일
+
+- ### 컴포넌트나 함수는 전부 화살표 함수로 통일
+
+- ### React 모듈은 항상 아래와 같이 import
+  - React관련 타입이나 hook은 React 네임스페이스를 사용하여 일관성 유지
+
+```ts
+import * as React from 'react';
+
+React.useState();
+interface BadgeProps extends React.HTMLAttributes<HTMLDivElement> {}
+```
+
+- ### page.tsx, layout.tsx - "default export" 사용
+
+```ts
+const HomePage = () => {};
+export default HomePage;
+
+const RootLayout = () => {};
+export default RootLayout;
+```
+
+- ### 나머지 파일 전부 - "named export" 사용
+
+```ts
+export const Button = () => {};
+export const useTheme = () => {};
+export interface NavItem {}
+```
+
+- ### type이나 interface imports 시 명시
+
+```ts
+import { cva, type VariantProps } from 'class-variance-authority';
+
+import type { NavItem } from '@/types/nav';
 ```
 
 ## 네이밍
