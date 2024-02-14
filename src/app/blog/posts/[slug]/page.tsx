@@ -16,6 +16,7 @@ export default async function PostPage({
 }) {
   const post = await getPost(params.slug);
   const headings = (await getHeadings(params.slug)) || [];
+
   if (!post) return notFound();
   return (
     <TracingBeam className="">
@@ -40,11 +41,11 @@ export default async function PostPage({
           </div>
         </header>
         <div className="w-full flex">
-          <div className="w-full lg:shrink-0 mdx">
+          <div className="w-full lg:shrink-0 mdx pt-10">
             <MdxBody>{post.body}</MdxBody>
           </div>
 
-          <div className="hidden 2xl:block w-1/3 right-0 shrink-0 translate-x-10">
+          <div className="hidden xl:block w-1/3 right-0 shrink-0 translate-x-10">
             <TableOfContents nodes={headings} />
           </div>
         </div>

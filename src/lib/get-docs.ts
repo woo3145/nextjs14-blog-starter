@@ -7,24 +7,24 @@ import { getFiles } from './get-files';
 
 export const getDocs = cache(async () => {
   const docs = await getFiles('./docs/');
-  return Promise.all(
+  const allDocs = await Promise.all(
     docs
-      .filter(
-        (file) => path.extname(file) === '.md' || path.extname(file) === '.mdx'
-      )
+      .filter((file) => path.extname(file) === '.mdx')
       .map(async (file) => {
         const filePath = `./docs/${file}`;
         const docContent = await fs.readFile(filePath, 'utf8');
         const { data, content } = matter(docContent);
 
-        // published 옵션이 false이면 무시
         if (data.published === false) {
           return null;
         }
 
         return { ...data, body: content } as Doc;
       })
-  ) as Promise<Doc[]>;
+  );
+
+  // null 값 제거
+  return allDocs.filter((doc): doc is Doc => doc !== null);
 });
 
 export async function getDoc(slug: string) {

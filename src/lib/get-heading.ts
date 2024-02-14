@@ -2,13 +2,14 @@ import matter from 'gray-matter';
 import { remark } from 'remark';
 import path from 'path';
 import fs from 'fs/promises';
+
 import { TransformedNode, headingTree } from './custom-remark';
 
 const postsDirectory = path.join(process.cwd(), 'posts');
 
-export async function getHeadings(slug: string) {
+export const getHeadings = async (slug: string) => {
   try {
-    const fullPath = path.join(postsDirectory, `${slug}.md`);
+    const fullPath = path.join(postsDirectory, `${slug}.mdx`);
     const fileContents = await fs.readFile(fullPath, 'utf8');
 
     const matterResult = matter(fileContents);
@@ -26,4 +27,4 @@ export async function getHeadings(slug: string) {
     console.error(`Error processing post: ${slug}`, error);
     return null;
   }
-}
+};

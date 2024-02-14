@@ -10,24 +10,25 @@ import { getFiles } from './get-files';
 export const getPosts = cache(async () => {
   const posts = await getFiles('./posts/');
 
-  return Promise.all(
+  // Promise.all로 모든 파일 처리 후 결과에서 null을 제거
+  const filteredPosts = await Promise.all(
     posts
-      .filter(
-        (file) => path.extname(file) === '.md' || path.extname(file) === '.mdx'
-      )
+      .filter((file) => path.extname(file) === '.mdx')
       .map(async (file) => {
         const filePath = `./posts/${file}`;
         const postContent = await fs.readFile(filePath, 'utf8');
         const { data, content } = matter(postContent);
 
-        // published 옵션이 false이면 무시
         if (data.published === false) {
-          return null;
+          return null; // published가 false일 경우 null 반환
         }
 
         return { ...data, body: content } as Post;
       })
-  ) as Promise<Post[]>;
+  );
+
+  // null 값 제거
+  return filteredPosts.filter((post): post is Post => post !== null);
 });
 
 export async function getPost(slug: string) {
@@ -40,9 +41,7 @@ export const getTags = cache(async () => {
 
   const tags = await Promise.all(
     posts
-      .filter(
-        (file) => path.extname(file) === '.md' || path.extname(file) === '.mdx'
-      )
+      .filter((file) => path.extname(file) === '.mdx')
       .map(async (file) => {
         const filePath = `./posts/${file}`;
         const postContent = await fs.readFile(filePath, 'utf8');
