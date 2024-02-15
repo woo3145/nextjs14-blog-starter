@@ -1,12 +1,14 @@
 import { MDXComponents } from 'mdx/types';
 import { MDXImage } from './mdx-image';
+import Image from 'next/image';
+
 import { cn } from '@/lib/utils';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { CodeBlockWrapper } from '@/components/ui/code-block-wrapper';
 import { HoverEffect } from '@/components/ui/card-hover-effect';
 import GridBackgroundPreview from '../preview/grid-background-preview';
 import DotBackgroundPreview from '../preview/dot-background-preview';
-import Image from 'next/image';
+import { ImageCaption } from '../ui/image-caption';
 
 // 마크다운 파일에 사용할 커스텀 구성요소
 export const mdxComponents: MDXComponents = {
@@ -128,6 +130,7 @@ export const mdxComponents: MDXComponents = {
   ),
   img: MDXImage as any,
   Image,
+  ImageCaption,
   pre: ({
     className,
     children,
