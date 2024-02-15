@@ -2,10 +2,181 @@
 title: 'Vercel 블로그로 분석하는 가독성 좋은 포스팅 하는법'
 description: 설명
 slug: how-to-clean-posting
-date: 2024-02-15
-excerpt: Vercel에서 nextjs 모듈 임포트 최적화 사례로 좋은 포스팅에 대해 분석해보기
+date: 2024-02-16
+excerpt: 처절한 글 못씀둥이 탈출기 (+NextJS import 최적화 이야기)
 tags:
   - Nextjs
   - Writing
-published: false
+published: true
 ---
+
+개발을 하다보면 경험이나 지식을 잘 기록하고 전달할 수 있는 능력이 필요하다는 걸 느낀다.
+
+하지만 왜 내가 쓴 글은 왜 잘 읽히지 않으며 흡입력이 떨어지는걸까?
+
+이 게시글은 글 못씀둥이 개발자가 **글 잘씀둥이 개발자**가 되기 위한 초석을 다지는 내용을 담고있다.
+
+개인적으로 어려운 내용도 흡입력있고 핵심 정보를 잘 전달 한다고 생각하는 Vercel 개발자들의 포스팅으로 잘 작성된 글에 대해 분석해보자.
+
+## 왜 Vercel 블로그인가?
+
+기술적인 내용을 포스팅 하다보면 느끼지만 이것저것 전달하려고 하기 때문에 글이 장황해져 읽기가 싫어지고 논점도 흐려진다.
+
+Vercel의 블로그를 읽다보면 여러 사람들이 글을 작성하는데 반해 일정한 형식과 깊은 몰입력을 가지고 있다.
+
+따라서 기술적인 복잡한 내용도 이해하기 쉽고 흡입력있게 전달하는 Vercel 개발자들의 글과 내 글을 비교해보고, 어떤점이 이런 전달력과 흡입력을 만드는지 벤치마킹 해보았다.
+
+## Vercel 게시글의 내용 분석
+
+먼저 Vercel의 게시글은 다음과 같은 큰 틀을 따르고 있다.
+
+- 서론 - 사전 지식 - 문제점 - 접근법 - 결과 or 해결방법 - 성과 or 결론
+
+또한 사전 지식과 문제점 같은 경우 소제목을 질문 형태로 작성하는 경우가 많다.
+
+본격적으로 게시글의 구조를 분석해보자.
+
+### 1. 제목과 서론을 활용
+
+먼저 첫번째 특징은 제목과 서론을 활용하여 게시글을 읽기 전에 흥미를 일으킨 다는 점이다.
+
+글에서 달성할 **목적**이나 **기술적인 성과**등을 먼저 제시하여 본 내용에 들어가기전에 한텀 쉬는 구간이 반드시 포함되어있다.
+
+아래 예시를 보면 package imports를 최적화하여 40%의 콜드스타트 성능과 28%의 빌드 속도를 개선했다는 성과와 해당 게시물에서 다룰 주요 내용에 대해 간략히 짚어주고있다.
+
+![alt text](/posts/how-to-clean-posting/1-light.png?width=850&height=600&mode=dark)
+![alt text](/posts/how-to-clean-posting/1-dark.png?width=850&height=600)
+
+<ImageCaption text="https://vercel.com/blog/how-we-optimized-package-imports-in-next-js" />
+
+### 2. 사전 지식을 간단히 설명
+
+핵심적인 내용에 들어가기 전에 중요한 용어나 개념에 대해 간결하게 전달한다. (평소에 쉽게 지나칠 수 있는 용어 등)
+
+너무 깊게 들어가진 않으며 간결한 코드와 함께 핵심적인 내용만 전달해야 한다.
+
+![alt text](/posts/how-to-clean-posting/3-light.png?width=850&height=600&mode=dark)
+![alt text](/posts/how-to-clean-posting/3-dark.png?width=850&height=600)
+
+<ImageCaption text="https://vercel.com/blog/how-we-optimized-package-imports-in-next-js" />
+
+### 3. 문제점에 대해 설명
+
+먼저 발생하는 문제에 대한 내용을 간략히 설명하고, **사례와 수치등을 강조**하여 전달한다.
+
+![alt text](/posts/how-to-clean-posting/4-light.png?width=850&height=600&mode=dark)
+![alt text](/posts/how-to-clean-posting/4-dark.png?width=850&height=600)
+
+<ImageCaption text="https://vercel.com/blog/how-we-optimized-package-imports-in-next-js" />
+
+또한 최대한 주관적인 내용을 덜어내고 사실과 문제점만 담은 후 추가 내용을 덧붙일땐 **근거와 함께** 소주제로 다뤄야한다.
+
+아래 내용을 보면 tree-shaking은 **번들러의 기능**이라는 점과 번들러에서 `external`로 설정된 라이브러리들은 tree-shaking에서 제외 된다는 점을 먼저 설명하고 있다.
+또한 `package.json`의 `sideEffects` 필드에 추가하지 않는 한 tree-shaking에 대상이 된다는 점을 언급 후 **tree-shaking 시 모든 모듈을 컴파일하고 분석하는데 비용이 더 크다**는 사실을 설명하고 있다.
+
+![alt text](/posts/how-to-clean-posting/5-light.png?width=850&height=600&mode=dark)
+![alt text](/posts/how-to-clean-posting/5-dark.png?width=850&height=600)
+
+<ImageCaption text="https://vercel.com/blog/how-we-optimized-package-imports-in-next-js" />
+
+### 4. 해결에 대한 접근법과 결론을 정리
+
+문제 해결을 위한 접근법의 핵심내용을 설명하고 있으며, 해당 방식의 문제점이나 보완해야 하는 점을 제시한다.
+
+아래 내용을 보면 베럴 파일 `my-lib`에서 `{module2}`를 import하는 구문을 `my-lib/module2`로 매핑하는 컴파일러 구성을 추가하여 빌드 시간과 런타임을 개선한 사실을 설명하고 있다.
+
+![alt text](/posts/how-to-clean-posting/6-light.png?width=850&height=600&mode=dark)
+![alt text](/posts/how-to-clean-posting/6-dark.png?width=850&height=600)
+
+<ImageCaption text="https://vercel.com/blog/how-we-optimized-package-imports-in-next-js" />
+
+또한 해결되지 않은 문제나 더 개선해야 하는점을 언급한 후 결론을 정리한다.
+
+아래 내용을 보면 `optimizePackageImports` 옵션에 베럴 파일을 추가하면 해당 파일을 분석하고 위에서 언급한 매핑 방식을 적용하여 최적화 할 수 있다는 점을 정리하고 있다.
+
+![alt text](/posts/how-to-clean-posting/7-light.png?width=850&height=600&mode=dark)
+![alt text](/posts/how-to-clean-posting/7-dark.png?width=850&height=600)
+
+<ImageCaption text="https://vercel.com/blog/how-we-optimized-package-imports-in-next-js" />
+
+### 5. 성과를 수치로 정리
+
+최종적으로 서론에서 언급한 기술적인 성과 수치를 더욱 자세하게 정리한다.
+
+![alt text](/posts/how-to-clean-posting/8-light.png?width=850&height=600&mode=dark)
+![alt text](/posts/how-to-clean-posting/8-dark.png?width=850&height=600)
+
+<ImageCaption text="https://vercel.com/blog/how-we-optimized-package-imports-in-next-js" />
+
+## Vercel 게시글의 특징 분석
+
+### 1. 이미지를 굉장히 잘 사용함
+
+애매한 개념이나 복잡한 내용을 설명할 땐 항상 다이어그램이나 이미지를 포함하여 글을 읽을 때 머리로 이미지화를 할 수 있게된다.
+
+또한 다크모드/라이트모드의 이미지를 구분하여 이미지에 집중시킨다.
+
+아래와 같이 nextjs를 vercel에 배포했을 때 각 파일들이 어떤 인프라로 구성되는지 한눈에 보여준다.
+
+![alt text](/posts/how-to-clean-posting/9-light.png?width=850&height=600&mode=dark)
+![alt text](/posts/how-to-clean-posting/9-dark.png?width=850&height=600)
+
+<ImageCaption text="https://vercel.com/blog/framework-defined-infrastructure" />
+
+### 2. 코드 블럭의 주석을 최소화 & 하나의 목적만 담고있음
+
+아래는 주석으로 코드를 설명하고 있으며, 비슷한 두가지 내용을 한번에 표시하고 있다.
+
+```tsx
+// 🚨 Bad
+
+// 1번 - 스타일을 가변인자로 변경
+const Button = ({ width, height }: Props) => {
+  return <button className={`w-${width} h-${height}`}>확인</button>;
+};
+// 2번 - 임의의 값 스타일을 가변인자로 변경
+const Button = ({ width, height }: Props) => {
+  return <button className={`w-[${width}px] h-[${height}px]`}>확인</button>;
+};
+
+<Button width={10} height={10} />;
+```
+
+아래와 같이 코드 블럭을 **설명에 대한 예시**로써 사용하고 하이라이팅 기능을 잘 활용하여 강조한다.
+또한 주석을 포함할 땐 간략한 부가 설명이나 생략 된 부분을 표시할 때 사용한다.
+
+_예시 - 변수로 tailwind 스타일을 변경할 때 발생하는 문제가 무엇일까? 예시를 보자_
+
+```tsx {4}
+// ✅ Good
+
+const Button = ({ width, height }: Props) => {
+  return <button className={`w-[${width}px] h-[${height}px]`}>확인</button>;
+};
+// usage
+<Button width={10} height={10} />;
+```
+
+### 3. 용어 별로 강조 구문을 구별함
+
+- 중요한 내용/단어 - **볼드 처리**
+- 코드에서 사용되는 변수나 파일 이름 등 - `코드 강조`
+
+## 결론
+
+유용하고 몰입력 있는 글을 작성하는 일은 꽤나 까다롭고 시간을 많이 투자하는 일이다.
+
+이미지를 많이 사용해도 읽기 힘들어지고 사소한 디테일로도 몰입력이 깨진다.
+
+### 나는 왜 글 못씀둥이인가
+
+- 한번 글쓰는 시간이 길다보니 꾸준히 안씀
+- 핵심 내용에서 벗어나 부가적인 내용을 너무 많이 덧붙이려함
+- 코드 블럭 활용이 생각보다 영향을 많이줌
+- 읽는 사람도 쉬어가는 타이밍이 필요함
+
+### 글 잘씀둥이 되기
+
+- 벤치마킹한 내용을 바탕으로 글 자주 쓰기
+- 핵심에서 벗어난 내용은 간결하게 끊기
+- 글의 전체적인 호흡 생각하기
