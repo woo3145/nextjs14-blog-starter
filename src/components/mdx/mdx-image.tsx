@@ -1,4 +1,5 @@
 import { siteMetadata } from '@/data/siteMetadata';
+import { cn } from '@/lib/utils';
 import NextImage from 'next/image';
 
 // 마크다운 이미지 태그에서 width와 height를 추출하여 next/image 컴포넌트에 적용하는 컴포넌트
@@ -17,6 +18,8 @@ export function MDXImage({
   const widthParam = url.searchParams.get('w') || url.searchParams.get('width');
   const heightParam =
     url.searchParams.get('h') || url.searchParams.get('height');
+  const modeParam = url.searchParams.get('mode') || 'light';
+  const notesParam = url.searchParams.get('notes');
   if (widthParam) {
     widthFromSrc = parseInt(widthParam);
   }
@@ -29,6 +32,10 @@ export function MDXImage({
     alt,
     height: heightFromSrc || 450,
     width: widthFromSrc || 550,
+    className: cn(
+      'mx-auto rounded-md',
+      modeParam === 'light' ? 'dark:hidden' : 'hidden dark:block'
+    ),
   };
 
   return <NextImage {...imageProps} />;

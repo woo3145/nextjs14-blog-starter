@@ -22,7 +22,7 @@ export const mdxComponents: MDXComponents = {
   h2: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h2
       className={cn(
-        'font-heading mt-12 scroll-m-20 border-b pb-2 text-2xl font-semibold tracking-tight first:mt-0',
+        'font-heading mt-16 scroll-m-20 border-b pb-2 text-2xl font-semibold tracking-tight first:mt-0',
         className
       )}
       {...props}
@@ -31,7 +31,7 @@ export const mdxComponents: MDXComponents = {
   h3: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h3
       className={cn(
-        'font-heading mt-8 scroll-m-20 text-xl font-semibold tracking-tight',
+        'font-heading mt-12 scroll-m-20 text-xl font-semibold tracking-tight',
         className
       )}
       {...props}
@@ -40,7 +40,7 @@ export const mdxComponents: MDXComponents = {
   h4: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h4
       className={cn(
-        'font-heading mt-8 scroll-m-20 text-lg font-semibold tracking-tight',
+        'font-heading mt-12 scroll-m-20 text-lg font-semibold tracking-tight',
         className
       )}
       {...props}
@@ -66,7 +66,10 @@ export const mdxComponents: MDXComponents = {
   ),
   a: ({ className, ...props }: React.HTMLAttributes<HTMLAnchorElement>) => (
     <a
-      className={cn('font-medium underline underline-offset-4', className)}
+      className={cn(
+        'font-medium text-blue-500 dark:text-blue-400 hover:underline underline-offset-4',
+        className
+      )}
       {...props}
     />
   ),

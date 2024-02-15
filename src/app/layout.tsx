@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Noto_Sans_KR } from 'next/font/google';
 import './styles/globals.css';
 
 import { ThemeProvider } from '@/components/providers/theme-provider';
@@ -12,8 +12,13 @@ import {
   NotebookPenIcon,
 } from 'lucide-react';
 import { FloatingNav } from '@/components/ui/floating-navbar';
+import { cn } from '@/lib/utils';
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Noto_Sans_KR({
+  weight: ['400', '600', '800'],
+  variable: '--font-noto-sans',
+  subsets: ['latin'],
+});
 
 export const metadata: Metadata = {
   title: {
@@ -90,7 +95,7 @@ export default function RootLayout({
 }>) {
   return (
     <html suppressHydrationWarning>
-      <body className={inter.className} suppressHydrationWarning>
+      <body className={cn('', inter.variable)} suppressHydrationWarning>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -99,7 +104,7 @@ export default function RootLayout({
         >
           <FloatingNav navItems={navItems} />
 
-          <div className="h-auto min-h-screen w-full rounded-md bg-background bg-grid-black/[0.04] dark:bg-grid-white/[0.04]">
+          <div className="h-auto min-h-screen w-full rounded-md bg-background bg-grid-black/[0.04] dark:bg-grid-white/[0.04] font-noto-sans">
             {children}
           </div>
           <DarkModeToggle />

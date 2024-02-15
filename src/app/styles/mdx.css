@@ -210,3 +210,7 @@ pre[class*='language-'] {
 h3 p:first-child {
   @apply text-lg;
 }
+
+strong {
+  @apply font-extrabold;
+}
