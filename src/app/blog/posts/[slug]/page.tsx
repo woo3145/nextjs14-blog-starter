@@ -43,7 +43,7 @@ export default async function PostPage({
             <MdxBody>{post.body}</MdxBody>
           </div>
 
-          <div className="hidden 2xl:block w-1/3 right-0 shrink-0 translate-x-10 prose">
+          <div className="hidden 2xl:block w-1/3 right-0 shrink-0 translate-x-10 prose dark:prose-invert">
             <TableOfContents nodes={headings} />
           </div>
         </div>
