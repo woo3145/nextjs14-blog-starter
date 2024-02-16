@@ -28,7 +28,15 @@ export const getPosts = cache(async () => {
   );
 
   // null 값 제거
-  return filteredPosts.filter((post): post is Post => post !== null);
+  const validPosts = filteredPosts.filter(
+    (post): post is Post => post !== null
+  );
+
+  const sortedPosts = validPosts.sort((a, b) => {
+    return new Date(b.date).getTime() - new Date(a.date).getTime();
+  });
+
+  return sortedPosts;
 });
 
 export async function getPost(slug: string) {
