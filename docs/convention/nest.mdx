@@ -1,0 +1,124 @@
+---
+title: 네스트 컨벤션
+description:
+slug: 'convention/nest'
+---
+
+NestJS는 잘 구조화된 패턴이 공식문서에 이미 존재하기 때문에 기본적인 CRUD는 패스
+
+트랜잭션, 모노레포 구성, DDD 위주로 정리
+
+## Validation 규칙
+
+## 트랜잭션 처리
+
+<Tabs defaultValue="typeorm">
+
+<TabsList>
+  <TabsTrigger value="typeorm">TypeOrm</TabsTrigger>
+  {/* <TabsTrigger value="mongoose">Mongoose</TabsTrigger> */}
+</TabsList>
+
+<TabsContent value="typeorm">
+
+<Steps>
+
+<Step>
+공용 트랜잭션 처리 서비스 생성
+
+반복되는 코드 줄이기
+
+common/transaction.service.ts
+
+```ts showLineNumbers
+import { Injectable } from '@nestjs/common';
+import { DataSource, QueryRunner } from 'typeorm';
+
+@Injectable()
+export class TransactionService {
+  constructor(private dataSource: DataSource) {}
+
+  async executeInTransaction<T>(
+    work: (queryRunner: QueryRunner) => Promise<T>
+  ): Promise<T> {
+    const queryRunner = this.dataSource.createQueryRunner();
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+
+    try {
+      const result = await work(queryRunner);
+      await queryRunner.commitTransaction();
+      return result;
+    } catch (error) {
+      await queryRunner.rollbackTransaction();
+      throw error;
+    } finally {
+      await queryRunner.release();
+    }
+  }
+}
+```
+
+</Step>
+
+<Step>
+
+메서드에서 인자로 queryRunner 받기
+
+```ts {8-12, 16} showLineNumbers
+@Injectable()
+export class MembersService {
+  constructor(
+    @InjectRepository(Member)
+    private memberRepository: Repository<Member>
+  ) {}
+
+  private getRepository(queryRunner?: QueryRunner): Repository<Member> {
+    return queryRunner
+      ? queryRunner.manager.getRepository(Member)
+      : this.memberRepository;
+  }
+
+  async findAll(
+    options?: FindManyOptions<Member>,
+    queryRunner?: QueryRunner
+  ): Promise<Member[]> {
+    const repository = this.getRepository(queryRunner);
+    return repository.find(options);
+  }
+}
+```
+
+</Step>
+
+<Step>
+트랜잭션 서비스를 주입받아 트랜잭션 처리
+
+```ts {7, 11} showLineNumbers
+@Injectable()
+export class MemberInitializationService {
+  constructor(
+    private membersService: MembersService,
+    private streaksService: StreaksService,
+
+    private transactionService: TransactionService
+  ) {}
+
+  async initializeMember(jwtToken: JWTPayload): Promise<Member> {
+    return this.transactionService.executeInTransaction(async (queryRunner) => {
+      const newMember = await this.membersService.create(jwtToken, queryRunner);
+      await this.streaksService.create(newMember.member_id, queryRunner);
+      return newMember;
+    });
+  }
+}
+```
+
+</Step>
+
+</Steps>
+
+</TabsContent>
+<TabsContent value="mongoose">mongoose</TabsContent>
+
+</Tabs>

@@ -71,7 +71,6 @@ export const docsConfig: DocsConfig = {
           title: 'Nest',
           href: '/docs/convention/nest',
           items: [],
-          disabled: true,
         },
         {
           title: 'Nest-testing(mongoose)',
