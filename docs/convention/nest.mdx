@@ -8,7 +8,281 @@ NestJS는 잘 구조화된 패턴이 공식문서에 이미 존재하기 때문�
 
 트랜잭션, 모노레포 구성, DDD 위주로 정리
 
-## Validation 규칙
+## 초기 설정
+
+<Tabs defaultValue="env-validation">
+
+<TabsList>
+  <TabsTrigger value="env-validation">환경변수 검증</TabsTrigger>
+  <TabsTrigger value="">DB migration 설정</TabsTrigger>
+</TabsList>
+
+<TabsContent value="env-validation">
+
+<Steps>
+
+<Step>
+env validation 함수 작성
+
+src/utils/validate-config.ts
+
+```ts
+import { plainToClass } from 'class-transformer';
+import { validateSync } from 'class-validator';
+import { ClassConstructor } from 'class-transformer/types/interfaces';
+
+export const validateConfig = <T extends object>(
+  config: Record<string, unknown>,
+  envVariablesClass: ClassConstructor<T>
+) => {
+  const validatedConfig = plainToClass(envVariablesClass, config, {
+    enableImplicitConversion: true, // 타입 자동 변환 허용
+  });
+  const errors = validateSync(validatedConfig, {
+    skipMissingProperties: false, // 프로퍼티가 비어있으면 에러로 잡음
+  });
+
+  // 누락된 env 설정 디버깅
+  if (errors.length > 0) {
+    throw new Error(errors.toString());
+  }
+  return validatedConfig;
+};
+```
+
+</Step>
+
+<Step>
+각 config 타입 설정
+
+src/config/config.type.ts
+
+```ts {6-8}
+import { AuthConfig } from '../auth/config/auth-config.type';
+import { DatabaseConfig } from '../database/config/database-config.type';
+import { AppConfig } from './app-config.type';
+
+export type AllConfigType = {
+  app: AppConfig;
+  database: DatabaseConfig;
+  auth: AuthConfig;
+};
+```
+
+src/config/app-config.type.ts
+
+```ts
+export type AppConfig = {
+  nodeEnv: string;
+  port: number;
+  apiPrefix: string;
+};
+```
+
+src/auth/config/auth-config.type.ts
+
+```ts
+export type AuthConfig = {
+  secret?: string;
+  expires?: string;
+  refreshSecret?: string;
+  refreshExpires?: string;
+};
+```
+
+src/database/config/database-config.type.ts
+
+```ts
+export type DatabaseConfig = {
+  type?: string;
+  host?: string;
+  port?: number;
+  password?: string;
+  name?: string;
+  username?: string;
+  synchronize?: boolean;
+};
+```
+
+</Step>
+
+<Step>
+ConfigModule - registerAs 함수 작성
+
+src/config/app.config.ts
+
+<CodeBlockWrapper
+  expandButtonTitle="Expand"
+  className={'my-6 overflow-hidden rounded-md'}
+>
+
+```ts
+// ...
+import { registerAs } from '@nestjs/config';
+import { validateConfig } from '../../utils/validate-config';
+import { AppConfig } from './app-config.type';
+
+enum Environment {
+  Development = 'development',
+  Production = 'production',
+  Test = 'test',
+}
+
+class EnvironmentVariablesValidator {
+  @IsEnum(Environment)
+  @IsOptional()
+  NODE_ENV: Environment;
+
+  @IsInt()
+  @Min(0)
+  @Max(65535)
+  @IsOptional()
+  SERVER_PORT: number;
+
+  @IsString()
+  @IsOptional()
+  API_PREFIX: string;
+}
+
+export default registerAs<AppConfig>('app', () => {
+  validateConfig(process.env, EnvironmentVariablesValidator);
+
+  return {
+    nodeEnv: process.env.NODE_ENV || 'development',
+    port: process.env.SERVER_PORT
+      ? parseInt(process.env.SERVER_PORT, 10)
+      : 3000,
+    apiPrefix: process.env.API_PREFIX || 'api',
+  };
+});
+```
+
+</CodeBlockWrapper>
+
+src/auth/config/auth.config.ts
+
+<CodeBlockWrapper
+  expandButtonTitle="Expand"
+  className={'my-6 overflow-hidden rounded-md'}
+>
+
+```ts
+// ...
+import { IsString } from 'class-validator';
+import { validateConfig } from '../../utils/validate-config';
+import { AuthConfig } from './auth-config.type';
+
+class EnvironmentVariablesValidator {
+  @IsString()
+  AUTH_JWT_SECRET: string;
+
+  @IsString()
+  AUTH_JWT_TOKEN_EXPIRES_IN: string;
+
+  @IsString()
+  AUTH_REFRESH_SECRET: string;
+
+  @IsString()
+  AUTH_REFRESH_TOKEN_EXPIRES_IN: string;
+}
+
+export default registerAs<AuthConfig>('auth', () => {
+  validateConfig(process.env, EnvironmentVariablesValidator);
+
+  return {
+    secret: process.env.AUTH_JWT_SECRET,
+    expires: process.env.AUTH_JWT_TOKEN_EXPIRES_IN,
+    refreshSecret: process.env.AUTH_REFRESH_SECRET,
+    refreshExpires: process.env.AUTH_REFRESH_TOKEN_EXPIRES_IN,
+  };
+});
+```
+
+</CodeBlockWrapper>
+
+src/database/config/database.config.ts
+
+<CodeBlockWrapper
+  expandButtonTitle="Expand"
+  className={'my-6 overflow-hidden rounded-md'}
+>
+
+```ts
+// ...
+import { registerAs } from '@nestjs/config';
+import { DatabaseConfig } from './database-config.type';
+import { validateConfig } from '../../utils/validate-config';
+
+class EnvironmentVariablesValidator {
+  @IsString()
+  DB_TYPE: string;
+
+  @IsString()
+  DB_HOST: string;
+
+  @IsInt()
+  @Min(0)
+  @Max(65535)
+  DB_PORT: number;
+
+  @IsString()
+  DB_PASSWORD: string;
+
+  @IsString()
+  DB_NAME: string;
+
+  @IsString()
+  DB_USER: string;
+
+  @IsBoolean()
+  @IsOptional()
+  DB_SYNCHRONIZE: boolean;
+}
+
+export default registerAs<DatabaseConfig>('database', () => {
+  validateConfig(process.env, EnvironmentVariablesValidator);
+
+  return {
+    type: process.env.DB_TYPE,
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT ? parseInt(process.env.DB_PORT, 10) : 3306,
+    password: process.env.DB_PASSWORD,
+    name: process.env.DB_NAME,
+    username: process.env.DB_USER,
+    synchronize: process.env.DB_SYNCHRONIZE === 'true',
+  };
+});
+```
+
+</CodeBlockWrapper>
+
+</Step>
+
+<Step>
+ConfigModule에서 로드
+
+src/app.module.ts
+
+```ts {5}
+@Module({
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      load: [appConfig, databaseConfig, authConfig],
+      envFilePath: ['.env'],
+    }),
+    AuthModule,
+  ],
+})
+export class AppModule {}
+```
+
+</Step>
+
+</Steps>
+</TabsContent>
+
+</Tabs>
 
 ## 트랜잭션 처리
 
@@ -63,7 +337,7 @@ export class TransactionService {
 
 <Step>
 
-메서드에서 인자로 queryRunner 받기
+서비스 메서드에서 인자로 queryRunner 받기
 
 ```ts {8-12, 16} showLineNumbers
 @Injectable()
