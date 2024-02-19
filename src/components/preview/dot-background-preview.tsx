@@ -1,6 +1,6 @@
-import ComponentPreviewContainer from './component-preview-container';
+import { ComponentPreviewContainer } from './component-preview-container';
 
-const DotBackgroundPreview = () => {
+export const DotBackgroundPreview = () => {
   return (
     <ComponentPreviewContainer>
       <div className="h-[40rem] w-full bg-white dark:bg-black dark:bg-dot-white/[0.2] bg-dot-black/[0.2] relative flex items-center justify-center">
@@ -13,5 +13,3 @@ const DotBackgroundPreview = () => {
     </ComponentPreviewContainer>
   );
 };
-
-export default DotBackgroundPreview;

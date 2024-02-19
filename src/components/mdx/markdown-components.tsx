@@ -6,8 +6,9 @@ import { cn } from '@/lib/utils';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { CodeBlockWrapper } from '@/components/ui/code-block-wrapper';
 import { HoverEffect } from '@/components/ui/card-hover-effect';
-import GridBackgroundPreview from '../preview/grid-background-preview';
-import DotBackgroundPreview from '../preview/dot-background-preview';
+import { GridBackgroundPreview } from '../preview/grid-background-preview';
+import { DotBackgroundPreview } from '../preview/dot-background-preview';
+import { SnakeBeamPreview } from '../preview/snake-beam-preview';
 import { ImageCaption } from '../ui/image-caption';
 
 // 마크다운 파일에 사용할 커스텀 구성요소
@@ -216,5 +217,6 @@ export const mdxComponents: MDXComponents = {
   ),
   GridBackgroundPreview,
   DotBackgroundPreview,
+  SnakeBeamPreview,
   HoverEffect,
 };

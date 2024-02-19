@@ -1,4 +1,65 @@
-'use client';
+---
+title: Snake Beam
+description:
+slug: 'components/snake-beam'
+---
+
+<Tabs defaultValue="preview">
+  <TabsList >
+    <TabsTrigger value="preview">
+      Preview
+    </TabsTrigger>
+    <TabsTrigger value="code">
+      Code
+    </TabsTrigger>
+  </TabsList>
+
+### Grid Background
+
+<TabsContent value="preview">
+  <SnakeBeamPreview />
+</TabsContent>
+
+  <TabsContent value="code">
+
+```tsx {8}
+import { SnakeBeam } from '@/app/(landing)/_components/main-section/snake-beam';
+import { ComponentPreviewContainer } from './component-preview-container';
+
+export const SnakeBeamPreview = () => {
+  return (
+    <ComponentPreviewContainer>
+      <div className="h-[20rem] w-full bg-white dark:bg-black dark:bg-grid-white/[0.1] bg-grid-black/[0.1] relative flex flex-col items-center justify-center">
+        <SnakeBeam />
+        <p className="text-4xl sm:text-7xl font-bold relative z-20 bg-clip-text text-transparent bg-gradient-to-b from-neutral-200 to-neutral-500 py-4">
+          Snake
+        </p>
+      </div>
+    </ComponentPreviewContainer>
+  );
+};
+
+export default GridBackgroundPreview;
+```
+
+</TabsContent>
+</Tabs>
+
+## Required
+
+<Steps>
+
+<Step>
+Tailwind 설치 (Optional)
+
+[tailwindCSS](https://tailwindcss.com/docs/installation)
+
+</Step>
+<Step>
+
+components/ui/snake-beam.tsx
+
+```tsx
 import * as React from 'react';
 
 export const SnakeBeam = ({ className }: { className?: string }) => {
@@ -28,14 +89,12 @@ export const SnakeBeam = ({ className }: { className?: string }) => {
         }
         return;
       }
-
       // 애니메이션 계속 진행
       setGradientValues((prev) => ({
         x1: prev.x1 > -100 ? prev.x1 - (250 + 100) * 0.005 : prev.x1,
         x2: prev.x2 > -100 ? prev.x2 - (350 + 100) * 0.005 : prev.x2,
         y2: prev.y2 > 0 ? prev.y2 - 60 * 0.005 : prev.y2,
       }));
-
       if (isAnimating) {
         requestIdRef.current = requestAnimationFrame(animate);
       }
@@ -60,7 +119,7 @@ export const SnakeBeam = ({ className }: { className?: string }) => {
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
-        d="M0.5 0.5 H90 V30 H150 V60 H235.5"
+        d="M0.5 0.5 H90 V30 H150 V60 H235.5" // M(x y): 시작지점 초기화, H(x): x축 이동, V(y): y축 이동
         stroke="url(#paint0_linear)"
       ></path>
       <defs>
@@ -80,3 +139,23 @@ export const SnakeBeam = ({ className }: { className?: string }) => {
     </svg>
   );
 };
+```
+
+</Step>
+</Steps>
+
+## How to customize beam?
+
+\<path /> 태그에서 d 속성으로 Beam의 모양을 변경할 수 있습니다.
+
+주석에 써있듯 각 숫자를 수정하여 Beam 모양을 바꿀 수 있습니다.
+
+- M(x y): 시작지점 초기화
+- H(x): x축 이동
+- V(y): y축 이동
+
+그려진 Beam 모양에 맞춰 수정하고 x1, y1, x2, y2를 조정하면 되는데
+
+현재 상태는 Beam의 길이를 약 100픽셀로 잡고 x1을 -100까지 이동시켜 사라지게 하고 있으니,
+
+조금씩 건드려보면서 커스텀 하시면 됩니다.

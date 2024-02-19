@@ -105,6 +105,11 @@ export const docsConfig: DocsConfig = {
           href: '/docs/components/grid-background',
           items: [],
         },
+        {
+          title: 'snake-beam',
+          href: '/docs/components/snake-beam',
+          items: [],
+        },
       ],
     },
   ],

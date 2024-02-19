@@ -1,6 +1,6 @@
-import ComponentPreviewContainer from './component-preview-container';
+import { ComponentPreviewContainer } from './component-preview-container';
 
-const GridBackgroundPreview = () => {
+export const GridBackgroundPreview = () => {
   return (
     <ComponentPreviewContainer>
       <div className="h-[40rem] w-full bg-white dark:bg-black dark:bg-grid-white/[0.1] bg-grid-black/[0.1] relative flex items-center justify-center">
@@ -13,5 +13,3 @@ const GridBackgroundPreview = () => {
     </ComponentPreviewContainer>
   );
 };
-
-export default GridBackgroundPreview;
