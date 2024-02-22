@@ -1,0 +1,44 @@
+---
+title: 'date-fns v3 호환성 문제(date-fns-tz v2)'
+description: 설명
+slug: error-date-fns-compatibility
+date: 2024-02-22
+excerpt: date-fns v3 릴리즈에 따라 date-fns-tz와 호환성 문제 발생
+tags:
+  - Javascript
+published: true
+---
+
+NestJS에서 타임존에 따라 데이터 처리 로직 작업중 발생한 에러
+
+## 발생환경
+
+```json
+ "dependencies": {
+    "date-fns": "^3.3.1",
+    "date-fns-tz": "^2.0.0",
+  },
+```
+
+## 발생이유
+
+date-fns가 2023-12-18에 릴리즈한 v3버전에서 모든 default export를 제거해서 발생한 문제
+
+date-fns-tz가 date-fns를 의존하기 때문에 date-fns-tz가 v3버전을 지원할때까지 기다려야함
+
+```ts
+// Old
+import format from 'date-fns/format';
+// New
+import { format } from 'date-fns/format';
+```
+
+## 해결법
+
+기존 버전을 제거하고 명시적으로 2버전 설치
+
+```bash
+yarn remove date-fns date-fns-tz
+
+yarn add date-fns@2 date-fns-tz@2
+```
