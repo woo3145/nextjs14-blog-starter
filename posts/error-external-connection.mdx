@@ -3,7 +3,7 @@ title: 'Jest did not exit one second after the test run has completed. 에러'
 description: 설명
 slug: error-external-connection
 date: 2024-02-26
-excerpt: Nest에서 Redis를 직접 연결했을때 라이프 사이클 관리
+excerpt: Nest에서 redis나 @nestjs-modules/ioredis를 사용할때 자동으로 연결을 끊어주지 않는 문제
 tags:
   - Nest
 published: true
@@ -101,3 +101,5 @@ export class TestGateway implements OnGatewayDisconnect {
 `NestJS`의 통합 모듈로 `ioredis`를 사용하면 모듈 내에서 `NestJS`의 생명주기에 맞춰 라이프 사이클을 관리 해주는 줄 알았지만 안해줌.
 
 `TypeORM`의 경우 애플리케이션이 종료될때 자동으로 모든 연결을 닫아줌.
+
+`CacheManager`에서 `redis`를 연결하는 경우에도 자동으로 연결을 닫아줌.
