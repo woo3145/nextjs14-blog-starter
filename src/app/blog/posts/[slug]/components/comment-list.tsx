@@ -99,7 +99,7 @@ export const CommentList = ({
         </Button>
       </form>
       {errorText && <Alert text={errorText} />}
-      <div className="bg-white shadow overflow-hidden rounded-md">
+      <div className="shadow overflow-hidden rounded-md">
         <ul>
           {comments.map((comment) => (
             <CommentComponent
@@ -122,7 +122,7 @@ const CommentComponent = ({
   onDelete: () => void;
 }) => {
   return (
-    <li className="w-full block cursor-pointer hover:bg-accent focus:outline-none focus:bg-accent transition duration-150 ease-in-out">
+    <li className="w-full block cursor-pointer bg-background hover:bg-accent focus:outline-none focus:bg-accent transition duration-150 ease-in-out">
       <div className="flex items-center px-4 py-3 sm:px-6">
         <div className="min-w-0 flex-1 flex items-center gap-4">
           <div className="w-8 h-8 bg-foreground/20 rounded-full" />
