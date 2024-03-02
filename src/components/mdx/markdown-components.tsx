@@ -8,6 +8,7 @@ import { CodeBlockWrapper } from '@/components/ui/code-block-wrapper';
 import { HoverEffect } from '@/components/ui/card-hover-effect';
 import { GridBackgroundPreview } from '../preview/grid-background-preview';
 import { DotBackgroundPreview } from '../preview/dot-background-preview';
+import { ZandiPreview } from '../preview/zandi-preview';
 import { SnakeBeamPreview } from '../preview/snake-beam-preview';
 import { ImageCaption } from '../ui/image-caption';
 
@@ -218,5 +219,6 @@ export const mdxComponents: MDXComponents = {
   GridBackgroundPreview,
   DotBackgroundPreview,
   SnakeBeamPreview,
+  ZandiPreview,
   HoverEffect,
 };

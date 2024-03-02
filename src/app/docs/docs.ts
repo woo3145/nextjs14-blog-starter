@@ -110,6 +110,11 @@ export const docsConfig: DocsConfig = {
           href: '/docs/components/snake-beam',
           items: [],
         },
+        {
+          title: 'zandi',
+          href: '/docs/components/zandi',
+          items: [],
+        },
       ],
     },
   ],
