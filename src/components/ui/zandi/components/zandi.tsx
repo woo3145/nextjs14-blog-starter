@@ -38,7 +38,7 @@ export const Zandi = ({
     );
   }, [locale]);
 
-  const sortedPalette = palette.toSorted((a, b) => a.threshold - b.threshold);
+  palette.sort((a, b) => a.threshold - b.threshold);
 
   return (
     <div className={cn('relative flex flex-col gap-2', className)}>
@@ -55,7 +55,7 @@ export const Zandi = ({
             <p className="absolute -left-10 text-xs">{week.month}월</p>
           ) : null}
           {week.dates.map((date, dateIdx) => (
-            <ZandiItem key={dateIdx} date={date} palette={sortedPalette} />
+            <ZandiItem key={dateIdx} date={date} palette={palette} />
           ))}
         </div>
       ))}
