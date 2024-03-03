@@ -38,6 +38,7 @@ export const ZandiPreview = () => {
           palette={dummyPalette}
           startDate={sixMonthAgo}
           endDate={today}
+          locale="ko-KR"
         />
       </div>
     </ComponentPreviewContainer>
