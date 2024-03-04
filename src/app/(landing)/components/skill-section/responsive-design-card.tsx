@@ -66,7 +66,7 @@ export const ResponsiveDesignCard = () => {
           <div className="w-2 h-2 rounded-full border" />
           <div className="w-2 h-2 rounded-full border bg-green-500" />
         </div>
-        <div className="w-full p-4">
+        <div className={cn('w-full', isWide ? 'p-4' : 'py-4 px-2')}>
           <div
             className={cn(
               'w-full flex',
