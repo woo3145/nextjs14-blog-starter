@@ -1,7 +1,7 @@
 'use client';
 import { motion, Variants, useInView } from 'framer-motion';
 import Image from 'next/image';
-import { useRef, useState } from 'react';
+import * as React from 'react';
 
 interface Props {
   src: string;
@@ -13,7 +13,7 @@ interface Props {
   description?: string;
 }
 
-export const SkillDataProvider = ({
+export const TechStackDataProvider = ({
   src,
   srcDark,
   width,
@@ -22,9 +22,9 @@ export const SkillDataProvider = ({
   title,
   description,
 }: Props) => {
-  const ref = useRef(null);
+  const ref = React.useRef(null);
   const isInView = useInView(ref, { once: true });
-  const [isHovered, setIsHovered] = useState(false);
+  const [isHovered, setIsHovered] = React.useState(false);
 
   // 이미지 애니메이션
   const imageVariants: Variants = {
@@ -57,14 +57,14 @@ export const SkillDataProvider = ({
             width={width}
             height={height}
             alt="skill image"
-            className="hidden dark:block"
+            className="hidden dark:block w-16 md:w-24"
           />
           <Image
             src={src}
             width={width}
             height={height}
             alt="skill image"
-            className="block dark:hidden"
+            className="block dark:hidden w-16 md:w-24"
           />
         </>
       ) : (
@@ -73,7 +73,7 @@ export const SkillDataProvider = ({
           width={width}
           height={height}
           alt="skill image"
-          className="fill-foreground"
+          className="fill-foreground w-16 md:w-24"
         />
       )}
       {isHovered && (

@@ -1,14 +1,14 @@
 'use client';
-import React, { ReactNode, useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 
 interface Props {
-  frontImage: ReactNode;
-  backImage: ReactNode;
+  frontImage: React.ReactNode;
+  backImage: React.ReactNode;
 }
 
 export const FlipImage = ({ frontImage, backImage }: Props) => {
-  const [isFlipped, setIsFlipped] = useState(false);
+  const [isFlipped, setIsFlipped] = React.useState(false);
 
   const variants = {
     front: { rotateY: 0 },

@@ -1,8 +1,9 @@
 'use client';
 
+import * as React from 'react';
+
 import { cn } from '@/lib/utils';
 import { motion, stagger, useAnimate, useInView } from 'framer-motion';
-import { useEffect } from 'react';
 
 export const TypewriterEffect = ({
   words,
@@ -26,7 +27,7 @@ export const TypewriterEffect = ({
 
   const [scope, animate] = useAnimate();
   const isInView = useInView(scope);
-  useEffect(() => {
+  React.useEffect(() => {
     if (isInView) {
       animate(
         'span',

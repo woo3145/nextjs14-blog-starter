@@ -1,10 +1,10 @@
 'use client';
-import React, { useRef } from 'react';
+import React from 'react';
 import { motion, useInView } from 'framer-motion';
 import { slideInFromLeft, slideInFromRight } from '@/lib/motion';
 
-const SkillText = () => {
-  const ref = useRef(null);
+export const SkillText = () => {
+  const ref = React.useRef(null);
   const isInView = useInView(ref, { once: true });
 
   return (
@@ -40,5 +40,3 @@ const SkillText = () => {
     </motion.div>
   );
 };
-
-export default SkillText;

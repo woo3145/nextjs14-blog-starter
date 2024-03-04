@@ -1,4 +1,4 @@
-import { SnakeBeam } from '@/app/(landing)/_components/main-section/snake-beam';
+import { SnakeBeam } from '@/app/(landing)/components/main-section/snake-beam';
 import { ComponentPreviewContainer } from './component-preview-container';
 
 export const SnakeBeamPreview = () => {
