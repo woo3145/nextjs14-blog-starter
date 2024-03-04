@@ -98,29 +98,29 @@ export const DynamicBrowserCard = () => {
                 <div className="w-full space-y-1">
                   <motion.div
                     variants={leftVariants}
-                    className="border-2 border-gray-100 rounded-md"
+                    className="border-2 border-gray-100 dark:border-neutral-900 rounded-md"
                   ></motion.div>
                   <motion.div
                     variants={leftVariants}
-                    className="border-2 border-gray-100 rounded-md"
+                    className="border-2 border-gray-100 dark:border-neutral-900 rounded-md"
                   ></motion.div>
                   <motion.div
                     variants={leftVariants}
-                    className="border-2 border-gray-100 rounded-md"
+                    className="border-2 border-gray-100 dark:border-neutral-900 rounded-md"
                   ></motion.div>
                 </div>
                 <div className="w-full space-y-1">
                   <motion.div
                     variants={rightVariants}
-                    className="border-2 border-gray-100 rounded-md"
+                    className="border-2 border-gray-100 dark:border-neutral-900 rounded-md"
                   ></motion.div>
                   <motion.div
                     variants={rightVariants}
-                    className="border-2 border-gray-100 rounded-md"
+                    className="border-2 border-gray-100 dark:border-neutral-900 rounded-md"
                   ></motion.div>
                   <motion.div
                     variants={rightVariants}
-                    className="border-2 border-gray-100 rounded-md"
+                    className="border-2 border-gray-100 dark:border-neutral-900 rounded-md"
                   ></motion.div>
                 </div>
               </div>
