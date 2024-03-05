@@ -42,11 +42,14 @@ export const TypewriterEffect = ({
         }
       );
     }
-  }, [isInView]);
+  }, [isInView, animate]);
 
   const renderWords = () => {
     return (
-      <motion.div ref={scope} className="flex justify-center gap-1 lg:gap-4">
+      <motion.div
+        ref={scope}
+        className="flex justify-center gap-1 lg:gap-4 min-h-14"
+      >
         {wordsArray.map((word, idx) => {
           return (
             <div key={`word-${idx}`} className="inline-block">
@@ -161,8 +164,8 @@ export const TypewriterEffectSmooth = ({
             whiteSpace: 'nowrap',
           }}
         >
-          {renderWords()}{' '}
-        </div>{' '}
+          {renderWords()}
+        </div>
       </motion.div>
       <motion.span
         initial={{

@@ -146,10 +146,13 @@ export const TechStackSection = ({ className }: TechStackSectionProps) => {
   return (
     <section
       className={cn(
-        'h-auto w-full flex justify-center overflow-hidden',
+        'h-auto w-full flex justify-center items-center flex-col gap-12 overflow-hidden',
         className
       )}
     >
+      <p className="text-[30px] text-foreground font-medium mt-[10px] text-center mb-[15px]">
+        Tech Stacks
+      </p>
       <div className="w-full max-w-screen-xl">
         <div className="space-y-12">
           <div className="flex justify-center items-center flex-wrap gap-6">

@@ -22,7 +22,7 @@ interface SkillSectionProps {
 
 export const SkillSection = ({ className }: SkillSectionProps) => {
   return (
-    <div className={className}>
+    <section className={className}>
       <SkillText />
       <BentoGrid className="max-w-4xl mx-auto md:auto-rows-[20rem]">
         {items.map((item, i) => (
@@ -36,7 +36,7 @@ export const SkillSection = ({ className }: SkillSectionProps) => {
           />
         ))}
       </BentoGrid>
-    </div>
+    </section>
   );
 };
 
