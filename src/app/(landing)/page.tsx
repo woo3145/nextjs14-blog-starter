@@ -1,6 +1,6 @@
-import { MainSection } from './components/main-section/main-section';
-import { SkillSection } from './components/skill-section/skill-section';
-import { TechStackSection } from './components/tech-stack-section/tech-stack-section';
+import { MainSection } from './_components/main-section/main-section';
+import { SkillSection } from './_components/skill-section/skill-section';
+import { TechStackSection } from './_components/tech-stack-section/tech-stack-section';
 
 export default async function Landing() {
   return (
