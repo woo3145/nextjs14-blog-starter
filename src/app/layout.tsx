@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import { FloatingNav } from '@/components/ui/floating-navbar';
 import { cn } from '@/lib/utils';
+import { IconPlanet } from '@tabler/icons-react';
 
 const inter = Noto_Sans_KR({
   weight: ['400', '600', '800'],
@@ -77,9 +78,9 @@ const navItems = [
     icon: <NotebookPenIcon className="h-4 w-4 text-foreground/60" />,
   },
   {
-    name: 'Posts',
-    link: '/blog/posts',
-    icon: <LibraryIcon className="h-4 w-4 text-foreground/60" />,
+    name: 'Portfolio',
+    link: '/portfolio',
+    icon: <IconPlanet className="h-4 w-4 text-foreground/60" />,
   },
   {
     name: 'Docs',

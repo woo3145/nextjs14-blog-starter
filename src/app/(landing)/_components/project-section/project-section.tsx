@@ -6,7 +6,7 @@ import { ProjectText } from './project-text';
 import { ProjectCard } from './project-card';
 import { IconBrandGithub } from '@tabler/icons-react';
 import Link from 'next/link';
-import { Button, buttonVariants } from '@/components/ui/button';
+import { buttonVariants } from '@/components/ui/button';
 import { IconHome } from '@tabler/icons-react';
 
 interface ProjectSectionProps {
@@ -75,8 +75,14 @@ const items = [
           </Link>
         </div>
 
-        <Link href="/" className={cn(buttonVariants(), 'h-8')}>
-          Detail
+        <Link
+          href="/portfolio/woo3145"
+          className={cn(
+            buttonVariants(),
+            'h-8 bg-black hover:bg-black/80 dark:bg-white dark:hover:bg-gray-200 dark:text-black'
+          )}
+        >
+          자세히 보기
         </Link>
       </div>
     ),

@@ -5,7 +5,7 @@ import { TechStackSection } from './_components/tech-stack-section/tech-stack-se
 
 export default async function Landing() {
   return (
-    <div className="flex flex-col gap-10 px-4">
+    <div className="flex flex-col gap-10">
       <MainSection />
       <SkillSection />
       <TechStackSection className="py-20" />
