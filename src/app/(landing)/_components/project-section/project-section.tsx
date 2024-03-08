@@ -38,11 +38,10 @@ export const ProjectSection = ({ className }: ProjectSectionProps) => {
 
 const items = [
   {
-    imgSrc:
-      'https://images.unsplash.com/photo-1709491135369-4b65470fc8ae?q=80&w=2664&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    imgSrc: '/projects/woo3145.png',
     title: 'Woo3145.com',
     description:
-      'NextJS를 사용한 웹사이트 NextJS를 사용한 웹사이트 NextJS를 사용한 웹사이트 NextJS를 사용한 웹사이트 NextJS를 사용한 웹사이트',
+      'NextJS를 사용하여 블로그, 포트폴리오, 문서 등을 정리한 사이트입니다. mdx를 통해 정적 컨텐츠를 제공하고 그리드한 느낌과 framer-motion을 활용했습니다.',
     stacks: (
       <div className="flex items-center gap-1">
         <p className="border border-blue-500 bg-blue-100 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 text-xs rounded-full px-2 py-0.5">
@@ -52,7 +51,7 @@ const items = [
           NextJS
         </p>
         <p className="border border-green-500 bg-green-100 dark:bg-green-900/20 text-green-600 dark:text-green-400 text-xs rounded-full px-2 py-0.5">
-          Supabase
+          MDX-Remote
         </p>
       </div>
     ),

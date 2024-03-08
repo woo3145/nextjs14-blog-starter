@@ -10,7 +10,10 @@ import { GridBackgroundPreview } from '../preview/grid-background-preview';
 import { DotBackgroundPreview } from '../preview/dot-background-preview';
 import { ZandiPreview } from '../preview/zandi-preview';
 import { SnakeBeamPreview } from '../preview/snake-beam-preview';
+import { MiniBrowserPreview } from '../preview/mini-browser-preview';
 import { ImageCaption } from '../ui/image-caption';
+import { Pre } from './mdx-pre';
+import { CodeBlock } from './mdx-code';
 
 // 마크다운 파일에 사용할 커스텀 구성요소
 export const mdxComponents: MDXComponents = {
@@ -133,32 +136,8 @@ export const mdxComponents: MDXComponents = {
   img: MDXImage as any,
   Image,
   ImageCaption,
-  pre: ({
-    className,
-    children,
-    ...props
-  }: React.HTMLAttributes<HTMLPreElement>) => {
-    return (
-      <pre
-        className={cn(
-          'mb-4 mt-6 max-h-[650px] overflow-x-auto rounded-lg border bg-zinc-950 py-4 dark:bg-zinc-900 text-white',
-          className
-        )}
-        {...props}
-      >
-        {children}
-      </pre>
-    );
-  },
-  code: ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => (
-    <code
-      className={cn(
-        'relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono',
-        className
-      )}
-      {...props}
-    />
-  ),
+  pre: Pre,
+  code: CodeBlock,
   Tabs: ({ className, ...props }: React.ComponentProps<typeof Tabs>) => (
     <Tabs className={cn('relative mt-6 w-full', className)} {...props} />
   ),
@@ -221,4 +200,5 @@ export const mdxComponents: MDXComponents = {
   SnakeBeamPreview,
   ZandiPreview,
   HoverEffect,
+  MiniBrowserPreview,
 };

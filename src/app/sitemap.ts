@@ -6,10 +6,10 @@ export default async function sitemap() {
   const posts = await getPosts();
   const docs = await getDocs();
   const postPages = posts.map((post) => ({
-    url: `${siteMetadata.siteUrl}/blog/posts/${post.slug}`,
+    url: `${siteMetadata.siteUrl}/blog/posts/${post.frontmatter.slug}`,
   }));
   const docPages = docs.map((doc) => ({
-    url: `${siteMetadata.siteUrl}/docs/${doc.slug}`,
+    url: `${siteMetadata.siteUrl}/docs/${doc.frontmatter.slug}`,
   }));
 
   const routes = ['', '/blog', '/blog/posts', '/docs'].map((route) => ({

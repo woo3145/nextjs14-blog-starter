@@ -3,11 +3,11 @@ import { headers } from 'next/headers';
 
 import { getPost } from '@/lib/get-posts';
 import { getHeadings } from '@/lib/get-heading';
-import { TableOfContents } from '../components/table-of-contents';
 import { cn } from '@/lib/utils';
 import { Separator } from '@/components/ui/separator';
 import { TracingBeam } from '@/components/ui/tracking-beam';
-import { CommentList } from './components/comment-list';
+import { TableOfContents } from '../posts/components/table-of-contents';
+import { CommentList } from '../posts/[slug]/components/comment-list';
 import { MdxContent } from '@/components/mdx/mdx-content';
 
 export default async function PostPage({
@@ -31,7 +31,9 @@ export default async function PostPage({
   }
 
   if (!post) return notFound();
+
   const { serialized, frontmatter } = post;
+
   return (
     <div>
       <TracingBeam className="">

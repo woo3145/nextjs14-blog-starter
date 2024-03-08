@@ -98,7 +98,7 @@ export const docsConfig: DocsConfig = {
       ],
     },
     {
-      title: '재사용 컴포넌트',
+      title: '컴포넌트',
       items: [
         {
           title: 'grid-background',
@@ -113,6 +113,11 @@ export const docsConfig: DocsConfig = {
         {
           title: 'zandi',
           href: '/docs/components/zandi',
+          items: [],
+        },
+        {
+          title: 'mini-browser',
+          href: '/docs/components/mini-browser',
           items: [],
         },
       ],

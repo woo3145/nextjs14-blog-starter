@@ -8,7 +8,7 @@ export const PostList = ({ posts }: Props) => {
   return (
     <ul className="space-y-4">
       {posts.map((post) => {
-        return <PostCard key={post.title} post={post} />;
+        return <PostCard key={post.frontmatter.slug} post={post} />;
       })}
     </ul>
   );

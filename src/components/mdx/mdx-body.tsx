@@ -1,9 +1,9 @@
-import remarkGfm from 'remark-gfm';
+import { MDXRemote } from 'next-mdx-remote/rsc';
 import rehypeSlug from 'rehype-slug';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
-import { mdxComponents } from './markdown-components';
-import { MDXRemote } from 'next-mdx-remote/rsc';
+import remarkGfm from 'remark-gfm';
 import rehypePrismPlus from 'rehype-prism-plus';
+import { mdxComponents } from './markdown-components';
 
 export function MdxBody({ children }: { children: string }) {
   return (
@@ -23,7 +23,7 @@ export function MdxBody({ children }: { children: string }) {
           ],
         },
       }}
-      components={mdxComponents}
+      components={{ ...mdxComponents }}
     />
   );
 }

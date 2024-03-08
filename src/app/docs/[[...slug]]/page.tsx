@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { TracingBeam } from '@/components/ui/tracking-beam';
 import '@/app/styles/mdx.css';
+import { MdxContent } from '@/components/mdx/mdx-content';
 
 interface DocPageProps {
   params: {
@@ -27,7 +28,7 @@ export async function generateStaticParams(): Promise<
 > {
   const docs = await getDocs();
   return docs.map((doc) => ({
-    slug: doc.slug.split('/'),
+    slug: doc.frontmatter.slug.split('/'),
   }));
 }
 
@@ -35,6 +36,7 @@ export default async function DocPage({ params }: DocPageProps) {
   const doc = await getDocFromParams({ params });
   if (!doc) return notFound();
 
+  const { serialized, frontmatter } = doc;
   return (
     <div className="w-full flex flex-col md:px-6">
       <Bread items={['Docs', 'Introduce']} />
@@ -43,13 +45,15 @@ export default async function DocPage({ params }: DocPageProps) {
         <div className="w-full">
           <div className="space-y-2">
             <h1 className={cn('scroll-m-20 text-4xl font-bold tracking-tight')}>
-              {doc.title}
+              {frontmatter.title}
             </h1>
-            {doc.description && (
-              <p className="text-lg text-muted-foreground">{doc.description}</p>
+            {frontmatter.description && (
+              <p className="text-lg text-muted-foreground">
+                {frontmatter.description}
+              </p>
             )}
           </div>
-          <MdxBody>{doc.body}</MdxBody>
+          <MdxContent source={serialized} />
         </div>
       </TracingBeam>
     </div>

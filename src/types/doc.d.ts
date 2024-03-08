@@ -1,7 +1,11 @@
 export type Doc = {
+  serialized: MDXRemoteSerializeResult;
+  frontmatter: DocFrontmatter;
+};
+
+export type DocFrontmatter = {
   title: string;
   description: string;
-  published: boolean;
   slug: string;
-  body: string;
+  published?: boolean;
 };

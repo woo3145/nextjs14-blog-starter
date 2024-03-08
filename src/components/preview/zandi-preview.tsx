@@ -1,3 +1,4 @@
+'use client';
 import { HeatMapData, Palette, Zandi } from '../ui/zandi';
 import { ComponentPreviewContainer } from './component-preview-container';
 
