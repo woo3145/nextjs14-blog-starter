@@ -11,7 +11,7 @@ export const PostCard = ({ post }: Props) => {
   const frontmatter = post.frontmatter;
   return (
     <li className="py-4 px-4 group transition-transform hover:-translate-x-2 duration-200 hover:bg-accent rounded-lg">
-      <Link href={`/blog/posts/${frontmatter.slug}`} className="space-y-2">
+      <Link href={`/blog/${frontmatter.slug}`} className="space-y-2">
         <h3 className="text-xl md:text-3xl font-semibold">
           {frontmatter.title}
         </h3>
@@ -27,7 +27,7 @@ export const PostCard = ({ post }: Props) => {
         {frontmatter.tags.map((tag) => (
           <li key={tag}>
             <Link
-              href={`/blog/posts?tag=${tag}`}
+              href={`/blog?tag=${tag}`}
               className={cn(
                 badgeVariants({ variant: 'outline' }),
                 'hover:bg-primary hover:text-primary-foreground'

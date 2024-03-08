@@ -81,7 +81,7 @@ export const ResponsiveDesignCard = () => {
                 )}
               >
                 <Image
-                  src="/문어_1.png"
+                  src="/octopus_1.png"
                   alt="octopus"
                   width={60}
                   height={60}

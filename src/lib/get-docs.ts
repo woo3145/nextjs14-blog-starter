@@ -1,4 +1,3 @@
-import matter from 'gray-matter';
 import path from 'path';
 import fs from 'fs/promises';
 import { cache } from 'react';

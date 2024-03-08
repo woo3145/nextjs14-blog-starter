@@ -41,7 +41,7 @@ const main = () => {
   });
 
   posts.forEach(async (post) => {
-    const url = `${siteMetadata.siteUrl}/blog/posts/${post.slug}`;
+    const url = `${siteMetadata.siteUrl}/blog/${post.slug}`;
 
     feed.item({
       title: post.title,

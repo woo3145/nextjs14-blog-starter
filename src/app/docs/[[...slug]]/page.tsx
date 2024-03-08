@@ -1,10 +1,8 @@
 import { Bread } from '../_components/bread';
 import { getDoc, getDocs } from '@/lib/get-docs';
-import { MdxBody } from '@/components/mdx/mdx-body';
 import { notFound } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { TracingBeam } from '@/components/ui/tracking-beam';
-import '@/app/styles/mdx.css';
 import { MdxContent } from '@/components/mdx/mdx-content';
 
 interface DocPageProps {

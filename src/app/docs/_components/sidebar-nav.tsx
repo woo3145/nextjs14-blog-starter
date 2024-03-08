@@ -10,7 +10,7 @@ export interface DocsSidebarNavProps {
   items: SidebarNavItem[];
 }
 
-export function DocsSidebarNav({ items }: DocsSidebarNavProps) {
+export const DocsSidebarNav = ({ items }: DocsSidebarNavProps) => {
   const pathname = usePathname();
   return items.length ? (
     <div className="w-full">
@@ -26,17 +26,17 @@ export function DocsSidebarNav({ items }: DocsSidebarNavProps) {
       ))}
     </div>
   ) : null;
-}
+};
 
 interface DocsSidebarNavItemsProps {
   items: SidebarNavItem[];
   pathname: string | null;
 }
 
-export function DocsSidebarNavItems({
+export const DocsSidebarNavItems = ({
   items,
   pathname,
-}: DocsSidebarNavItemsProps) {
+}: DocsSidebarNavItemsProps) => {
   return items?.length ? (
     <div className="grid grid-flow-row auto-rows-max pl-2">
       {items.map((item, index) =>
@@ -80,4 +80,4 @@ export function DocsSidebarNavItems({
       )}
     </div>
   ) : null;
-}
+};

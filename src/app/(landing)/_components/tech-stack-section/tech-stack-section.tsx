@@ -131,7 +131,7 @@ const otherStacks: TechStack[] = [
     title: 'vercel',
   },
   {
-    imageSrc: '/문어_2.png',
+    imageSrc: '/octopus_2.png',
     width: 100,
     height: 100,
     title: '하찮은 그림실력',

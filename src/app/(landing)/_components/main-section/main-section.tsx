@@ -34,7 +34,7 @@ export const MainSection = () => {
             <FlipImage
               frontImage={
                 <Image
-                  src="/문어_1.png"
+                  src="/octopus_1.png"
                   alt="front"
                   width={300}
                   height={300}
@@ -44,7 +44,7 @@ export const MainSection = () => {
               }
               backImage={
                 <Image
-                  src="/문어_2.png"
+                  src="/octopus_2.png"
                   alt="back"
                   width={300}
                   height={300}

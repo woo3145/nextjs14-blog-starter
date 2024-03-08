@@ -1,22 +1,31 @@
 import { notFound } from 'next/navigation';
 import { headers } from 'next/headers';
 
-import { getPost } from '@/lib/get-posts';
+import { getPost, getPosts } from '@/lib/get-posts';
 import { getHeadings } from '@/lib/get-heading';
 import { cn } from '@/lib/utils';
 import { Separator } from '@/components/ui/separator';
 import { TracingBeam } from '@/components/ui/tracking-beam';
-import { TableOfContents } from '../posts/components/table-of-contents';
-import { CommentList } from '../posts/[slug]/components/comment-list';
+import { CommentList } from './_components/comment-list';
 import { MdxContent } from '@/components/mdx/mdx-content';
+import { TableOfContents } from './_components/table-of-contents';
 
-export default async function PostPage({
-  params,
-}: {
+interface PostPageProps {
   params: {
     slug: string;
   };
-}) {
+}
+
+export async function generateStaticParams(): Promise<
+  PostPageProps['params'][]
+> {
+  const docs = await getPosts();
+  return docs.map((doc) => ({
+    slug: doc.frontmatter.slug,
+  }));
+}
+
+export default async function PostPage({ params }: PostPageProps) {
   const post = await getPost(params.slug);
   const headings = (await getHeadings(params.slug)) || [];
 
@@ -31,9 +40,7 @@ export default async function PostPage({
   }
 
   if (!post) return notFound();
-
   const { serialized, frontmatter } = post;
-
   return (
     <div>
       <TracingBeam className="">

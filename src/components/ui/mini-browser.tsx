@@ -67,7 +67,7 @@ export const MiniBrowser = () => {
                 className="flex items-center justify-center border rounded-full"
               >
                 <Image
-                  src="/문어_1.png"
+                  src="/octopus_1.png"
                   alt="octopus"
                   width={80}
                   height={80}

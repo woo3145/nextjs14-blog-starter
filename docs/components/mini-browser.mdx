@@ -1,7 +1,67 @@
+---
+title: Mini Browser
+description:
+slug: 'components/mini-browser'
+---
+
+<Tabs defaultValue="preview">
+  <TabsList >
+    <TabsTrigger value="preview">
+      Preview
+    </TabsTrigger>
+    <TabsTrigger value="code">
+      Code
+    </TabsTrigger>
+  </TabsList>
+
+### Mini Browser
+
+<TabsContent value="preview">
+  <MiniBrowserPreview />
+</TabsContent>
+
+  <TabsContent value="code">
+
+```tsx {11}
+import { MiniBrowser } from '../ui/mini-browser';
+import { ComponentPreviewContainer } from './component-preview-container';
+
+export const MiniBrowserPreview = () => {
+  return (
+    <ComponentPreviewContainer>
+      <div className="h-[20rem] w-full bg-white dark:bg-black dark:bg-grid-white/[0.1] bg-grid-black/[0.1] relative flex flex-col items-center justify-center">
+        <p className="text-4xl sm:text-7xl font-bold relative z-20 bg-clip-text text-transparent bg-gradient-to-b from-purple-200 to-purple-500 pt-8">
+          Mini Browser
+        </p>
+        <MiniBrowser />
+      </div>
+    </ComponentPreviewContainer>
+  );
+};
+```
+
+</TabsContent>
+</Tabs>
+
+## Required
+
+<Steps>
+
+<Step>
+Tailwind 설치 (Optional)
+
+[tailwindCSS](https://tailwindcss.com/docs/installation)
+
+</Step>
+<Step>
+
+components/ui/mini-browser.tsx
+
+```tsx
 import { Variants, motion } from 'framer-motion';
 import Image from 'next/image';
 
-export const DynamicBrowserCard = () => {
+export const MiniBrowser = () => {
   const profileVariants: Variants = {
     initial: {
       width: 20,
@@ -51,7 +111,7 @@ export const DynamicBrowserCard = () => {
     <motion.div
       initial="initial"
       animate="animate"
-      className="flex flex-1 justify-center items-center w-full h-full min-h-[6rem] dark:bg-dot-white/[0.2] bg-dot-black/[0.2] space-y-2"
+      className="flex flex-1 justify-center items-center w-full h-full space-y-2"
     >
       <div className="w-48 h-36 border rounded-md bg-background overflow-hidden">
         <div className="flex items-center w-full h-4 bg-accent px-2 gap-1">
@@ -67,7 +127,7 @@ export const DynamicBrowserCard = () => {
                 className="flex items-center justify-center border rounded-full"
               >
                 <Image
-                  src="/octopus_1.png"
+                  src="/문어_1.png"
                   alt="octopus"
                   width={80}
                   height={80}
@@ -131,3 +191,11 @@ export const DynamicBrowserCard = () => {
     </motion.div>
   );
 };
+```
+
+</Step>
+</Steps>
+
+## How to customize?
+
+적당히 레이아웃을 그리고 애니메이션 추가

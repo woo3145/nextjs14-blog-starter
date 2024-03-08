@@ -1,5 +1,3 @@
-import { cn } from '@/lib/utils';
-
 export default async function PostLayout({
   children,
 }: {
@@ -10,7 +8,7 @@ export default async function PostLayout({
 }) {
   return (
     <>
-      <article className={cn()}>{children}</article>
+      <article className={'pt-8'}>{children}</article>
     </>
   );
 }
