@@ -18,8 +18,9 @@ export function MDXImage({
   const widthParam = url.searchParams.get('w') || url.searchParams.get('width');
   const heightParam =
     url.searchParams.get('h') || url.searchParams.get('height');
-  const modeParam = url.searchParams.get('mode') || 'light';
-  const notesParam = url.searchParams.get('notes');
+  const modeParam = url.searchParams.get('mode');
+  // const notesParam = url.searchParams.get('notes');
+
   if (widthParam) {
     widthFromSrc = parseInt(widthParam);
   }
@@ -34,7 +35,11 @@ export function MDXImage({
     width: widthFromSrc || 550,
     className: cn(
       'mx-auto rounded-md',
-      modeParam === 'light' ? 'dark:hidden' : 'hidden dark:block'
+      modeParam
+        ? modeParam === 'light'
+          ? 'dark:hidden'
+          : 'hidden dark:block'
+        : null
     ),
   };
 
