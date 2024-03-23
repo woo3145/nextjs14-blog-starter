@@ -2,7 +2,7 @@ import { ProjectSection } from '../(landing)/_components/project-section/project
 
 export default async function Portfolio() {
   return (
-    <div className="w-full pt-32">
+    <div className="w-full pt-32 px-4">
       {/* 임시 */}
       <ProjectSection />
     </div>

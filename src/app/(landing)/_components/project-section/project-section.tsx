@@ -18,7 +18,7 @@ export const ProjectSection = ({ className }: ProjectSectionProps) => {
     <section className={cn('min-h-screen w-full space-y-10', className)}>
       <ProjectText />
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 gap-y-8 px-4 max-w-6xl mx-auto">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 gap-y-8 max-w-6xl mx-auto">
         {items.map((item, idx) => {
           return (
             <ProjectCard
