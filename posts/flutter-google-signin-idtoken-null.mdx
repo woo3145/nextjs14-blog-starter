@@ -1,0 +1,75 @@
+---
+title: 'Flutter에서 firebase없이 google-sign-in 라이브러리 사용 시 idToken이 null로 반환되는 문제'
+description: 설명
+slug: flutter-google-signin-idtoken-null
+date: 2024-03-30
+excerpt: SHA-1 인증서 문제 X, 패키지 이름 문제 X, gradle 설정 문제 X
+tags:
+  - Flutter
+published: true
+---
+
+기존 React로 진행된 프로젝트를 `flutter`로 마이그레이션 하면서 발생한 문제입니다.
+
+React에서는 클라이언트에서 인가 코드를 발급받아 백엔드에 보내 백엔드에서 `idToken`을 발급받아 처리했습니다.
+
+하지만 `flutter`로 마이그레이션 하면서 웹에 `redirect`하지 않고 `sdk`만 사용하여 처리하기 위해 `idToken`을 받아 처리하는 백엔드 엔드포인트 하나를 생성했습니다.
+
+그런데 `ios`에서 잘 발급되던 `idToken`이 `안드로이드`에서는 `accessToken`만 발급되고 `idToken`가 `null`로 오는 문제가 발생했습니다.
+
+```dart
+final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+var authentication = await googleUser?.authentication;
+authentication?.idToken // null (with android emulator)
+```
+
+## 해결 방법
+
+일단 `accessToken`이 잘 발급된다면 `SHA-1` 인증서의 문제는 아닙니다.
+
+`firebase`를 사용하는 경우 셋업을 하면서 `플러그인`을 추가하기 때문에 `google-sign-in`에서 `idToken`을 함께 발급받아 오게됩니다.
+
+https://firebase.google.com/docs/flutter/setup?hl=ko&platform=ios
+
+하지만 `firebase`를 사용하지 않고 `idToken`을 통해 따로 인증을 구현하고 싶다면 다음 방법을 따라야 합니다.
+
+**android/app/src/main/res/values/strings.xml** 파일 생성
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="default_web_client_id">{Client ID}</string>
+</resources>
+```
+
+\{Client Id\}에 백엔드에서 사용중인 `googleClientId`를 추가하면 해결됩니다.
+
+++ `ios`는 `개발자 콘솔`에서 `ios` 유형으로 생성한 `clientID`를 그대로 사용하면 되지만 백엔드에도 해당 id를 처리할 수 있도록 `audience`에 넣어줘야 합니다.
+
+```ts
+// 백엔드 - google-auth-library 사용
+const ticket = await this.google.verifyIdToken({
+  idToken,
+  audience: [
+    // web & android
+    this.configService.getOrThrow('google.clientId', {
+      infer: true,
+    }),
+    // ios
+    this.configService.getOrThrow('google.iosClientId', {
+      infer: true,
+    }),
+  ],
+});
+const data = ticket.getPayload();
+```
+
+## 마무리
+
+해당 에러의 문제도 두 플랫폼의 차이로 인해 발생하는 문제입니다.
+
+`ios`의 경우 `apple`의 `보안 프레임워크`를 통해 `웹 클라이언트 ID` 없이도 `idToken`을 직접 발급받을 수 있습니다.
+
+하지만 `안드로이드`의 경우 자체적인 정보만으로는 부족하여 `웹 클라이언트 ID`를 추가로 사용해야 `idToken`을 발급받을 수 있습니다.
+
+`flutter`가 많은 플랫폼을 커버치는 만큼 각 플랫폼별 환경과 인증 시스템의 차이를 잘 이해하고 고려해야 하는 것 같습니다.
