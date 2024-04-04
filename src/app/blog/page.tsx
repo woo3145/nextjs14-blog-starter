@@ -1,6 +1,7 @@
 import { getPosts, getTags } from '@/lib/get-posts';
 import { HeroCard } from './_components/hero-card';
 import { PostList } from './_components/post-list';
+import TagList from './_components/tag-list';
 
 export default async function Home() {
   const posts = await getPosts();
@@ -19,10 +20,7 @@ export default async function Home() {
 
         <div className="hidden 2xl:block w-1/3 right-0 shrink-0 pl-4">
           <div className="sticky top-40">
-            <p className="text-xl font-semibold">Tags</p>
-            {tags.map((tag) => {
-              return <div key={tag}>{tag}</div>;
-            })}
+            <TagList tags={tags} />
           </div>
         </div>
       </div>

@@ -1,0 +1,23 @@
+import { cn } from '@/lib/utils';
+
+interface TagListItemProps {
+  tag: string;
+  onClick: () => void;
+  isSelected: boolean;
+}
+
+export const TagListItem = ({ tag, onClick, isSelected }: TagListItemProps) => {
+  return (
+    <div
+      className={cn(
+        'text-sm px-3 py-1 bg-muted text-muted-foreground rounded-md cursor-pointer duration-200',
+        isSelected
+          ? 'bg-primary text-primary-foreground'
+          : 'hover:bg-accent text-accent-foreground'
+      )}
+      onClick={onClick}
+    >
+      {tag}
+    </div>
+  );
+};
