@@ -14,6 +14,7 @@ import {
 import { Comment } from '@/lib/init-supabase';
 import { deleteCommentServerAction } from '../server-actions/delete-comment';
 import { Input } from '@/components/ui/input';
+import { toast } from 'sonner';
 
 interface CommentDeleteDialogProps {
   children: React.ReactNode;
@@ -32,10 +33,10 @@ export const CommentDeleteDialog = ({
       comment.post_slug
     );
 
-    if (result) {
-      console.log('댓글 삭제 성공');
+    if (result.success) {
+      toast.success(result.message, { duration: 1500 });
     } else {
-      console.log('댓글 삭제 실패');
+      toast.error(result.message, { duration: 1500 });
     }
   };
 

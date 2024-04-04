@@ -3,7 +3,7 @@
 import { supabase } from '@/lib/init-supabase';
 import { revalidatePath } from 'next/cache';
 
-interface addCommentServerActionProps {
+interface AddCommentServerActionProps {
   username: string;
   password: string;
   content: string;
@@ -17,7 +17,7 @@ export const addCommentServerAction = async ({
   content,
   slug,
   userIp,
-}: addCommentServerActionProps) => {
+}: AddCommentServerActionProps) => {
   try {
     const { data: comment, error } = await supabase
       .from('comment')
@@ -27,16 +27,32 @@ export const addCommentServerAction = async ({
       .select()
       .single();
 
-    console.log(error);
+    if (error) {
+      console.error('SupabaseError:', error.message);
+      return {
+        success: false,
+        message: `댓글 작성 실패: ${error.message}`,
+      };
+    }
 
-    //댓글이 성공적으로 생성되면 true 반환
     if (comment) {
       revalidatePath(`/blog/${slug}`);
-      return true;
+      return {
+        success: true,
+        message: '댓글을 성공적으로 작성했습니다.',
+      };
+    } else {
+      return {
+        success: false,
+        message: '댓글 작성 실패: 알 수 없는 에러',
+      };
     }
   } catch (e) {
-    console.log(e);
+    // 예상치 못한 예외
+    console.error('ServerActionError:', e);
+    return {
+      success: false,
+      message: '댓글 작성 중 알수없는 에러가 발생했습니다.',
+    };
   }
-
-  return false;
 };

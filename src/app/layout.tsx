@@ -15,6 +15,7 @@ import { FloatingNav } from '@/components/ui/floating-navbar';
 import { cn } from '@/lib/utils';
 import { IconPlanet } from '@tabler/icons-react';
 import { GoogleAdsense } from '@/components/google-adsense';
+import { Toaster } from '@/components/ui/sonner';
 
 const inter = Noto_Sans_KR({
   weight: ['400', '600', '800'],
@@ -110,6 +111,8 @@ export default function RootLayout({
             {children}
           </div>
           <DarkModeToggle />
+
+          <Toaster />
         </ThemeProvider>
       </body>
       <GoogleAdsense pId={process.env.NEXT_PUBLIC_GOOGLE_ADSENSE_PID || ''} />

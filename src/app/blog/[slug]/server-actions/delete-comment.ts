@@ -9,38 +9,53 @@ export const deleteCommentServerAction = async (
   slug: string
 ) => {
   try {
-    // 해당 ID의 댓글을 조회
+    // 해당 ID의 댓글을 조회합니다.
     const { data: comment, error: fetchError } = await supabase
       .from('comment')
       .select('password')
       .eq('id', id)
       .single();
 
-    // 조회 중 에러가 발생하거나, 댓글이 없는 경우
+    // 조회 중 에러 발생 또는 댓글이 없는 경우
     if (fetchError || !comment) {
-      console.log(fetchError || '댓글을 찾을 수 없습니다.');
-      return false;
+      console.error('SupabaseError:', fetchError);
+      return {
+        success: false,
+        message: fetchError?.message || '댓글을 찾을 수 없습니다.',
+      };
     }
 
     // 비밀번호가 일치하지 않는 경우
     if (comment.password !== password) {
-      console.log('비밀번호가 일치하지 않습니다.');
-      return false;
+      return {
+        success: false,
+        message: '비밀번호가 일치하지 않습니다.',
+      };
     }
 
     const { error: deleteError } = await supabase
       .from('comment')
       .delete()
       .match({ id });
-    if (!deleteError) {
-      revalidatePath(`/blog/${slug}`);
-      return true;
+
+    if (deleteError) {
+      return {
+        success: false,
+        message: deleteError.message || '댓글 삭제 중 오류가 발생했습니다.',
+      };
     } else {
-      console.log(deleteError);
+      revalidatePath(`/blog/${slug}`);
+      return {
+        success: true,
+        message: '댓글이 성공적으로 삭제되었습니다.',
+      };
     }
   } catch (e) {
-    console.log(e);
+    // 예상치 못한 예외
+    console.error('ServerActionError:', e);
+    return {
+      success: false,
+      message: '댓글 삭제 중 알수없는 에러가 발생했습니다.',
+    };
   }
-
-  return false;
 };
