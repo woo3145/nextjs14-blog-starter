@@ -42,7 +42,7 @@ export default async function PostPage({ params }: PostPageProps) {
   if (!post) return notFound();
   const { serialized, frontmatter } = post;
   return (
-    <div>
+    <div className="pb-20">
       <TracingBeam className="">
         <div className="w-full flex flex-col px-6">
           <header className={cn('flex flex-col gap-4 py-4')}>
