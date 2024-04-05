@@ -9,7 +9,7 @@ export default async function Landing() {
       <MainSection />
       <SkillSection />
       <TechStackSection className="py-20" />
-      <ProjectSection />
+      <ProjectSection className="pb-40" />
     </div>
   );
 }
