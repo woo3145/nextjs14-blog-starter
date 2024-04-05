@@ -2,6 +2,7 @@ import { getPosts, getTags } from '@/lib/get-posts';
 import { HeroCard } from './_components/hero-card';
 import { PostList } from './_components/post-list';
 import TagList from './_components/tag-list';
+import { Suspense } from 'react';
 
 export default async function Home() {
   const posts = await getPosts();
@@ -14,13 +15,17 @@ export default async function Home() {
           <HeroCard />
 
           <div className="py-12">
-            <PostList posts={posts} />
+            <Suspense>
+              <PostList posts={posts} />
+            </Suspense>
           </div>
         </div>
 
         <div className="hidden 2xl:block w-1/3 right-0 shrink-0 pl-4">
           <div className="sticky top-40">
-            <TagList tags={tags} />
+            <Suspense>
+              <TagList tags={tags} />
+            </Suspense>
           </div>
         </div>
       </div>
