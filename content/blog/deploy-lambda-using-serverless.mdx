@@ -1,9 +1,10 @@
 ---
 title: 'serverless + typescript를 사용하여 AWS Lambda 배포하기'
-description: 설명
-slug: deploy-lambda-using-serverless
-date: 2023-08-30
-excerpt: serverless의 typescript 템플릿 구조 파악 및 배포하기
+description: serverless의 typescript 템플릿 구조 파악 및 배포하기
+date: '2023-08-30'
+image: 'https://d2quahb2ygxiv.cloudfront.net/3dfa25837c52b83116c60.png?width=280&height=400'
+authors:
+  - woo3145
 tags:
   - Typescript
   - AWS
@@ -42,7 +43,7 @@ Lambda 함수는 이벤트에 응답하여 실행되며, 이벤트는 HTTP요청
 
 ### 1. serverless framework 설치
 
-```cs
+```bash
 npm install -g serverless
 ```
 
@@ -62,7 +63,7 @@ npm install -g serverless
 
 4. 다양한 템플릿이 나오는데 원하는 aws-nodejs-typescript 을 설치
 
-```cs
+```bash
 serverless create --template aws-nodejs-typescript
 ```
 
@@ -293,13 +294,13 @@ export const main = middyfy(hello);
 
 ### 4. 액세스키로 serverless 인증 설정하기
 
-```cs
+```bash
 $ serverless config credentials --provider aws --key {액세스 키 ID} --secret {비밀 액세스 키}
 ```
 
 ### 5. 배포하기
 
-```cs
+```bash
 $ serverless deploy
 ```
 
@@ -334,4 +335,4 @@ const result = await fetch('생성된URL/hello', {
 
 다음글에선 AWS Lambda + AWS MediaConvert를 사용하여 S3에 동영상을 업로드하면 3가지 해상도로 인코딩하고 썸네일을 생성하여 저장하는 작업을 다룬다.
 
-[AWS Lambda + MediaConvert로 동영상 인코딩 및 썸네일 추출하기](encoding-with-lambda)
+[AWS Lambda + MediaConvert로 동영상 인코딩 및 썸네일 추출하기](https://woo3145.com/blog/encoding-with-lambda)

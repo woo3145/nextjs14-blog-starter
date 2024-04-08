@@ -1,9 +1,10 @@
 ---
 title: 'AWS Lambda + MediaConvert로 동영상 인코딩 및 썸네일 추출하기'
-description: 설명
-slug: encoding-with-lambda
-date: 2023-08-31
-excerpt: 동영상 인코딩 및 썸네일 추출 파이프라인 구축하기
+description: 동영상 인코딩 및 썸네일 추출 파이프라인 구축하기
+date: '2023-08-31'
+image: 'https://d2quahb2ygxiv.cloudfront.net/3dfa25837c52b83116c60.png?width=280&height=400'
+authors:
+  - woo3145
 tags:
   - Typescript
   - AWS
@@ -16,7 +17,7 @@ published: true
 이글에선 Serverless Framework의 Typescript 템플릿을 사용하여 S3의 videos/ 폴더의 업로드를 감지하고
 썸네일 추출과 3가지 해상도로 인코딩하여 S3에 저장하는 파이프라인을 구축하는 과정을 다룬다.
 
-[이전글 참고 - serverless + typescript를 사용하여 AWS Lambda 배포하기](deploy-lambda-using-serverless)
+[이전글 참고 - serverless + typescript를 사용하여 AWS Lambda 배포하기](https://woo3145.com/blog/deploy-lambda-using-serverless)
 
 ## 📚 앞서서
 
@@ -262,7 +263,7 @@ import encodingAndThumbail from '@functions/encodingAndThumbail';
 아래 명령어로 배포
 (아직 IAM Role이 생성되지 않았다면 환경변수를 지우고 serverless deploy로 배포하면 IAM 생성됨)
 
-```cs
+```bash
 $ serverless deploy --param="ENDPOINT_MEDIA_CONVERT=환경변수" --param="MEDIA_CONVERT_IAM_ROLE=환경변수"
 ```
 
@@ -277,7 +278,7 @@ IAM -> 역할 -> "(lambda 이름)-(단계)-(리전)-lambdaRole 선택" -> 권한
 
 ### 1. S3의 Bucket 권한 추가
 
-[참고]("https://repost.aws/ko/knowledge-center/s3-console-access-certain-bucket")
+[참고](https://repost.aws/ko/knowledge-center/s3-console-access-certain-bucket)
 
 ```json
 {
