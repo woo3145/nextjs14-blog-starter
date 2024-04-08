@@ -1,6 +1,6 @@
 'use client';
 
-import { Post } from '@/types/post';
+import { Post } from '#site/content';
 import { PostCard } from './post-card';
 import { useSearchParams } from 'next/navigation';
 
@@ -13,13 +13,13 @@ export const PostList = ({ posts }: Props) => {
 
   const filteredPosts = posts.filter((post) => {
     if (!tag) return true;
-    return post.frontmatter.tags.includes(tag);
+    return post.tags.includes(tag);
   });
 
   return (
     <ul className="space-y-4">
       {filteredPosts.map((post) => {
-        return <PostCard key={post.frontmatter.slug} post={post} />;
+        return <PostCard key={post.slug} post={post} />;
       })}
     </ul>
   );

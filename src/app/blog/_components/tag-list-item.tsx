@@ -2,11 +2,17 @@ import { cn } from '@/lib/utils';
 
 interface TagListItemProps {
   tag: string;
+  count: number;
   onClick: () => void;
   isSelected: boolean;
 }
 
-export const TagListItem = ({ tag, onClick, isSelected }: TagListItemProps) => {
+export const TagListItem = ({
+  tag,
+  onClick,
+  count,
+  isSelected,
+}: TagListItemProps) => {
   return (
     <div
       className={cn(
@@ -17,7 +23,7 @@ export const TagListItem = ({ tag, onClick, isSelected }: TagListItemProps) => {
       )}
       onClick={onClick}
     >
-      {tag}
+      {tag} ({count})
     </div>
   );
 };

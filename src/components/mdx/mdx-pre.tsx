@@ -25,7 +25,7 @@ export const Pre = (
   const classNames = (
     props?.children as ReactElement
   )?.props?.className?.replace('language-', '');
-  const language = classNames.split(' ')[0];
+  const language = classNames?.split(' ')[0];
   if (!language) return <pre {...props} />;
 
   return (

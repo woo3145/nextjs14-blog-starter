@@ -1,6 +1,7 @@
 import { MDXComponents } from 'mdx/types';
 import { MDXImage } from './mdx-image';
 import Image from 'next/image';
+import * as runtime from 'react/jsx-runtime';
 
 import { cn } from '@/lib/utils';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -15,8 +16,12 @@ import { ImageCaption } from '../ui/image-caption';
 import { Pre } from './mdx-pre';
 import { CodeBlock } from './mdx-code';
 
-// 마크다운 파일에 사용할 커스텀 구성요소
-export const mdxComponents: MDXComponents = {
+const useMDXComponent = (code: string) => {
+  const fn = new Function(code);
+  return fn({ ...runtime }).default;
+};
+
+export const components: MDXComponents = {
   h1: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h1
       className={cn(
@@ -202,3 +207,27 @@ export const mdxComponents: MDXComponents = {
   HoverEffect,
   MiniBrowserPreview,
 };
+
+interface MdxProps {
+  code: string;
+  components?: Record<string, React.ComponentType>;
+}
+
+export function DocsMDXContent({ code, components }: MdxProps) {
+  const Component = useMDXComponent(code);
+  return <Component components={{ Image, ...components }} />;
+}
+
+interface MdxProps {
+  code: string;
+}
+
+export function DocsMdx({ code }: MdxProps) {
+  const Component = useMDXComponent(code);
+
+  return (
+    <div className="mdx">
+      <Component components={components} />
+    </div>
+  );
+}
