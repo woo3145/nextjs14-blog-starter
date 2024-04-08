@@ -85,5 +85,15 @@ export const CDN_IMAGES = {
       '10': 'https://d2quahb2ygxiv.cloudfront.net/fa2d88532d3b727ceac65.png',
       '11': 'https://d2quahb2ygxiv.cloudfront.net/a2d88532d3b727ceac656.png',
     },
+    shadcn: {
+      '1': 'https://d2quahb2ygxiv.cloudfront.net/2d88532d3b727ceac656b.png',
+      '2': 'https://d2quahb2ygxiv.cloudfront.net/d88532d3b727ceac656b0.png',
+      '3': 'https://d2quahb2ygxiv.cloudfront.net/88532d3b727ceac656b0f.png',
+      '4': 'https://d2quahb2ygxiv.cloudfront.net/8532d3b727ceac656b0fc.png',
+      '5': 'https://d2quahb2ygxiv.cloudfront.net/32d3b727ceac656b0fc68.png',
+      '6': 'https://d2quahb2ygxiv.cloudfront.net/2d3b727ceac656b0fc684.png',
+      '7': 'https://d2quahb2ygxiv.cloudfront.net/3b727ceac656b0fc68468.png',
+      '8': 'https://d2quahb2ygxiv.cloudfront.net/b727ceac656b0fc684680.png',
+    },
   },
 };
