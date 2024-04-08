@@ -253,7 +253,7 @@ const items = [
     imgSrc: CDN_IMAGES.project.video_streaming,
     title: 'Woo3145 Videos',
     description:
-      'React와 Firebase를 사용하여 만든 비디오 스트리밍 앱입니다. serverless 라이브러리를 통해 썸네일 추출 및 여러 해상도로 변환하는 lambda 함수를 배포하고 React에서 고정 비트레이트 or 적응형(hsl) 비트레이트를 통해 비디오를 스트리밍합니다. 비디오만 달랑 있기 심심해서 구름도 추가했습니다.',
+      'React와 Firebase를 사용하여 만든 비디오 스트리밍 앱입니다. serverless 라이브러리를 통해 썸네일 추출 및 여러 해상도로 변환하는 lambda 함수를 배포하고 React에서 고정 비트레이트 or 적응형(hls) 비트레이트를 통해 비디오를 스트리밍합니다. 비디오만 달랑 있기 심심해서 구름도 추가했습니다.',
     stacks: (
       <div className="flex items-center gap-1 flex-wrap">
         <p className="border border-gray-500 bg-gray-100 dark:bg-gray-900/20 text-gray-600 dark:text-gray-400 text-xs rounded-full px-2 py-0.5">
