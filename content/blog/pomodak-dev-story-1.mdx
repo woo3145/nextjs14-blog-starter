@@ -1,0 +1,203 @@
+---
+title: '뽀모닭 개발기 1편 - 프로젝트 소개와 프론트 이야기(1)'
+description: AI 디자이너와 협업하는 프론트 이야기와 Nest와 Spring의 협업의 시작
+date: '2024-03-17'
+image: 'https://d2quahb2ygxiv.cloudfront.net/3dfa25837c52b83116c60.png?width=280&height=400'
+authors:
+  - shadcn
+tags:
+  - 🐥Pomodak
+  - Project
+  - Frontend
+published: true
+---
+
+![alt text](https://d2quahb2ygxiv.cloudfront.net/3dfa25837c52b83116c60.png?width=280&height=400)
+
+<ImageCaption text="이미지 변경 예정 (임시 아이콘 사용중)" />
+
+최근 [뽀모닭](https://pomodak.com) 프로젝트를 진행중입니다.
+
+특이하게 `Node` 백엔드 1명 + `Spring` 백엔드 2명으로 시작한 프로젝트로 많은 시행착오와 어려움이 있었지만 잘 극복하고 마무리 되어가고 있기에 슬슬 개발기를 작성해 보려고 합니다.
+
+## 백엔드만 3명 모였다!
+
+저는 딱히 분야를 가리지 않지만 최근에 Nest에 꽂혀서 백엔드를 집중적으로 공부 중이였습니다.
+
+4인으로 구성된 백엔드 스터디(`Node` 2명 + `Spring` 2명)를 진행중이였는데 `Node` 한분은 사정상 프로젝트에 참여하지 못하여 3인으로 시작하게 했습니다.
+
+시작전에 팀원분의 지인으로 프론트가 합류할 예정이였지만 결국 못오게 되어서 제가 풀스택으로 작업을 진행하게 되었습니다.
+
+`Node`와 `Java` 백엔드가 서로 협업하면 너무 재밌을것 같아서 무작정 시작하게된 `뽀모닭` 프로젝트..
+
+현재는 모든 역경을 뛰어넘고(넘어도 넘어도 또생김) 구글 개발자 등록 대기중에 약간의 여유가 생겨 개발 이야기를 해보겠습니다.
+
+## 프로젝트 아이디어와 기술 선택
+
+### 아이디어
+
+> `Node`와 `Spring`으로 협업하면 재밌겠다
+
+처음은 위 한마디부터 시작되었습니다. 프로젝트를 위한 많은 아이디어들이 있었지만 저희만의 서비스를 만들고 실제로 운영을 해보고 싶었습니다.
+
+경험상 설계대로 프로젝트를 완성해도 재미, 실용성, 비용문제 등등 현실적인 문제로 많은 프로젝트들이 방치됩니다.
+
+또한 애정을 가지고 만든 프로젝트라도 실제 자신이 사용해보면 "아.. 별로 재미는 없다" 또는 "사람들이 찾아서 사용하진 않겠구나..." 라는게 딱 느껴지기 때문에
+직접 사용해보고 개선점을 찾아내는 것이 중요합니다.
+
+그래서 "스터디 타이머에 캐릭터를 수집하는 기능을 섞어보자"라는 아이디어부터 발전시켰습니다.
+
+이미 현존하는 타이머 앱들도 존재하고 `브라우저 기반의 앱`으로써 `네이티브 앱`을 이겨내기 위한 문제 등도 발생했지만 조금더 재미있게 사용할 수 있는 앱을 구상하게 되었습니다.
+
+### 기술 스택
+
+**초기 기술 스택**
+
+프론트: `Next`(14.0.x), `tailwind`,  
+Node 백엔드: `Nest`(10.0.x)  
+Java 백엔드: `Spring boot`(3.2.x)  
+DB: `aws-rds`(mysql8.0)  
+배포: `ec2`(spring, nest), `vercel`(next)
+
+`프론트`: 초안은 스터디중 제작한 스터디 팀페이지의 하나의 탭에 제작되었습니다.  
+ 이때만 해도 새 프론트가 합류할 예정이였기에 디자인이나 사용성 등 이것저것 테스트하는 단계입니다.
+
+`백엔드`: 하나의 DB를 함께 사용하기 때문에 최대한 충돌이 안나도록 API를 설계하고 역할을 분배하는 단계입니다.
+이때 Nest와 Spring의 역할을 크게 분류했습니다.
+
+    - Nest: 타이머 & 통계 & 유저 상호작용 & 소켓통신
+    - Spring: 캐릭터, 아이템등 데이터 관리(어드민) & 상점 구매/판매 & 아이템 뽑기 등
+
+역할을 잘 분리하여 스프링 서버가 죽더라도 상점&아이템의 기능만 중지되고
+타이머 서비스는 이용할 수 있도록 조회 관련 작업도 Nest에서 처리했습니다.
+
+**현재 기술 스택**
+
+- 프론트: `React`(18.2.x), `tailwind`, `zustand`, `react-query`
+  - Infrastructure: `axios`, `firebase`
+  - CI/CD `vercel`
+- Node 백엔드: `Nest`(10.0.x)
+  - Infrastructure: `axios`, `redis`(elastiCache), `firebase-admin`, `nodemailer`
+  - CI/CD: `ec2`, `docker`, `docker-compose`, `github-actions`
+- Java 백엔드: `Spring boot`(3.2.x)
+  - Java Infrastructure: `redis`(elastiCache)
+  - CI/CD: `ec2`, `docker`, `docker-compose`, `github-actions`
+- 공용 DB: `mysql8.0`(aws-rds)(dev, prod)
+
+`프론트`: 앱처럼 보이기 위해 좀더 용이한 SPA로 전환하였고 service-worker와 vite 플러그인을 통하여 PWA앱으로 빌드하고 있습니다.
+또한 복잡한 타이머와 설정 상태관리를 위한 `zustand`, 서버의 데이터를 캐싱하고 관리 할 `react-query`를 도입했습니다.
+
+`백엔드`: 캐싱 & 메세지 큐 & socket-adapter & 가벼운 DB(가입/패스워드 찾기 인증 토큰 등)로 사용할 Redis를 도입하고 FCM을 위한 firebase-admin, 메일 발송을 위한 nodemailer, 외부 oauth 서버나 스프링 서버에 요청을 위한 axios를 도입했습니다.
+
+`배포`: 빠른 개발과 적용을 위해 docker를 도입하여 CI/CD를 구축했습니다.
+
+## 디자인 변화 과정
+
+우리팀엔 디자이너가 존재하지 않았기에 UI/UX를 사용해보고 여러가지 시도를 통하여 변화가 많았습니다.
+
+또한 캐릭터와 아이템을 DELLE3를 통하여 제작하였습니다.
+
+DELLE3를 통한 이미지 제작은 통일된 느낌을 주기 힘들고 앱에 이미지가 들어가는 순간 분위기가 많이 바뀌어 정말 많은 고민과 해결책이 필요했습니다.
+
+또한 그림을 수정하기 힘들고 이미지만으로 컨텐츠를 채우기엔 "재미"가 부족합니다.
+
+후에 AI와 각종 여러 서비스를 통하여 이미지, 애니메이션을 제작하는 과정은 나중에 자세히 다뤄보겠습니다.
+
+### 초안 (몬스터 타이머)
+
+![alt text](https://d2quahb2ygxiv.cloudfront.net/dfa25837c52b83116c601.png?width=800&height=500)
+
+<ImageCaption text="오렌지 맨" />
+
+![alt text](https://d2quahb2ygxiv.cloudfront.net/fa25837c52b83116c6013.png?width=800&height=500)
+
+<ImageCaption text="전부 따로 놀기" />
+
+첫 버전은 음식을 테마로한 메인 캐릭터 + 몬스터 + 알부화 입니다.
+
+디자인 초안이라 기존에 존재하던 팀페이지에 작업을 진행했습니다.
+
+보시다시피 전부 따로 놀고있으며, 앱이름도 몬스터 타이머를 줄인 "몬타" 였습니다.
+
+### 도트 스타일?
+
+![alt text](https://d2quahb2ygxiv.cloudfront.net/a25837c52b83116c60130.png?width=500&height=300)
+
+<ImageCaption text="플라스크 병 세상과 주머니" />
+
+두번째 컨셉은 도트 스타일의 버전으로 플라스크 병속 도트세상과 주머니입니다.
+
+도트 그래픽의 느낌을 살리는 폰트를 사용하여 느낌을 통일시키고, 도트라면 AI가 생성한 후 "약간의 수정 정도는 할 수 있지 않을까?" 생각했습니다...
+
+하지만 생성되는 도트역시 도트 크기가 제각각 다르고 깔끔하게 통일 시키고 사용하기 위해선 `Aseprite`와 같은 프로그램에 배경으로 깔아두고 똑같이 찍다가 포기했습니다...
+
+퀄리티 있는 도트 생산부터 획득한 캐릭터를 병속에 담는 아이디어에서 병을 코드로 구현해도 이미지의 각도, 위치, 조화 등등 개발의 영역을 뛰어넘는 문제들이 발견되었습니다.
+
+### 직접 그려볼까?
+
+![alt text](https://d2quahb2ygxiv.cloudfront.net/25837c52b83116c601307.png?width=800&height=500)
+
+<ImageCaption text="불멍 + 낙서 같은 테마" />
+
+세번째 컨셉은 일부러 대충 그린듯한(실제 실력이지만) 대충생긴 캐릭터에 불멍 컨셉을 가져갔습니다.
+
+전체적으로 심플하고 깔끔하게 디자인하고 여백을 느낌으로 살리는 방향으로 진행했습니다.
+
+해당 컨셉으로 가려다가 한가지 문제가 발생했습니다.
+
+타이머가 진행될때 애니메이션을 넣고 싶은데 이 그림 실력으로 애니메이션을 넣자니 굉장히 고난이도 였습니다.
+
+이대로라면 딱딱하고 재미없는 앱이 될게 뻔하디 뻔합니다.
+
+### 색을 빼볼까?
+
+![alt text](https://d2quahb2ygxiv.cloudfront.net/5837c52b83116c6013071.png?width=800&height=500)
+
+<ImageCaption text="AI가 만든 그림을 짜르고 붙이고 돌린다!!" />
+
+![alt text](https://d2quahb2ygxiv.cloudfront.net/837c52b83116c60130714.png?width=800&height=500)
+
+<ImageCaption text="AI가 만든 그림을 짜르고 붙이고 돌린다!!" />
+
+<div className="w-full flex items-center justify-center">
+  <div>
+    <img src="https://d2quahb2ygxiv.cloudfront.net/c6b6dc92b5b1ca2b81459.png" />
+  </div>
+  <div>
+    <img src="https://d2quahb2ygxiv.cloudfront.net/6b6dc92b5b1ca2b81459a.png" />
+  </div>
+</div>
+
+맥북 무료 그림판으로 제작한 애니메이션 입니다.
+
+어떤가요? 조금은 캐릭터에 생명이 있어보이지 않나요?
+
+전부 AI그림 생성 -> 배경 제거 서비스 -> 그림판에서 조금씩 수정하여 이미지 3 ~ 7개 만들기 -> animation png 메이커
+
+단계를 통해 제작되었습니다.
+
+또한 하나의 캐릭터를 잘 자르고 수정하여 공부, 쉬기, 공부끝, 휴식끝, 뽀모도로끝 등의 이미지를 생성하여 앱에 통일감이 생기게 되었습니다.
+
+캐릭터들에서 색을 확 빼니 흰색 심플한 배경에도 잘 어울리고 포인트로 약간씩만 사용하면 더욱 캐릭터가 귀엽습니다!
+
+게다가 저같은 발그림도 대충 슥슥 하면 새로운 포즈등을 제작할 수 있어 장점이 굉장히 많습니다.
+
+![alt text](https://d2quahb2ygxiv.cloudfront.net/37c52b83116c601307148.png?width=500&height=500)
+
+<ImageCaption text="사실 노가다.." />
+
+또한 네이버 웹툰 채색 AI를 사용한뒤 배경제거를 해주면 더욱 자연스러운 등급 표현이 가능합니다.
+
+![alt text](https://d2quahb2ygxiv.cloudfront.net/7c52b83116c6013071489.png?width=500&height=500)
+
+<ImageCaption text="이건 마법이야.." />
+
+## 마무리
+
+이렇게 뽀모닭의 디자인 발전 과정을 다뤄봤습니다.
+
+AI가 발전함으로 풀스택으로써 더욱 무궁무진한 것을 만들 수 있다는게 너무나도 재밌는것 같습니다.
+
+글이 너무 길어져서 이번편은 AI와 협업하는 디자인 이야기로 마무리하고
+
+모바일 어플 흉내를 내는 불쌍한 pwa 이야기를 다루는 프론트 2편으로 돌아오겠습니다.
