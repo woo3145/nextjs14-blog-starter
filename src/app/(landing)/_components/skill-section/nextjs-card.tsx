@@ -3,6 +3,7 @@ import Image from 'next/image';
 import * as React from 'react';
 
 import { slideInFromLeft } from '@/lib/motion';
+import { CDN_IMAGES } from '@/data/cdn-images';
 
 export const NextJsCard = () => {
   const ref = React.useRef(null);
@@ -17,7 +18,7 @@ export const NextJsCard = () => {
     >
       <motion.div variants={slideInFromLeft(0.3)}>
         <Image
-          src="/render-tree.png"
+          src={CDN_IMAGES.landing.render_tree}
           alt="render-tree"
           width={300}
           height={300}

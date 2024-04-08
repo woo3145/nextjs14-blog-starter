@@ -1,6 +1,7 @@
 'use client';
 import { cn } from '@/lib/utils';
 import { TechStackDataProvider } from './tech-stack-data-provider';
+import { CDN_IMAGES } from '@/data/cdn-images';
 
 interface TechStack {
   imageSrc: string;
@@ -131,7 +132,7 @@ const otherStacks: TechStack[] = [
     title: 'vercel',
   },
   {
-    imageSrc: '/octopus_2.png',
+    imageSrc: CDN_IMAGES.landing.octopus_2,
     width: 100,
     height: 100,
     title: '하찮은 그림실력',

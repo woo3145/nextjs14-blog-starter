@@ -4,6 +4,7 @@ import { Variants, motion } from 'framer-motion';
 import Image from 'next/image';
 
 import { cn } from '@/lib/utils';
+import { CDN_IMAGES } from '@/data/cdn-images';
 
 export const ResponsiveDesignCard = () => {
   const containerRef = React.useRef(null);
@@ -81,7 +82,7 @@ export const ResponsiveDesignCard = () => {
                 )}
               >
                 <Image
-                  src="/octopus_1.png"
+                  src={CDN_IMAGES.landing.octopus_1}
                   alt="octopus"
                   width={60}
                   height={60}

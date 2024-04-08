@@ -9,6 +9,7 @@ import Link from 'next/link';
 import { buttonVariants } from '@/components/ui/button';
 import { IconHome } from '@tabler/icons-react';
 import { toast } from 'sonner';
+import { CDN_IMAGES } from '@/data/cdn-images';
 
 interface ProjectSectionProps {
   className?: string;
@@ -39,7 +40,7 @@ export const ProjectSection = ({ className }: ProjectSectionProps) => {
 
 const items = [
   {
-    imgSrc: '/projects/pomodak-flutter.png',
+    imgSrc: CDN_IMAGES.project.pomodak_flutter,
     title: '뽀모닭 플러터 마이그레이션',
     description:
       '플레이스토어 개발자 계정 첫 앱 업로드 검수 기간(2주)동안 기존 뽀모닭 앱을 플러터로 마이그레이션하였습니다. 기존 앱의 기능을 최대한 유지하면서 플러터의 장점을 살려 개선하였습니다.',
@@ -93,7 +94,7 @@ const items = [
     ),
   },
   {
-    imgSrc: '/projects/woo3145.png',
+    imgSrc: CDN_IMAGES.project.woo3145,
     title: 'Woo3145.com',
     description:
       'NextJS를 사용하여 블로그, 포트폴리오, 문서 등을 정리한 사이트입니다. mdx를 통해 정적 컨텐츠를 제공하고 그리드한 느낌과 framer-motion을 활용했습니다.',
@@ -142,7 +143,7 @@ const items = [
     ),
   },
   {
-    imgSrc: '/projects/pomodak.png',
+    imgSrc: CDN_IMAGES.project.pomodak,
     title: '뽀모닭: 수집형 뽀모도로 타이머',
     description:
       'React + PWA를 사용하여 웹뷰 방식으로 플레이 스토어에 출시(예정) 한 프로젝트입니다. 타이머를 사용하면서 구매한 알의 시간을 채우고, 알을 부화시켜 새로운 캐릭터를 수집할 수 있습니다.',
@@ -199,7 +200,7 @@ const items = [
     ),
   },
   {
-    imgSrc: '/projects/jazzit.png',
+    imgSrc: CDN_IMAGES.project.jazzit,
     title: 'JAZZiT',
     description:
       'NextJS의 13.4에서 App라우터가 Stable로 전환되고 Server Actions이 막 생겼을 때 재밌어 보여서 만든 사이트입니다. 헥사고날 아키텍처 참고하여 RSC와 Server Actions에 맞는 설계를 고민해 보았습니다.',
@@ -249,7 +250,7 @@ const items = [
     ),
   },
   {
-    imgSrc: '/projects/video-streaming.png',
+    imgSrc: CDN_IMAGES.project.video_streaming,
     title: 'Woo3145 Videos',
     description:
       'React와 Firebase를 사용하여 만든 비디오 스트리밍 앱입니다. serverless 라이브러리를 통해 썸네일 추출 및 여러 해상도로 변환하는 lambda 함수를 배포하고 React에서 고정 비트레이트 or 적응형(hsl) 비트레이트를 통해 비디오를 스트리밍합니다. 비디오만 달랑 있기 심심해서 구름도 추가했습니다.',
@@ -304,7 +305,7 @@ const items = [
     ),
   },
   {
-    imgSrc: '/projects/etc.png',
+    imgSrc: CDN_IMAGES.project.etc,
     title: '그외 여러가지',
     description: '그때그때 재밌어 보이는걸 만들어 보았습니다.',
     stacks: (

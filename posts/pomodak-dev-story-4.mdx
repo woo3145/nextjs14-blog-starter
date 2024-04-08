@@ -28,7 +28,7 @@ published: true
 
 ## 첫 원대한 꿈
 
-![alt text](/posts/pomodak/2.png?width=800&height=500)
+![alt text](https://d2quahb2ygxiv.cloudfront.net/dfa25837c52b83116c601.png?width=800&height=500)
 
 1편에서 소개했던 `팀페이지에서 확장` 시킨게 뽀모닭의 시작이었습니다.
 
@@ -42,7 +42,7 @@ published: true
 
 그래서 처음에는 아래와 같이 앱들이 구성되었습니다.
 
-![alt text](/posts/pomodak/17.png?width=800&height=500)
+![alt text](https://d2quahb2ygxiv.cloudfront.net/6c60130714892836f7d6a.png?width=800&height=500)
 
 `MongoDB`에 `Account`를 저장하고, 각 API서버에서 멤버가 필요하다면 멤버 모델을 만들어서 해당 서버가 사용중인 인프라에 `AccountId`를 함께 저장하는 방식으로 구현되었습니다.
 
@@ -54,7 +54,7 @@ published: true
 
 ## 현실적인 문제
 
-![alt text](/posts/pomodak/11.png?width=800&height=500)
+![alt text](https://d2quahb2ygxiv.cloudfront.net/2b83116c6013071489283.png?width=800&height=500)
 
 <ImageCaption text="하루빨리 이미지 확대기능을 추가하겠습니다..." />
 
@@ -106,7 +106,7 @@ published: true
 
 데이터 특성상 조회하는 데이터가 게시글 같은 공유 데이터가 아니라서 서버는 항상 최신 데이터를 가져오도록 하고, 아래와 같이 `프론트에서 비즈니스 로직에 의한 캐싱 처리`를 수행했습니다.
 
-![alt text](/posts/pomodak/18.png?width=800&height=500)
+![alt text](https://d2quahb2ygxiv.cloudfront.net/c60130714892836f7d6a1.png?width=800&height=500)
 
 하지만 유저 수정은 `Nest`에 구현되어 있지만 `Spring`에서도 point를 추가하는 등 유저 데이터를 수정하는 예외도 존재합니다.
 
@@ -138,7 +138,7 @@ published: true
 
 실제로 `Java`에서 작성한 스키마를 적용시키고 `Node`에서 동일하게 스키마를 작성하고 데이터를 생성하면 아래와 같은 상황이 발생합니다.
 
-![alt text](/posts/pomodak/19.png?width=800&height=500)
+![alt text](https://d2quahb2ygxiv.cloudfront.net/60130714892836f7d6a17.png?width=800&height=500)
 
 위 문제를 피하기 위해 `Node`에서 스키마를 만들어서 `DB`에 반영하고, `Spring`에서는 스키마를 `DB`에 반영하지 않는 방식으로 운영하고 있습니다.
 

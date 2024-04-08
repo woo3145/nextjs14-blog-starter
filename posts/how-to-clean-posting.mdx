@@ -44,8 +44,8 @@ Vercel의 블로그를 읽다보면 여러 사람들이 글을 작성하는데 �
 
 아래 예시를 보면 package imports를 최적화하여 40%의 콜드스타트 성능과 28%의 빌드 속도를 개선했다는 성과와 해당 게시물에서 다룰 주요 내용에 대해 간략히 짚어주고있다.
 
-![alt text](/posts/how-to-clean-posting/1-light.png?width=850&height=600&mode=dark)
-![alt text](/posts/how-to-clean-posting/1-dark.png?width=850&height=600)
+![alt text](https://d2quahb2ygxiv.cloudfront.net/130714892836f7d6a1765.png?width=850&height=600&mode=dark)
+![alt text](https://d2quahb2ygxiv.cloudfront.net/0130714892836f7d6a176.png?width=850&height=600)
 
 <ImageCaption text="https://vercel.com/blog/how-we-optimized-package-imports-in-next-js" />
 
@@ -55,8 +55,8 @@ Vercel의 블로그를 읽다보면 여러 사람들이 글을 작성하는데 �
 
 너무 깊게 들어가진 않으며 간결한 코드와 함께 핵심적인 내용만 전달해야 한다.
 
-![alt text](/posts/how-to-clean-posting/3-light.png?width=850&height=600&mode=dark)
-![alt text](/posts/how-to-clean-posting/3-dark.png?width=850&height=600)
+![alt text](https://d2quahb2ygxiv.cloudfront.net/14892836f7d6a176586b1.png?width=850&height=600&mode=dark)
+![alt text](https://d2quahb2ygxiv.cloudfront.net/714892836f7d6a176586b.png?width=850&height=600)
 
 <ImageCaption text="https://vercel.com/blog/how-we-optimized-package-imports-in-next-js" />
 
@@ -64,8 +64,8 @@ Vercel의 블로그를 읽다보면 여러 사람들이 글을 작성하는데 �
 
 먼저 발생하는 문제에 대한 내용을 간략히 설명하고, **사례와 수치등을 강조**하여 전달한다.
 
-![alt text](/posts/how-to-clean-posting/4-light.png?width=850&height=600&mode=dark)
-![alt text](/posts/how-to-clean-posting/4-dark.png?width=850&height=600)
+![alt text](https://d2quahb2ygxiv.cloudfront.net/92836f7d6a176586b12cc.png?width=850&height=600&mode=dark)
+![alt text](https://d2quahb2ygxiv.cloudfront.net/4892836f7d6a176586b12.png?width=850&height=600)
 
 <ImageCaption text="https://vercel.com/blog/how-we-optimized-package-imports-in-next-js" />
 
@@ -74,8 +74,8 @@ Vercel의 블로그를 읽다보면 여러 사람들이 글을 작성하는데 �
 아래 내용을 보면 tree-shaking은 **번들러의 기능**이라는 점과 번들러에서 `external`로 설정된 라이브러리들은 tree-shaking에서 제외 된다는 점을 먼저 설명하고 있다.
 또한 `package.json`의 `sideEffects` 필드에 추가하지 않는 한 tree-shaking에 대상이 된다는 점을 언급 후 **tree-shaking 시 모든 모듈을 컴파일하고 분석하는데 비용이 더 크다**는 사실을 설명하고 있다.
 
-![alt text](/posts/how-to-clean-posting/5-light.png?width=850&height=600&mode=dark)
-![alt text](/posts/how-to-clean-posting/5-dark.png?width=850&height=600)
+![alt text](https://d2quahb2ygxiv.cloudfront.net/2836f7d6a176586b12ccf.png?width=850&height=600&mode=dark)
+![alt text](https://d2quahb2ygxiv.cloudfront.net/892836f7d6a176586b12c.png?width=850&height=600)
 
 <ImageCaption text="https://vercel.com/blog/how-we-optimized-package-imports-in-next-js" />
 
@@ -85,8 +85,8 @@ Vercel의 블로그를 읽다보면 여러 사람들이 글을 작성하는데 �
 
 아래 내용을 보면 베럴 파일 `my-lib`에서 `{module2}`를 import하는 구문을 `my-lib/module2`로 매핑하는 컴파일러 구성을 추가하여 빌드 시간과 런타임을 개선한 사실을 설명하고 있다.
 
-![alt text](/posts/how-to-clean-posting/6-light.png?width=850&height=600&mode=dark)
-![alt text](/posts/how-to-clean-posting/6-dark.png?width=850&height=600)
+![alt text](https://d2quahb2ygxiv.cloudfront.net/36f7d6a176586b12ccf80.png?width=850&height=600&mode=dark)
+![alt text](https://d2quahb2ygxiv.cloudfront.net/836f7d6a176586b12ccf8.png?width=850&height=600)
 
 <ImageCaption text="https://vercel.com/blog/how-we-optimized-package-imports-in-next-js" />
 
@@ -94,8 +94,8 @@ Vercel의 블로그를 읽다보면 여러 사람들이 글을 작성하는데 �
 
 아래 내용을 보면 `optimizePackageImports` 옵션에 베럴 파일을 추가하면 해당 파일을 분석하고 위에서 언급한 매핑 방식을 적용하여 최적화 할 수 있다는 점을 정리하고 있다.
 
-![alt text](/posts/how-to-clean-posting/7-light.png?width=850&height=600&mode=dark)
-![alt text](/posts/how-to-clean-posting/7-dark.png?width=850&height=600)
+![alt text](https://d2quahb2ygxiv.cloudfront.net/f7d6a176586b12ccf80fa.png?width=850&height=600&mode=dark)
+![alt text](https://d2quahb2ygxiv.cloudfront.net/6f7d6a176586b12ccf80f.png?width=850&height=600)
 
 <ImageCaption text="https://vercel.com/blog/how-we-optimized-package-imports-in-next-js" />
 
@@ -103,8 +103,8 @@ Vercel의 블로그를 읽다보면 여러 사람들이 글을 작성하는데 �
 
 최종적으로 서론에서 언급한 기술적인 성과 수치를 더욱 자세하게 정리한다.
 
-![alt text](/posts/how-to-clean-posting/8-light.png?width=850&height=600&mode=dark)
-![alt text](/posts/how-to-clean-posting/8-dark.png?width=850&height=600)
+![alt text](https://d2quahb2ygxiv.cloudfront.net/d6a176586b12ccf80faba.png?width=850&height=600&mode=dark)
+![alt text](https://d2quahb2ygxiv.cloudfront.net/7d6a176586b12ccf80fab.png?width=850&height=600)
 
 <ImageCaption text="https://vercel.com/blog/how-we-optimized-package-imports-in-next-js" />
 
@@ -118,8 +118,8 @@ Vercel의 블로그를 읽다보면 여러 사람들이 글을 작성하는데 �
 
 아래와 같이 nextjs를 vercel에 배포했을 때 각 파일들이 어떤 인프라로 구성되는지 한눈에 보여준다.
 
-![alt text](/posts/how-to-clean-posting/9-light.png?width=850&height=600&mode=dark)
-![alt text](/posts/how-to-clean-posting/9-dark.png?width=850&height=600)
+![alt text](https://d2quahb2ygxiv.cloudfront.net/a176586b12ccf80faba38.png?width=850&height=600&mode=dark)
+![alt text](https://d2quahb2ygxiv.cloudfront.net/6a176586b12ccf80faba3.png?width=850&height=600)
 
 <ImageCaption text="https://vercel.com/blog/framework-defined-infrastructure" />
 
