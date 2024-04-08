@@ -9,7 +9,7 @@ export const TableOfContents = ({ nodes }: { nodes: TransformedNode[] }) => {
   }
 
   return (
-    <div className={'toc sticky top-40 prose-a:no-underline'}>
+    <div className={'toc sticky top-10 prose-a:no-underline'}>
       <h3 className={'text-balance'}>Table of contents</h3>
       {renderNodes(nodes)}
     </div>
