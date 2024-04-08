@@ -3,6 +3,7 @@ import { FlipImage } from './flip-image';
 import { SnakeBeam } from '../main-section/snake-beam';
 import { Spotlight } from '../main-section/spotlight';
 import { TypewriterEffect } from '../main-section/typewriter-effect';
+import { CDN_IMAGES } from '@/data/cdn-images';
 
 export const MainSection = () => {
   const words = [
@@ -34,7 +35,7 @@ export const MainSection = () => {
             <FlipImage
               frontImage={
                 <Image
-                  src="/octopus_1.png"
+                  src={CDN_IMAGES.landing.octopus_1}
                   alt="front"
                   width={300}
                   height={300}
@@ -44,7 +45,7 @@ export const MainSection = () => {
               }
               backImage={
                 <Image
-                  src="/octopus_2.png"
+                  src={CDN_IMAGES.landing.octopus_2}
                   alt="back"
                   width={300}
                   height={300}
