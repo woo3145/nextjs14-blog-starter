@@ -17,7 +17,9 @@ export const PostCard = ({ post }: Props) => {
             src={post.image}
             alt="thumbnail"
             fill={true}
-            className="w-full object-contain rounded-md"
+            className="w-full object-contain rounded-md bg-white"
+            placeholder="blur"
+            blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAFklEQVR42mN8//HLfwYiAOOoQvoqBABbWyZJf74GZgAAAABJRU5ErkJggg==" // 추가
           />
         </div>
         <h3 className="text-xl md:text-2xl font-semibold">{post.title}</h3>
