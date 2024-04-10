@@ -3,6 +3,7 @@ import * as runtime from 'react/jsx-runtime';
 import { MDXImage } from './mdx-image';
 import { ImageCaption } from '../ui/image-caption';
 import Image from 'next/image';
+import { Callout } from '../ui/callout';
 
 const useMDXComponent = (code: string) => {
   const fn = new Function(code);
@@ -150,6 +151,7 @@ const components = {
       {...props}
     />
   ),
+  Callout,
 };
 
 interface MdxProps {
