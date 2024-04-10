@@ -17,7 +17,7 @@ export const PostList = ({ posts }: Props) => {
   });
 
   return (
-    <ul className="space-y-4">
+    <ul className="space-y-4 grid grid-cols-2">
       {filteredPosts.map((post) => {
         return <PostCard key={post.slug} post={post} />;
       })}

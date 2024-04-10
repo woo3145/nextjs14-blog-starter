@@ -33,23 +33,16 @@ export default async function Home() {
 
   return (
     <div className="w-full flex flex-col pt-6 md:pt-12">
-      <div className="w-full flex max-w-screen-md mx-auto">
-        <div className="w-full lg:shrink-0 flex flex-col">
+      <div className="w-full flex flex-col max-w-screen-lg mx-auto">
+        <div className="w-full max-w-screen-md mx-auto">
           <HeroCard />
-
-          <div className="py-12">
-            <Suspense>
-              <PostList posts={posts} />
-            </Suspense>
-          </div>
         </div>
 
-        <div className="hidden 2xl:block w-1/3 right-0 shrink-0 pl-4">
-          <div className="sticky top-40">
-            <Suspense>
-              <TagList tags={tags} />
-            </Suspense>
+        <div className="py-12">
+          <div className="pb-10">
+            <TagList tags={tags} />
           </div>
+          <PostList posts={posts} />
         </div>
       </div>
     </div>
