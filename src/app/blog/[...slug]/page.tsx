@@ -56,7 +56,6 @@ export default async function PostPage({ params }: PostPageProps) {
 
   if (!post) return notFound();
 
-  console.log(post.toc);
   return (
     <article className="relative w-full max-w-7xl py-6 xl:flex xl:gap-10 xl:py-10">
       <div className="w-full xl:w-[calc(100%-340px)]">
