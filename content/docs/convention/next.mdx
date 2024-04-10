@@ -1,0 +1,244 @@
+---
+title: 넥스트 컨벤션
+description: 넥스트 컨벤션
+---
+
+## 폴더구조
+
+```ts
+public/         // 빌드가 필요없는 정적 파일 (favicon, robots.txt, manifest.json)
+src/
+    ㄴ app      // next app 라우터
+        ㄴ blog/
+          ㄴ hooks/              // 현재 페이지에서 사용하는 hook
+            ㄴ use-create-post.tsx
+          ㄴ actions/              // 현재 페이지에서 사용하는 serverActions
+            ㄴ create-post-action.tsx
+          ㄴ components/         // 현재 페이지에서 사용하는 컴포넌트
+            ㄴ post-card.tsx
+          ㄴ layout.tsx
+          ㄴ page.tsx
+          ㄴ error.tsx
+          ㄴ loading.tsx
+        ㄴ layout.tsx
+        ㄴ page.tsx
+        // ... 이외에 next docs 참고
+
+    ㄴ components/      // 공용 컴포넌트
+        ㄴ ui/                   // 재사용 컴포넌트 (presentational)
+          ㄴ button.tsx
+        ㄴ providers/
+          ㄴ theme-provider.tsx
+        ㄴ modals/
+        ㄴ icons.tsx            // 아이콘 번들링 컴포넌트 (lucide, react-icons의 import를 줄이기)
+        ㄴ footer.tsx
+        ㄴ side-nav.tsx
+        ...
+
+    ㄴ hooks/     // 공용 hooks
+    ㄴ assets   // 번들링이 필요한 정적 자원 (이미지, 폰트) (url 해싱이나 이미지 최적화 가능)
+    ㄴ service/ // api관련 파일
+        ㄴ commons/               // 공용 파일
+          ㄴ axios-request.ts
+          ㄴ api-error-handler.ts
+          ㄴ mutation-error-handler.ts
+        ㄴ apis/                 // api 요청
+            ㄴ user-api.ts
+            ㄴ feed-api.ts
+        ㄴ queries/              // react-query queries(optional)
+            ㄴ user-queries.ts
+        ㄴ mutations/            // react-query mutations(optional)
+            ㄴ user-mutations.ts
+        ㄴ types/                // api관련 타입 (응답, 요청)
+            ㄴ response.interface.ts
+            ㄴ user.interface.ts
+            ㄴ user-response.interface.ts
+            ㄴ user-request.interface.ts
+            ...
+        ㄴ mappers/              // 백엔드와 의존성 낮추고 싶을때 (잦은 변경)
+            ㄴ user.mapper.ts
+            ㄴ feed.mapper.ts
+
+    ㄴ styles/    // stylesheet 파일
+    ㄴ lib/       // utils 파일, 라이브러리 options 파일
+    ㄴ types/     // 앱 types
+        ㄴ nav.interface.ts
+        ㄴ doc.interface.ts
+    ㄴ constants/ // 상수 파일
+    ㄴ store/     // 클라이언트 상태관리 폴더 (redux, zustand, recoil)
+    ㄴ site-config.json // 여러 정적파일
+    ㄴ ...
+```
+
+## 네이밍 & 소스파일
+
+### 리액트 컨벤션과 통일
+
+## 🚌 Fetching
+
+<Tabs defaultValue="rest-api">
+
+<TabsList>
+  <TabsTrigger value="rest-api">Rest API</TabsTrigger>
+  <TabsTrigger value="supabase">Supabase</TabsTrigger>
+  <TabsTrigger value="prisma">Prisma</TabsTrigger>
+</TabsList>
+
+<TabsContent value="rest-api">
+
+```ts
+// rest-api
+```
+
+</TabsContent>
+
+<TabsContent value="supabase">
+
+```ts
+// supabase
+```
+
+</TabsContent>
+
+<TabsContent value="prisma">
+
+```ts
+// prisma
+```
+
+</TabsContent>
+
+</Tabs>
+
+## 🚌 Mutations
+
+- ServerAction에서 rest-api / prisma / supabase / firebase 등 요청
+
+### Form 형식에서 사용할 땐 Zod + react-hook-form 형태 사용 (리액트와 동일)
+
+<CodeBlockWrapper
+  expandButtonTitle="Expand"
+  className={'my-6 overflow-hidden rounded-md'}
+>
+
+```ts
+import * as React from 'react';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import * as z from 'zod';
+
+import { cn } from '@/lib/utils';
+import { buttonVariants } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { toast } from '@/components/ui/use-toast';
+import { Icons } from '@/components/icons';
+
+const loginFormSchema = z.object({
+  email: z.string().email({ message: '유효하지 않은 이메일 주소입니다.' }),
+  password: z
+    .string()
+    .min(8, { message: '비밀번호는 최소 8자 이상이어야 합니다.' }),
+});
+
+type LoginFormValues = z.infer<typeof loginFormSchema>;
+
+interface LoginFormProps extends React.HTMLAttributes<HTMLDivElement> {}
+
+export function LoginForm({ className, ...props }: LoginFormProps) {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormValues>({
+    resolver: zodResolver(userAuthSchema),
+  });
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
+
+  const handleFormSubmit = async (data: LoginFormValues) => {
+    setIsLoading(true);
+    // 여기서 serverAction 호출
+    setIsLoading(false);
+
+    if (!result?.ok) {
+      // 실패 처리
+      return;
+    }
+    // 성공 처리
+    return;
+  };
+
+  return (
+    <div className={cn('grid gap-6', className)} {...props}>
+      <form onSubmit={handleSubmit(handleFormSubmit)}>
+        <div className="grid gap-2">
+          <div className="grid gap-1">
+            <Label className="sr-only" htmlFor="email">
+              Email
+            </Label>
+            <Input
+              id="email"
+              placeholder="name@example.com"
+              type="email"
+              autoCapitalize="none"
+              autoComplete="email"
+              autoCorrect="off"
+              disabled={isLoading}
+              {...register('email')}
+            />
+            {errors?.email && (
+              <p className="px-1 text-xs text-red-600">
+                {errors.email.message}
+              </p>
+            )}
+          </div>
+          <button className={cn(buttonVariants())} disabled={isLoading}>
+            {isLoading && (
+              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+            )}
+            Sign In with Email
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+}
+```
+
+</CodeBlockWrapper>
+
+<Tabs defaultValue="rest-api">
+
+<TabsList>
+  <TabsTrigger value="rest-api">Rest API</TabsTrigger>
+  <TabsTrigger value="supabase">Supabase</TabsTrigger>
+  <TabsTrigger value="prisma">Prisma</TabsTrigger>
+</TabsList>
+
+<TabsContent value="rest-api">
+
+```ts
+// rest-api
+```
+
+</TabsContent>
+
+<TabsContent value="supabase">
+
+```ts
+// supabase
+```
+
+</TabsContent>
+
+<TabsContent value="prisma">
+
+```ts
+// prisma
+```
+
+</TabsContent>
+
+</Tabs>
+
+... 작성중

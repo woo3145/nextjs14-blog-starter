@@ -47,4 +47,4 @@ export function MDXImage({
 }
 
 // 아래와 같이 사용
-// ![alt text](/image.png?width=500&height=400)
+// ![alt text](/image.png?width=500&height=400&mode=light)

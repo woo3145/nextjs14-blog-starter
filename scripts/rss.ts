@@ -6,12 +6,12 @@ import matter from 'gray-matter';
 import { siteMetadata } from '../data/siteMetadata';
 
 const posts = fs
-  .readdirSync(path.resolve(__dirname, '../posts/'))
+  .readdirSync(path.resolve(__dirname, '../content/blog/'))
   .filter(
     (file) => path.extname(file) === '.md' || path.extname(file) === '.mdx'
   )
   .map((file) => {
-    const postContent = fs.readFileSync(`./posts/${file}`, 'utf8');
+    const postContent = fs.readFileSync(`./content/blog/${file}`, 'utf8');
     const { data, content }: { data: any; content: string } =
       matter(postContent);
     return { ...data, body: content };

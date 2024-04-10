@@ -1,18 +1,17 @@
+import { posts as allPosts, docs as allDocs } from '#site/content';
 import { siteMetadata } from '@/data/siteMetadata';
-import { getDocs } from '@/lib/get-docs';
-import { getPosts } from '@/lib/get-posts';
 
 export default async function sitemap() {
-  const posts = await getPosts();
-  const docs = await getDocs();
+  const posts = allPosts.filter((post) => post.published);
+  const docs = allDocs.filter((doc) => doc.published);
   const postPages = posts.map((post) => ({
-    url: `${siteMetadata.siteUrl}/blog/${post.frontmatter.slug}`,
+    url: `${siteMetadata.siteUrl}/${post.slug}`,
   }));
   const docPages = docs.map((doc) => ({
-    url: `${siteMetadata.siteUrl}/docs/${doc.frontmatter.slug}`,
+    url: `${siteMetadata.siteUrl}/${doc.slug}`,
   }));
 
-  const routes = ['', '/blog', '/docs'].map((route) => ({
+  const routes = ['', '/blog'].map((route) => ({
     url: `${siteMetadata.siteUrl}${route}`,
   }));
 

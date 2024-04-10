@@ -56,6 +56,15 @@ export const CDN_IMAGES = {
     render_tree:
       'https://d2quahb2ygxiv.cloudfront.net/ccf80faba38501bbbd725.png',
   },
+  thumbnail: {
+    aws: 'https://d2quahb2ygxiv.cloudfront.net/4f58ec43fa267cc8ae79a.png',
+    firebase: 'https://d2quahb2ygxiv.cloudfront.net/f58ec43fa267cc8ae79ad.png',
+    nestjs: 'https://d2quahb2ygxiv.cloudfront.net/43fa267cc8ae79ad0873c.png',
+    lang: 'https://d2quahb2ygxiv.cloudfront.net/ec43fa267cc8ae79ad087.png',
+    front: 'https://d2quahb2ygxiv.cloudfront.net/c43fa267cc8ae79ad0873.png',
+    flutter: 'https://d2quahb2ygxiv.cloudfront.net/3fa267cc8ae79ad0873c3.png',
+    self: 'https://d2quahb2ygxiv.cloudfront.net/fa267cc8ae79ad0873c36.png',
+  },
   legacy: {
     mediaConvert: {
       '0': 'https://d2quahb2ygxiv.cloudfront.net/cf80faba38501bbbd7251.png',

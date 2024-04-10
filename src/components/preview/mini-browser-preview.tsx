@@ -1,3 +1,4 @@
+'use client';
 import { MiniBrowser } from '../ui/mini-browser';
 import { ComponentPreviewContainer } from './component-preview-container';
 
