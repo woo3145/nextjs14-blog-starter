@@ -40,7 +40,7 @@ export default async function Home() {
 
         <div className="py-12">
           <div className="pb-10">
-            <TagList tags={tags} />
+            <TagList tags={tags} totalPosts={posts.length} />
           </div>
           <PostList posts={posts} />
         </div>

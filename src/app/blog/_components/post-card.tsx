@@ -1,6 +1,7 @@
 import { Post } from '#site/content';
 import { badgeVariants } from '@/components/ui/badge';
 import { cn, formatDate } from '@/lib/utils';
+import Image from 'next/image';
 import Link from 'next/link';
 
 interface Props {
@@ -9,8 +10,16 @@ interface Props {
 
 export const PostCard = ({ post }: Props) => {
   return (
-    <li className="py-4 px-4 group transition-transform hover:-translate-x-2 duration-200 hover:bg-accent rounded-lg">
+    <li className="py-4 px-4 group transition-transform shadow-sm bg-background hover:-translate-x-2 duration-200 hover:bg-accent rounded-lg">
       <Link href={`/${post.slug}`} className="space-y-2">
+        <div className="relative min-h-56 max-h-56 bg-white rounded-md">
+          <Image
+            src={post.image}
+            alt="thumbnail"
+            fill={true}
+            className="w-full object-contain rounded-md"
+          />
+        </div>
         <h3 className="text-xl md:text-2xl font-semibold">{post.title}</h3>
         <p className="text-sm md:text-base text-foreground/70">
           {post.description}
