@@ -43,7 +43,13 @@ export function MDXImage({
     ),
   };
 
-  return <NextImage {...imageProps} />;
+  return (
+    <NextImage
+      {...imageProps}
+      placeholder="blur"
+      blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAFklEQVR42mN8//HLfwYiAOOoQvoqBABbWyZJf74GZgAAAABJRU5ErkJggg==" // 추가
+    />
+  );
 }
 
 // 아래와 같이 사용
