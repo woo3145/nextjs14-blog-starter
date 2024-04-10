@@ -1,7 +1,6 @@
 ---
 title: Zandi (HeatMap)
-description:
-slug: 'components/zandi'
+description: Zandi (HeatMap)
 ---
 
 <Tabs defaultValue="preview">
@@ -22,7 +21,7 @@ slug: 'components/zandi'
 
   <TabsContent value="code">
 
-```tsx {36-42} showLineNumbers
+```tsx
 import { HeatMapData, Palette, Zandi } from '@/components/ui/zandi';
 import { ComponentPreviewContainer } from './component-preview-container';
 
@@ -95,7 +94,7 @@ Component 생성
 
 폴더구조
 
-```bash
+```ts
 /zandi
   /components
     zandi.tsx
@@ -109,7 +108,7 @@ Component 생성
 
 zandi/types/index.ts
 
-```tsx
+```ts
 export interface HeatMapData {
   date: string;
   value: number;
@@ -125,7 +124,7 @@ export type Palette = PaletteItem[];
 
 zandi/utils/index.ts
 
-```tsx
+```ts
 import { HeatMapData } from '../types';
 
 const formatDateStr = (date: Date): string => {
@@ -186,7 +185,7 @@ export const groupByWeeks = (dates: Date[], heatMapData: HeatMapData[]) => {
 };
 ```
 
-zandi/components/zandi.ts
+zandi/components/zandi.tsx
 
 ```tsx
 import * as React from 'react';
@@ -255,7 +254,7 @@ export const Zandi = ({
 };
 ```
 
-zandi/components/zandi-item.ts
+zandi/components/zandi-item.tsx
 
 ```tsx
 import { HeatMapData, Palette } from '../types';

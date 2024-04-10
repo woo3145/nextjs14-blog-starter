@@ -25,7 +25,7 @@ export const components: MDXComponents = {
   h1: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h1
       className={cn(
-        'font-heading mt-2 scroll-m-20 text-4xl font-bold',
+        'mt-2 scroll-m-20 text-4xl font-bold tracking-tight',
         className
       )}
       {...props}
@@ -34,7 +34,7 @@ export const components: MDXComponents = {
   h2: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h2
       className={cn(
-        'font-heading mt-16 scroll-m-20 border-b pb-2 text-2xl font-semibold tracking-tight first:mt-0',
+        'mt-10 scroll-m-20 border-b pb-1 text-2xl font-semibold tracking-tight first:mt-0',
         className
       )}
       {...props}
@@ -43,7 +43,7 @@ export const components: MDXComponents = {
   h3: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h3
       className={cn(
-        'font-heading mt-12 scroll-m-20 text-xl font-semibold tracking-tight',
+        'mt-8 scroll-m-20 text-xl font-semibold tracking-tight',
         className
       )}
       {...props}
@@ -52,7 +52,7 @@ export const components: MDXComponents = {
   h4: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h4
       className={cn(
-        'font-heading mt-12 scroll-m-20 text-lg font-semibold tracking-tight',
+        'mt-8 scroll-m-20 text-lg font-semibold tracking-tight',
         className
       )}
       {...props}
@@ -61,7 +61,7 @@ export const components: MDXComponents = {
   h5: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h5
       className={cn(
-        'mt-8 scroll-m-20 text-lg font-semibold tracking-tight',
+        'mt-8 scroll-m-20 text-base font-semibold tracking-tight',
         className
       )}
       {...props}
@@ -70,7 +70,7 @@ export const components: MDXComponents = {
   h6: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h6
       className={cn(
-        'mt-8 scroll-m-20 text-base font-semibold tracking-tight',
+        'mt-8 scroll-m-20 text-sm font-semibold tracking-tight',
         className
       )}
       {...props}
@@ -79,7 +79,7 @@ export const components: MDXComponents = {
   a: ({ className, ...props }: React.HTMLAttributes<HTMLAnchorElement>) => (
     <a
       className={cn(
-        'font-medium text-blue-500 dark:text-blue-400 hover:underline underline-offset-4',
+        'font-medium text-blue-500 dark:text-blue-400 underline underline-offset-4',
         className
       )}
       {...props}
@@ -102,7 +102,10 @@ export const components: MDXComponents = {
   ),
   blockquote: ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => (
     <blockquote
-      className={cn('mt-6 border-l-2 pl-6 italic', className)}
+      className={cn(
+        '[&>*]:text-muted-foreground mt-6 border-l-2 pl-6',
+        className
+      )}
       {...props}
     />
   ),
@@ -141,8 +144,24 @@ export const components: MDXComponents = {
   img: MDXImage as any,
   Image,
   ImageCaption,
-  pre: Pre,
-  code: CodeBlock,
+  pre: ({ className, ...props }: React.HTMLAttributes<HTMLPreElement>) => (
+    <pre
+      className={cn(
+        'mb-4 mt-6 overflow-x-auto rounded-lg bg-black py-4 px-4',
+        className
+      )}
+      {...props}
+    />
+  ),
+  code: ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => (
+    <code
+      className={cn(
+        'relative rounded px-[0.3rem] py-[0.2rem] font-mono text-sm text-primary ',
+        className
+      )}
+      {...props}
+    />
+  ),
   Tabs: ({ className, ...props }: React.ComponentProps<typeof Tabs>) => (
     <Tabs className={cn('relative mt-6 w-full', className)} {...props} />
   ),
