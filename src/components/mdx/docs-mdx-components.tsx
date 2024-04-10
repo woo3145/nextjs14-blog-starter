@@ -13,8 +13,6 @@ import { ZandiPreview } from '../preview/zandi-preview';
 import { SnakeBeamPreview } from '../preview/snake-beam-preview';
 import { MiniBrowserPreview } from '../preview/mini-browser-preview';
 import { ImageCaption } from '../ui/image-caption';
-import { Pre } from './mdx-pre';
-import { CodeBlock } from './mdx-code';
 
 const useMDXComponent = (code: string) => {
   const fn = new Function(code);
