@@ -1,3 +1,4 @@
+'use client';
 import { SnakeBeam } from '@/app/(landing)/_components/main-section/snake-beam';
 import { ComponentPreviewContainer } from './component-preview-container';
 

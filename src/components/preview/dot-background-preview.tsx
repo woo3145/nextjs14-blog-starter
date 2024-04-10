@@ -1,3 +1,4 @@
+'use client';
 import { ComponentPreviewContainer } from './component-preview-container';
 
 export const DotBackgroundPreview = () => {

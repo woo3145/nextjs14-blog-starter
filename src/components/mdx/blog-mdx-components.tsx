@@ -145,7 +145,7 @@ const components = {
   code: ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => (
     <code
       className={cn(
-        'relative rounded px-[0.3rem] py-[0.2rem] font-mono text-sm text-primary bg-primary-foreground',
+        'relative rounded px-[0.3rem] py-[0.2rem] font-mono text-sm text-primary',
         className
       )}
       {...props}
