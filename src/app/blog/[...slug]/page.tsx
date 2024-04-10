@@ -56,9 +56,10 @@ export default async function PostPage({ params }: PostPageProps) {
 
   if (!post) return notFound();
 
+  console.log(post.toc);
   return (
-    <article className="max-w-7xl overflow-hidden py-6 xl:grid xl:grid-cols-[1fr_300px] xl:gap-10 xl:py-10">
-      <div>
+    <article className="relative w-full max-w-7xl py-6 xl:flex xl:gap-10 xl:py-10">
+      <div className="w-full xl:w-[calc(100%-340px)]">
         <TracingBeam className="">
           <Link
             href="/blog"
@@ -98,7 +99,7 @@ export default async function PostPage({ params }: PostPageProps) {
       </div>
 
       <div className="hidden text-sm xl:block">
-        <div className="sticky top-16 -mt-10 max-h-[calc(var(--vh)-4rem)] overflow-y-auto pt-10">
+        <div className="sticky top-16 -mt-10 min-w-[300px] shrink-0 max-h-[calc(var(--vh)-4rem)] overflow-y-auto pt-10">
           <TableOfContents toc={post.toc} />
         </div>
       </div>

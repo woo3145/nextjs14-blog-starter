@@ -16,7 +16,7 @@ export async function CommentList({
     .eq('post_slug', slug);
 
   return (
-    <div className="relative w-full max-w-4xl mx-auto h-auto py-10">
+    <div className="relative w-full mx-auto h-auto py-10">
       <h3 className="">댓글</h3>
       <CommentWriter slug={slug} userIp={userIp} />
       {error ? (
