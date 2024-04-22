@@ -64,6 +64,7 @@ export const CDN_IMAGES = {
     front: 'https://d2quahb2ygxiv.cloudfront.net/c43fa267cc8ae79ad0873.png',
     flutter: 'https://d2quahb2ygxiv.cloudfront.net/3fa267cc8ae79ad0873c3.png',
     self: 'https://d2quahb2ygxiv.cloudfront.net/fa267cc8ae79ad0873c36.png',
+    debug: 'https://d2quahb2ygxiv.cloudfront.net/a267cc8ae79ad0873c36a.png',
   },
   legacy: {
     mediaConvert: {
