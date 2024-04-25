@@ -1,0 +1,830 @@
+---
+title: '뽀모닭 개발기 5편 - NestJS 유지보수와 확장성에 대한 백엔드 이야기(2)'
+description: Nest 프로젝트 아키텍쳐 정리, Env 설정, DB 마이그레이션, Seeds 관리 등 쉬운 유지보수를 위한 초기 설정
+date: '2024-04-25'
+image: 'https://d2quahb2ygxiv.cloudfront.net/2b83116c6013071489283.png'
+authors:
+  - woo3145
+tags:
+  - 🐥Pomodak
+  - Project
+  - Backend
+published: true
+---
+
+안녕하세요. 최근 일주일 넘게 음향일이 바빠서 글 작성이 늦어지네요.
+
+어제 플러터 마이그레이션을 마무리 짓고 배포를 진행해서, 이제 백엔드 이야기를 이어가려고 합니다.
+
+무엇을 작성할지 고민하다가, `NestJS` 프로젝트의 아키텍쳐를 정리하고, DB 관리, CI/CD 설정 등을 다루어보려고 합니다.
+
+플러터로 마이그레이션을 진행하면서 백엔드의 역할을 프론트로 많이 옮겼기 때문에, fcm이나 타이머 로직들은 간략하게 작성하고, `NestJS` 자체에 좀더 집중해서 추후 `NestJS`로 다른 프로젝트를 진행할 때 참고할 수 있도록 작성하려고 합니다.
+
+BullMQ나 FCM, Redis, OAuth, Socket 등 뽀모닭에 적용된 다양한 기술들도 다루고 싶은데 플러터 편도 작성해야하고 개발기가 너무 길어져서 추후 단독 포스팅들로 좀더 자세히 다루고 백엔드는 6편에서 마무리 짓도록 하겠습니다.
+
+## NestJS 역할
+
+뽀모닭에서 `NestJS`는 다음과 같은 역할을 수행합니다.
+
+- 인증
+- FCM 푸시알림
+- ~~타이머, 통계~~
+- DB 관리
+- 메일 발송
+- 업로드
+- 각종 조회 API
+
+타이머, 통계 기능은 플러터로 옮겨서 더이상 Nest에선 더이상 업데이트를 하지 않고, PWA를 위해 유지보수만 진행할 예정입니다.
+
+## 목차
+
+이번 글에서 다룰 내용은 다음과 같습니다.
+
+- 아키텍쳐
+- env 설정
+- DB 관리
+- seeds 관리 (초기데이터 작업, 마이그레이션 후속 작업)
+- ~~CI/CD (다음 글)~~
+- ~~Testing (다음 글)~~
+
+## 간략한 아키텍쳐
+
+먼저 간략하게 NestJS 프로젝트 구조를 살펴보겠습니다.
+
+크고 대규모인 프로젝트가 아니기 때문에, 클린 아키텍쳐나 DDD를 적용하지 않고 기본적으로 공식문서에서 제공하는 구조를 따라가고, `Spring`서버와 원할한 협업을 위해 Domain Model에 대한 분리만 진행하였습니다.
+
+하지만 1편에서 소개했다시피 기존에 `Hororok`이라는 프로젝트에서 모노레포 구성으로 `Pomodak`을 추가해서 작업하다가 `Pomodak`으로 서버를 통합하는 과정이 있었습니다.
+
+이에따라 `MongoDB`를 사용하던 `Hororok`서버에서 MySQL로 통합하면서 DB만 느슨한 결합을 통해 변경하기 수월하도록 개선되었습니다.
+
+간단하게 하나의 모듈을 살펴보겠습니다.
+
+```bash
+./apps/timer-app
+├── src
+│   ├── notification
+│   │   ├── config
+│   │   │   ├── notification-config.ts
+│   │   │   └── notification-config.type.ts
+│   │   ├── dtos
+│   │   │   ├── create-notification-token.dto.ts
+│   │   │   └── update-notification-token.dto.ts
+│   │   ├── notification.controller.ts
+│   │   ├── notification.module.ts
+│   │   ├── notification.service.ts
+│   │   └── repositories
+│   │       ├── notification-token.repository.interface.ts
+│   │       └── typeorm
+│   │           └── notification-token.repository.ts
+```
+
+- `config`: 모듈에 필요한 ENV 설정을 정의
+- `dtos`: API 요청, 응답 등에 사용되는 DTO를 정의(Validation Pipe를 통해 유효성 검증)
+- `controller`: API 엔드포인트를 정의하고, Parmas를 적절한 DTO로 변환하여 Service에 전달
+- `module`: 모듈을 정의하고, NestJS의 모듈을 import하여 사용
+- `service`: 비즈니스 로직을 수행하고, Repository를 통해 DB에 접근
+- `repositories`: DB에 접근하는 Repository를 정의하고, 하위 폴더에 ORM을 사용하는 Repository를 정의
+
+위 모듈은 `Notification` 모듈로, FCM 푸시알림을 위한 모듈입니다. 위 구성 이외에도 `guards`, `decorators`, `interceptors` 등 필요에 따라 추가하여 사용하고 있습니다.
+
+## Env 구성
+
+가장 먼저 Env 구성을 살펴보겠습니다.
+
+Env 구성은 각 모듈의 `config` 폴더에 `module-config.ts`와 `module-config.type.ts`로 구성되어 있고 `module-config.ts`에서 `validate-config.ts`라는 유틸리티 파일을 통해 빌드전 유효성 검사를 수행하여 env 설정이 누락되었다면 빌드를 중단하도록 구성하였습니다.
+
+```bash
+
+src
+├── notification
+│   ├── config
+│   │   ├── notification-config.ts
+│   │   └── notification-config.type.ts
+├── database
+│   ├── config
+│   │   ├── database-config.ts
+│   │   └── database-config.type.ts
+├── redis
+│   ├── config
+│   │   ├── redis-config.ts
+│   │   └── redis-config.type.ts
+├── upload
+│   ├── config
+│   │   ├── upload-config.ts
+│   │   └── upload-config.type.ts
+├── config
+│   ├── app-config.ts
+│   ├── app-config.type.ts
+│   └── config.type.ts            // 모든 모듈의 config type을 통합
+├── utils
+│   └── validate-config.ts
+```
+
+### validate-config.ts
+
+먼저 `validate-config.ts`를 살펴보겠습니다.
+
+해당 파일은 예전에 포스팅한 Serialization에 대한 글에서 다루었던 `class-transformer`와 `class-validator`를 사용하여 env 설정을 유효성 검사합니다.
+
+```typescript
+import { plainToClass } from 'class-transformer';
+import { validateSync } from 'class-validator';
+import { ClassConstructor } from 'class-transformer/types/interfaces';
+
+export const validateConfig = <T extends object>(
+  config: Record<string, unknown>,
+  envVariablesClass: ClassConstructor<T>
+) => {
+  const validatedConfig = plainToClass(envVariablesClass, config, {
+    enableImplicitConversion: true, // 타입 자동 변환 허용
+  });
+  const errors = validateSync(validatedConfig, {
+    skipMissingProperties: false, // 프로퍼티가 비어있으면 에러로 잡음
+  });
+
+  if (errors.length > 0) {
+    throw new Error(errors.toString());
+  }
+  return validatedConfig;
+};
+```
+
+- plainToClass - 자바스크립트 객체를 특정 클래스의 인스턴스로 변환합니다.
+- validateSync - 해당 객체의 유효성을 검사합니다.
+
+해당 유틸의 사용법은 다음 파일들에서 확인할 수 있습니다.
+
+### redis/config/redis-config.type.ts
+
+Env가 두개만 존재하는 간단한 모듈로 살펴보겠습니다.
+
+해당 파일은 모듈이 사용할 Env의 타입을 정의합니다.
+
+```typescript
+export type RedisConfig = {
+  host: string;
+  port: number;
+};
+```
+
+### redis/config/redis-config.ts
+
+validator를 정의하고, registerAs를 통해 해당 모듈의 config를 등록하면서 유효성 검사를 수행합니다.
+
+```typescript
+import { registerAs } from '@nestjs/config';
+import { IsInt, IsOptional, IsString, Min } from 'class-validator';
+
+import { validateConfig } from '../../utils/validate-config';
+import { RedisConfig } from './redis-config.type';
+
+export class RedisEnvironmentVariablesValidator {
+  @IsString()
+  REDIS_HOST: string;
+
+  @IsInt()
+  @Min(1)
+  @IsOptional()
+  REDIS_PORT: number;
+}
+
+export default registerAs<RedisConfig>('redis', () => {
+  validateConfig(process.env, RedisEnvironmentVariablesValidator);
+
+  return {
+    host: process.env.REDIS_HOST || 'localhost',
+    port: process.env.REDIS_PORT ? parseInt(process.env.REDIS_PORT, 10) : 6379,
+  };
+});
+```
+
+- `registerAs` - 해당 모듈의 config를 등록합니다.
+- `validateConfig` - 유효성 검사를 수행합니다.
+
+  process.env는 `Record<string, string>` 형태로 현재 런타임의 환경변수를 가져옵니다. 해당 객체와 `Validator 객체`를 전달하면 `plainToClass`를 통해 객체로 변환하고, `validateSync`를 통해 유효성 검사를 수행 후 에러가 있으면 에러를 던져 빌드에 실패하도록 합니다.
+
+### config/config.type.ts
+
+각 모듈의 config type을 통합하는 파일입니다.
+
+```typescript
+import { GoogleConfig } from '../auth-google/config/auth-google-config.type';
+import { KakaoConfig } from '../auth-kakao/config/auth-kakao-config.type';
+import { NaverConfig } from '../auth-naver/config/auth-naver-config.type';
+import { AuthConfig } from '../auth/config/auth-config.type';
+import { DatabaseConfig } from '../database/config/database-config.type';
+import { MailConfig } from '../mail/config/mail-config.type';
+import { NotificationConfig } from '../notification/config/notification-config.type';
+import { UploadConfig } from '../uploads/config/upload-config.type';
+import { AppConfig } from './app-config.type';
+import { RedisConfig } from '../redis/config/redis-config.type';
+
+export type AllConfigType = {
+  app: AppConfig;
+  database: DatabaseConfig;
+  auth: AuthConfig;
+  redis: RedisConfig;
+  google: GoogleConfig;
+  kakao: KakaoConfig;
+  naver: NaverConfig;
+  upload: UploadConfig;
+  notification: NotificationConfig;
+  mail: MailConfig;
+};
+```
+
+해당 타입을 통해 다음과 같이 configService를 사용할 수 있습니다.
+
+```typescript
+class AService {
+  constructor(private configService: ConfigService<AllConfigType>) {}
+
+  getRedisConfig() {
+    return {
+      host: this.configService.get('redis.host', { infer: true }),
+      port: this.configService.get('redis.port', { infer: true }),
+    };
+  }
+}
+```
+
+- infer: true - 타입 추론을 통해 타입을 추론합니다.
+
+### app.module.ts
+
+루트 모듈에서, `ConfigModule.forRoot`를 통해 env 설정을 로드합니다.
+
+```typescript
+@Module({
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      load: [
+        appConfig,
+        databaseConfig,
+        authConfig,
+        redisConfig,
+        googleConfig,
+        kakaoConfig,
+        naverConfig,
+        uploadConfig,
+        notificationConfig,
+        mailConfig,
+      ],
+      envFilePath: [`.env.${process.env.NODE_ENV}`],
+    }),
+    // ...
+  ],
+})
+export class TimerAppModule {}
+```
+
+이 방법을 통해 각 모듈의 env 설정을 통합하고 유효성 검사를 수행할 수 있습니다.
+
+프로젝트에 한번 구성해놓으면 확장도 편하고 Env 설정이 누락되면 사전에 빌드를 중단할 수 안정적으로 서버를 운영할 수 있습니다.
+
+따라서 추후에 다른 프로젝트를 진행할 때도 해당 구조를 사용할 예정입니다.
+
+## DB 관리
+
+### 공통 repositories 구조
+
+먼저 database 모듈을 살펴보기 전에 거의 모든 모듈에서 사용중인 repositories 폴더를 살펴보겠습니다.
+
+각 모듈의 repositories는 다음과 같은 구조를 가지고 있습니다.
+
+```bash
+aModule
+│   └── repositories
+│       ├── aaa.repository.interface.ts
+│       └── typeorm
+│           └── aaa.repository.ts
+│       └── mongooese
+│           └── aaa.repository.ts
+│       └── prisma
+│           └── aaa.repository.ts
+│       └── mook
+│           └── aaa.repository.ts
+```
+
+- `aaa.repository.interface.ts` - `Repository Interface`를 정의합니다.
+- `typeorm` - `TypeORM`을 사용하는 `Repository`의 구현체를 정의합니다.
+- `mongoose` - `Mongoose`를 사용하는 `Repository`의 구현체를 정의합니다.
+
+Nest에서 주로 사용하는 ORM은 `TypeORM`, `Mongoose`, `Prisma` 등이 있습니다.
+
+뽀모닭에서 `NoSQL`을 `MySQL`로 마이그레이션하면서 `Mongoose`를 사용하던 모듈을 `TypeORM`으로 변경하면서 해당 구조를 적용하였습니다.
+
+`TypeORM`을 사용할때 각 DB의 의존성을 제거하고 `TypeORM`의 Interface를 통해 여러 `RDBMS`에 대한 접근을 하듯,
+
+`Repository Interface`를 통해 `RDBMS`나 `NoSQL`을 지원하는 ORM에 대한 의존성을 제거하고, 필요한 `Repository`를 주입받아 사용할 수 있습니다.
+
+이로인해 ORM을 변경할때 `repository.interface`의 구현체만 추가하고, `aaa.module.ts`에서 의존성만 변경하면 되기 때문에 유지보수가 용이해집니다.
+
+각 파일들을 따로 살펴보겠습니다.
+
+#### item.module.ts
+
+여기서 `providers`에 `ItemRepository`에 대해 각 ORM에 대한 구현체를 주입받아 사용합니다.
+
+```typescript
+import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+
+import { ItemsService } from './items.service';
+import { ItemsController } from './items.controller';
+import { ItemEntity } from '../database/entities/item.entity';
+import { ItemRepository } from './repositories/item.repository.interface';
+import { TypeOrmItemRepository } from './repositories/typeorm/item.repository';
+
+@Module({
+  imports: [TypeOrmModule.forFeature([ItemEntity])],
+  controllers: [ItemsController],
+  providers: [
+    ItemsService,
+    {
+      provide: ItemRepository,
+      useClass: TypeOrmItemRepository,
+    },
+  ],
+})
+export class ItemsModule {}
+```
+
+만약 테스트를 위한 `MockRepository` 혹은 `NoSQL`을 사용하는 `MongooseRepository`를 사용하고 싶다면, 해당 구현체를 추가하고, `useClass`를 변경하면 됩니다.
+
+외부에선 아래와 같이 `ItemRepository`를 주입받아 사용하기 때문에 외부에서는 어떤 ORM을 사용하는지 알 필요가 없습니다.
+
+```typescript
+@Injectable()
+export class ItemsService {
+  constructor(private readonly itemsRepository: ItemRepository) {}
+
+  async getItems(queryRunner?: QueryRunner): Promise<Item[]> {
+    return await this.itemsRepository.getItems(queryRunner);
+  }
+}
+```
+
+#### item.repository.interface.ts
+
+DB에 대한 필요한 메서드를 정의합니다.
+
+저는 트랜잭션이 필요한 경우 `QueryRunner`를 전달받아 사용할 수 있도록 구성하였습니다.
+
+```typescript
+import { QueryRunner } from 'typeorm';
+import { Item } from '../../database/domain/item';
+
+export abstract class ItemRepository {
+  abstract getItems(queryRunner?: QueryRunner): Promise<Item[]>;
+}
+```
+
+#### typeorm/item.repository.ts
+
+각 ORM에 대한 구현체를 정의합니다.
+
+이후에 나오는 DB Domain 객체와 Mapper를 통해 객체를 변환하여 사용합니다.
+
+이로인해 각 DB에서 필드명이 다르거나 구조가 다르더라도 Domain 객체로 통합하여 사용할 수 있습니다.
+
+또한 `TypeORM`에서 `QueryRunner`의 여부에 따라 트랜잭션 처리를 할 수 있도록 구성했습니다.
+
+```typescript
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { QueryRunner, Repository } from 'typeorm';
+import { ItemRepository } from '../item.repository.interface';
+import { ItemEntity } from 'apps/timer-app/src/database/entities/item.entity';
+import { Item, ItemType } from 'apps/timer-app/src/database/domain/item';
+import { ItemMapper } from 'apps/timer-app/src/database/mappers/item.mapper';
+
+@Injectable()
+export class TypeOrmItemRepository implements ItemRepository {
+  constructor(
+    @InjectRepository(ItemEntity)
+    private itemRepository: Repository<ItemEntity>
+  ) {}
+
+  /** queryRunner 여부에 따라 item Repository를 생성 */
+  private getRepository(queryRunner?: QueryRunner): Repository<ItemEntity> {
+    return queryRunner
+      ? queryRunner.manager.getRepository(ItemEntity)
+      : this.itemRepository;
+  }
+
+  async getItems(queryRunner?: QueryRunner): Promise<Item[]> {
+    const repository = this.getRepository(queryRunner);
+
+    const entities = await repository.find({
+      where: { is_hidden: false },
+    });
+
+    return entities.map((n) => ItemMapper.toDomain(n));
+  }
+}
+```
+
+### database 모듈 구성
+
+`TypeORM`에 대한 모듈이라 원래 이름이 `typeorm`이 되어야 하지만, 가장 중축이 되는 RDBMS 모듈이기 때문에 `database`로 이름을 변경하였습니다.
+
+해당 모듈에서 `RDBMS` 연결, `Migration`, `Seed` 등을 관리합니다.
+
+또한 `Spring`에서 도메인을 사용하지만 `NestJS`에서는 사용하지 않는 도메인들이 존재하기 때문에 `repositories`에서 `domain`, `mappers`, `entity`를 관리하지 않고 `database` 모듈에서 관리하도록 구성하였습니다.
+
+만약 하나의 서버에서만 DB를 사용한다면 각 모듈에서 관리해도 되지만, 여러 서버에서 사용하거나, DB를 변경하고 관리하는 환경에서는 `database` 모듈에서 관리하는 것이 유지보수에 용이한 것 같습니다.
+
+```bash
+├── database
+│   ├── config
+│   │   ├── database-config.ts
+│   │   └── database-config.type.ts
+│   ├── domain
+│   │   ├── item.ts
+│   │   └── ...
+│   ├── entities
+│   │   ├── item.entity.ts
+│   │   └── ...
+│   ├── mappers
+│   │   ├── item.mapper.ts
+│   │   └── ...
+│   ├── migrations
+│   │   ├── 1710919691677-init.ts
+│   │   └── ...
+│   ├── seeds
+│   │   ├── roles
+│   │   │   ├── roles.seed.module.ts
+│   │   │   └── roles.seed.service.ts
+│   │   ├── run-seed.ts
+│   │   ├── seed.ts
+│   │   ├── seeds.module.ts
+│   │   └── temp
+│   │       ├── member-character-collection-migrate.module.ts
+│   │       └── member-character-collection-migrate.service.ts
+│   ├── data-source.ts
+│   └── typeorm-config.service.ts
+```
+
+간단하게 각 파일의 역할을 살펴보겠습니다.
+
+- `config`: 위에서 설명한 DB의 ENV 설정을 정의합니다. (dbType, host, port, username, password 등등)
+- `domain`: DB의 Domain 객체를 정의합니다.
+- `entities`: TypeORM의 Entity를 정의합니다.
+- `mappers`: Entity -> Domain 혹은 Domain -> Entity로 변환하는 Mapper를 정의합니다.
+- `migrations`: DB의 마이그레이션 파일을 정의합니다. (자동 생성)
+- `seeds`: DB의 초기 데이터를 설정하는 모듈 (run-seed.ts를 실행하면 초기데이터를 넣고 종료)
+  - `temp`: 새 테이블 추가로인해 기존 데이터를 바탕으로 새 테이블을 만들어야 할 경우 생성하여 run-seed.ts에서 실행
+- `data-source.ts`: 마이그레이션을 진행할 DB 연결을 정의합니다.
+- `typeorm-config.service.ts`: TypeORM의 Config를 정의합니다. (DB와 연결, Entity, Migration, Seed 등록)
+
+가장 먼저 마이그레이션에 대해 살펴보겠습니다.
+
+### DB 마이그레이션
+
+여러 서버에서 하나의 `DB`를 사용할때 각 서버에서 마이그레이션을 진행하면 마이그레이션이 꼬이게 됩니다.
+
+따라서 반드시 하나의 서버에서만 `DDL`을 관리하고 나머지 서버는 DB의 DML만 사용하도록 해야합니다.
+
+저번 글에서 설명했듯 `Spring`의 `JPA`로 마이그레이션을 하면 필수적인 `DDL`만 적용되고 상세한 옵션은 실제 DB에 적용되지 않기 때문에 `Nest`에서 마이그레이션을 진행하는게 용이합니다.
+
+따라서 반드시 각 서버에서 `synchronize` 옵션을 꺼서 자동 마이그레이션이 되지 않도록 설정해야합니다.
+
+#### data-source.ts 작성
+
+먼저 마이그레이션을 진행할 DB 연결을 정의합니다.
+
+```typescript
+import { DataSource, DataSourceOptions } from 'typeorm';
+
+export const AppDataSource = new DataSource({
+  type: process.env.DB_TYPE,
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT ? parseInt(process.env.DB_PORT, 10) : 3306,
+  username: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  synchronize: process.env.DB_SYNCHRONIZE === 'true',
+
+  logging: process.env.NODE_ENV !== 'prod',
+  entities: [__dirname + '/../**/*.entity{.ts,.js}'],
+  migrations: [__dirname + '/migrations/**/*{.ts,.js}'],
+} as DataSourceOptions);
+```
+
+#### package.json에 마이그레이션 스크립트 추가
+
+```json
+{
+  // ...
+  "scripts": {
+    "typeorm": "env-cmd -f .env.development ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
+    "migration:generate": "yarn typeorm -- -d apps/timer-app/src/database/data-source.ts migration:generate apps/timer-app/src/database/migrations/{마이그레이션명}",
+    "migration:create": "yarn typeorm -- migration:create",
+    "migration:run": "yarn typeorm -- -d apps/timer-app/src/database/data-source.ts migration:run",
+    "migration:revert": "yarn typeorm -- -d apps/timer-app/src/database/data-source.ts migration:revert"
+  }
+  // ...
+}
+```
+
+[tsconfig-paths/register](https://www.npmjs.com/package/tsconfig-paths) : typeorm이 tsconfig의 paths를 인식할 수 있도록 설정
+
+- `migration:generate`: datasource와 비교하여 마이그레이션 파일을 생성합니다.
+- `migration:create`: 빈 마이그레이션 파일을 생성합니다.
+- `migration:run`: 마이그레이션을 실행합니다.
+- `migration:revert`: 마이그레이션을 되돌립니다.
+
+### 흐름
+
+마이그레이션을 진행할 때는 다음과 같은 흐름을 따릅니다.
+
+1. `DB Entity`에 변경사항이 생김
+2. `typeorm` 스크립트의 env파일이 `.env.development`인지 체크
+3. 마이그레이션을 생성하기전 `migration:generate` 스크립트의 `{마이그레이션명}`을 변경사항에 맞게 적절하게 수정 (ex. description-column-to-item)
+4. `yarn run migration:generate`로 마이그레이션 파일을 생성
+   - `migrations/1710919691677-description-column-to-item.ts` 생성됨
+5. `yarn run migration:run`으로 개발 DB에 적용
+   - 만약 문제 발생시 `yarn run migration:revert`로 복구 후 해당 마이그레이션 파일 제거, 문제 해결 후 다시 마이그레이션 생성
+6. 테스트 후 `typeorm` 스크립트의 `.env.development`를 `.env.production`으로 변경하여 `yarn run migration:run`으로 실제 서버 DB에 적용
+
+7. Spring에게 변경사항 적용을 알림
+
+## Seed 파일 관리
+
+`DB`를 관리 할 때 초기 데이터를 넣어야 하는 경우가 있습니다.
+
+또한 마이그레이션을 진행하는 경우 기존 데이터를 보존하면서 변경사항에 따른 추가 작업이 필요한 경우가 존재합니다.
+
+초기 데이터를 넣거나, 마이그레이션 후 추가 작업을 진행하기 위해 `database 모듈`에 `seeds`라는 폴더를 생성하여 관리합니다.
+
+### seeds.ts
+
+`DB`에 필요한 초기 데이터를 넣기 위한 파일입니다.
+
+```typescript
+import { RoleEnum } from 'apps/timer-app/src/roles/roles.enum';
+
+export const RoleSeeds = [
+  {
+    id: RoleEnum.admin,
+    name: 'Admin',
+  },
+  {
+    id: RoleEnum.user,
+    name: 'User',
+  },
+];
+```
+
+### seed.module.ts
+
+각 `개발 서버`, `프로덕션 서버`에 대한 설정은 `envFilePath`를 통해 설정하고, `TypeORM`의 `DataSource`를 통해 DB 연결을 설정합니다.
+
+루트 모듈과 단독으로 실행되기 때문에 루트 모듈처럼 실행에 필요한 모듈이나 `config`를 `import`하여 사용합니다.
+
+```typescript
+import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { DataSource, DataSourceOptions } from 'typeorm';
+
+import { TypeOrmConfigService } from '../typeorm-config.service';
+import databaseConfig from '../config/database-config';
+import appConfig from '../../config/app.config';
+import { RoleSeedModule } from './roles/roles.seed.module';
+import { MemberCharacterCollectionMigrateModule } from './temp/member-character-collection-migrate.module';
+
+@Module({
+  imports: [
+    RoleSeedModule,
+    // MemberCharacterCollectionMigrateModule,
+    ConfigModule.forRoot({
+      isGlobal: true,
+      load: [databaseConfig, appConfig],
+      envFilePath: ['.env.prod'],
+    }),
+    TypeOrmModule.forRootAsync({
+      useClass: TypeOrmConfigService,
+      dataSourceFactory: async (options: DataSourceOptions) => {
+        return new DataSource(options).initialize();
+      },
+    }),
+  ],
+})
+export class SeedModule {}
+```
+
+### DB 작업 module, service 작성
+
+`run-seed.ts`에서 실행시킬 `module`, `service`를 작성합니다.
+
+초기 시드 데이터를 넣거나 마이그레이션 후 추가 작업을 진행할 때 사용합니다.
+
+```typescript
+// seeds/roles/seeds.module.ts
+import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+
+import { RoleSeedService } from './roles.seed.service';
+import { RoleEntity } from 'apps/timer-app/src/database/entities/role.entity';
+
+@Module({
+  imports: [TypeOrmModule.forFeature([RoleEntity])],
+  providers: [RoleSeedService],
+  exports: [RoleSeedService],
+})
+export class RoleSeedModule {}
+```
+
+```typescript
+// seeds/roles/roles.seed.service.ts
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { RoleEntity } from 'apps/timer-app/src/database/entities/role.entity';
+import { Repository } from 'typeorm';
+import { RoleSeeds } from '../seed';
+
+@Injectable()
+export class RoleSeedService {
+  constructor(
+    @InjectRepository(RoleEntity)
+    private repository: Repository<RoleEntity>
+  ) {}
+
+  async run() {
+    for (const role of RoleSeeds) {
+      const exist = await this.repository.count({
+        where: {
+          role_id: role.id,
+        },
+      });
+
+      if (!exist) {
+        await this.repository.save(
+          this.repository.create({
+            role_id: role.id,
+            name: role.name,
+          })
+        );
+      }
+    }
+  }
+}
+```
+
+각 `service`는 `run 메서드`를 통해 초기 데이터를 넣거나 추가 작업을 진행합니다.
+
+### run-seed.ts
+
+DB작업을 수행하기 위한 스크립트를 실행시킬 파일입니다.
+
+```typescript
+import { NestFactory } from '@nestjs/core';
+import { SeedModule } from './seeds.module';
+import { RoleSeedService } from './roles/roles.seed.service';
+import { AccountSeedService } from './accounts/accounts.seed.service';
+import { MemberSeedService } from './members/members.seed.service';
+import { MemberCharacterCollectionMigrateService } from './temp/member-character-collection-migrate.service';
+
+// 시드 모듈을 불러와서 각 서비스 run 실행
+const runSeed = async () => {
+  const app = await NestFactory.create(SeedModule);
+
+  // 시드 파일 실행
+  await app.get(RoleSeedService).run();
+  // await app.get(AccountSeedService).run();
+
+  // 마이그레이션 후 추가 작업
+  await app.get(MemberCharacterCollectionMigrateService).run();
+
+  await app.close();
+};
+
+void runSeed();
+```
+
+### package.json에 스크립트 추가
+
+프로젝트의 경로에 맞게 run-seed.ts 위치를 변경하고, package.json에 스크립트를 추가합니다.
+
+```json
+{
+  // ...
+  "scripts": {
+    "seed:run": "ts-node -r tsconfig-paths/register ./apps/timer-app/src/database/seeds/run-seed.ts"
+    // ...
+  }
+}
+```
+
+### 흐름
+
+Seed 파일을 진행할 때는 다음과 같은 흐름을 따릅니다.
+
+1. 초기데이터 및 DB 추가 작업을 위한 Seed 모듈, 서비스 작성
+2. `seed.module.ts`에 해당 모듈 임포트
+3. `run-seed.ts`에서 해당 서비스를 실행하는 코드 추가
+4. `seed.module.ts`의 envFilePath에 시드를 실행할 환경 확인
+5. `yarn run seed:run`으로 작업 실행
+
+### 주의사항
+
+시드를 추가할 땐 트랜젝션 롤백이나 적절한 처리를 통해 중복된 데이터가 추가되지 않도록 확인하고 반드시 개발 환경에서 충분한 테스트를 진행한 후 프로덕션 환경에서 실행해야합니다.
+
+다음과 예시와 같이 적절한 로깅과 중복데이터 처리를 통하여 작업이 정상적으로 진행되었는지 확인하고, 문제가 발생하면 즉시 복구할 수 있도록 합니다.
+
+또한 데이터량이 많을 경우 DB에 부하를 주기 때문에 적절한 시간에 실행하도록 합니다.
+
+```typescript
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+
+import { MemberEntity } from '../../entities/member.entity';
+import { CharacterInventoryEntity } from '../../entities/character-inventory.entity';
+import { MemberCharacterCollectionEntity } from '../../entities/member-character-collection.entity';
+
+@Injectable()
+export class MemberCharacterCollectionMigrateService {
+  constructor(
+    @InjectRepository(MemberEntity)
+    private memberRepository: Repository<MemberEntity>,
+    @InjectRepository(CharacterInventoryEntity)
+    private characterInventoryRepository: Repository<CharacterInventoryEntity>,
+    @InjectRepository(MemberCharacterCollectionEntity)
+    private collectionRepository: Repository<MemberCharacterCollectionEntity>
+  ) {}
+
+  async run() {
+    let tasks = 0;
+    let alreadySuccess = 0;
+    let success = 0;
+    const members = await this.memberRepository.find();
+
+    for (const member of members) {
+      const characterInventories = await this.characterInventoryRepository.find(
+        {
+          where: {
+            member: {
+              member_id: member.member_id,
+            },
+          },
+          relations: ['character'],
+        }
+      );
+
+      for (const characterInventory of characterInventories) {
+        ++tasks;
+        try {
+          const exist = await this.collectionRepository.findOne({
+            where: {
+              member: { member_id: member.member_id },
+              character: {
+                character_id: characterInventory.character?.character_id,
+              },
+            },
+          });
+          if (exist) {
+            ++alreadySuccess;
+            continue;
+          }
+          const newCollection = this.collectionRepository.create({
+            character: characterInventory.character,
+            member: member,
+          });
+          await this.collectionRepository.save(newCollection);
+          ++success;
+        } catch (e) {
+          console.error(
+            '마이그레이션 중 에러: ',
+            member.member_id,
+            characterInventory.character_inventory_id,
+            e
+          );
+        }
+      }
+    }
+
+    console.log('마이그레이션 완료: ', success, '/', tasks);
+    console.log('이미 존재하는 데이터: ', alreadySuccess, '/', tasks);
+    console.log(
+      '총 결과 (데이터 일치): ',
+      success + alreadySuccess,
+      '/',
+      tasks
+    );
+  }
+}
+```
+
+## 마무리
+
+상당히 글이 길어져서 여기에서 끊고 다음 포스팅에서 CI/CD, 테스트, 배포 등에 대해 다루도록 하겠습니다.
+
+백엔드 이야기로 어떤 주제를 적을지 고민하다가, 쉬운 유지보수를 위해 고민한 `DB`, `Env`, `Seed` 구성에 대해 다뤄보았습니다.
+
+풀스택 개발을 하다보면 서버를 한번 배포하고 추가 기능이나 버그가 생기지 않는 한 건드리지 않기 때문에 오랜만에 봐도 이해하기 쉬운 코드를 작성하는 것이 가장 중요하다고 생각합니다.
+
+따라서 5편과 6편을 통해 `NestJS`로 백엔드를 개발할 때 쉬운 유지보수를 위한 토대를 다질 수 있도록 포스팅을 작성해보겠습니다.

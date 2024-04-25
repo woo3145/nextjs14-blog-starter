@@ -67,7 +67,6 @@ export const viewport = {
     { media: '(prefers-color-scheme: dark)', color: '#000' },
   ],
 };
-
 const navItems = [
   {
     name: 'Main',
