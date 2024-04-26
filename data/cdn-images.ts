@@ -19,6 +19,7 @@ export const CDN_IMAGES = {
     '17': 'https://d2quahb2ygxiv.cloudfront.net/6c60130714892836f7d6a.png',
     '18': 'https://d2quahb2ygxiv.cloudfront.net/c60130714892836f7d6a1.png',
     '19': 'https://d2quahb2ygxiv.cloudfront.net/60130714892836f7d6a17.png',
+    '20': 'https://d2quahb2ygxiv.cloudfront.net/d3326ef543bea9849fb3a.png',
   },
   posting: {
     '1-dark': 'https://d2quahb2ygxiv.cloudfront.net/0130714892836f7d6a176.png',

@@ -1,0 +1,383 @@
+---
+title: '뽀모닭 개발기 6편 - NestJS CI/CD에 대한 백엔드 이야기(3)'
+description: Docker compose + git actions로 NestJS + Certbot + Nginx CI/CD 구축하기
+date: '2024-04-26'
+image: 'https://d2quahb2ygxiv.cloudfront.net/d3326ef543bea9849fb3a.png'
+authors:
+  - woo3145
+tags:
+  - 🐥Pomodak
+  - Project
+  - Backend
+published: true
+---
+
+안녕하세요. 백엔드 이야기는 `CI/CD` 편을 마지막으로 마무리 지을 것 같습니다.
+
+`CI/CD` 편을 어떻게 작성할지 고민이 많이 되었습니다. 다른 글들처럼 구성하는 법을 처음부터 따라하기 방식으로 작성할까 했지만, `AWS`나 기술의 변화가 빠르기도 하고 블로그 따라하기 같은 건 별로 좋아하지 않아서 그냥 시행착오나 경험을 공유해보려고 합니다.
+
+뽀모닭을 0원으로 운영하고 싶었는데 이번에 `AWS의 요금 정책이 변경`도 있고, 어쩔 수 없이 조금의 비용이 발생하게 되어 아쉽습니다.
+
+## AWS Public IP 요금 정책 변경 ?
+
+뽀모닭은 개발 초기에 배포에 대한 자료를 조사하던중 `AWS`에서 `Public IP`에 대한 요금정책이 변경된다는 [기사](https://aws.amazon.com/ko/about-aws/whats-new/2024/02/aws-free-tier-750-hours-free-public-ipv4-addresses/)를 발견했습니다.
+
+IPv4 고갈에 따라 `EC2` 프리티어에 연결된 IP를 제외한 모든 `Public IP`에 시간당 `0.005달러`가 부과된다는 내용이였는데, 이때 약간 고민을 했습니다.
+
+`AWS`내에서 `ACM + ALB + Route53`을 사용하면 굉장히 편하게 SSL을 적용할 수 있지만, `Public IP`에 대한 요금이 부과되는 것이 마음에 걸렸습니다.
+
+`EC2`의 `Public IP`는 무료라 쳐도 `RDS`를 스프링 팀원과 개발/운영 서버로 하나씩 파서 공유하는 상황이라 각각 VPC에 이미 `Public IP`를 부여해서 사용하고 있었습니다.
+
+여기에 `ALB + Route53 + ACM`을 사용하면 또 다른 `Public IP`가 필요하게 되어 달마다 만원정도의 비용이 추가로 발생하기 때문에 고민하다가 그냥 `Nginx` + `Certbot`을 도커에 구성하기로 결정했습니다.
+
+해당 방법은 하나의 인스턴스에서 `SSL`을 적용하는 방법이라 수직 스케일링에 적합하지만 수평 스케일링이 필요한 경우에는 적합하지 않습니다.
+
+아직은 서비스가 작기 때문에 추후 `EC2` 업그레이드를 하면서 Nest 도커 컨테이너를 늘리는 정도로 대응할 생각이라 이 방법으로 진행하였습니다.
+
+이에 따라 뽀모닭은 `EC2` 프리티어 2대, `RDS` 1대(+개발용 `RDS` 1대), `AEC`(Redis) 1대, `S3` 버킷 1개, `cloudfront` 1개로 구성되어있으며,
+
+아래의 구성에도 `RDS`를 위한 VPC `Public IP` 2대의 비용 7.2 달러만 부과되고 있습니다.
+
+![alt text](https://d2quahb2ygxiv.cloudfront.net/2b83116c6013071489283.png?width=800&height=500)
+
+<ImageCaption text="작년이였으면 공짜로 할 수 있었는데..." />
+
+## Nest 서버 CI/CD 구성 살펴보기
+
+![alt text](https://d2quahb2ygxiv.cloudfront.net/d3326ef543bea9849fb3a.png?width=800&height=500)
+
+<ImageCaption text="Docker compose + git actions로 구성한 NestJS CI/CD" />
+
+`Nest` 서버의 `CI/CD`는 `Docker compose` + `git actions`으로 구성하였습니다.
+
+`Pomodak 저장소의 main 브랜치`에 `push`가 되면 `git actions`이 동작하여 `docker compose`로 빌드 후 `docker hub`에 `push`하고, `EC2`에서 `docker-compose`로 새 버전을 실행하는 방식으로 구성하였습니다.
+
+흐름은 다음과 같습니다.
+
+1. git push
+2. git actions - e2e test(redis start, nest start:test, jest test:e2e)
+3. git actions - build(docker-hub login, docker-compose build & push)
+4. git actions - deploy(docker-hub login, docker-compose pull & up)
+
+![alt text](https://d2quahb2ygxiv.cloudfront.net/3326ef543bea9849fb3a9.png?width=800&height=500)
+
+### github runner
+
+여기서 `테스트 & 빌드`는 `github-hosted runner`를 통해 깃허브에서 제공하는 `무료 자원(500MB의 스토리지와 월 2000분)`을 사용하였고, `ec2` 작업을 처리하기위해 `ssh`대신 `self-hosted runner` 방식을 사용하였습니다.
+
+`git runner`는 `git actions` 작업을 수행하는 역할을 하고 `actions/checkout@v3` 처럼 미리 정의된 액션을 통해 파일을 전송할 수 있고 다음 두가지 방식으로 사용할 수 있습니다.
+
+- `github-hosted runner`는 github에서 제공해주는 자원에서 `github actions` 작업을 수행하는 방식
+- `self-hosted runner`는 사용자가 직접 호스팅한 머신에 `github runner`를 설치하여 `github actions` 작업을 수행하는 방식
+
+`self-hosted`를 사용하면 `workflows` 파일에서 다음과 같이 `ec2`에 접속하고 작업을 `github actions` 방식으로 수행할 수 있어 로깅 및 작업을 편리하게 할 수 있습니다.
+
+```yaml
+// self-hosted runner 사용시
+deploy:
+  needs: build
+  runs-on: [self-hosted, 'hororok']
+  - name: Create .env.prod file
+    run: |
+      sudo rm -rf .env.prod
+      echo "${{ secrets.ENV_PROD }}" >> .env.prod
+
+  - name: Login to DockerHub
+    env:
+      DOCKER_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+    run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+  - name: Deploy
+    // ..
+
+// ssh 연결 사용시
+- name: Deploy
+    uses: appleboy/ssh-action@master
+    with:
+      host: ${{ secrets.REMOTE_IP }}
+      username: ${{ secrets.REMOTE_SSH_ID }}
+      key: ${{ secrets.REMOTE_SSH_KEY }}
+      port: ${{ secrets.REMOTE_SSH_PORT }}
+      script: |
+        whoami
+        git pull origin master
+        ...
+
+```
+
+또한 `docker hub`를 통해 빌드 완료된 이미지를 `pull`하여 실행하기 때문에 처음만 `docker-compose.yml` 및 `ssl 인증서`, `nginx.conf` 등을 위해 `actions/checkout@v3`를 통해 파일을 전송하고 그 후엔 `.env` 파일 업데이트, 도커 허브 로그인, 도커 컴포즈 pull & up을 수행만 수행하면 됩니다.
+
+### e2e 테스트
+
+여기서 `e2e test`를 할때 `nest 테스팅 모듈`을 사용하지 않고 `supertest`를 사용하여 테스트를 진행하였습니다.
+
+추후에 `spring` 팀원이 개발 서버에 배포하면 `Nest`에서 총합적으로 `e2e 테스트`를 진행하기 위해 `supertest`를 사용했지만,
+
+개발 서버를 또 `ec2`로 배포하면 프리티어를 초과하여 비용이 상당히 발생하기 때문에 불편함을 감소하고 각자의 로컬에서 `개발 & 테스트`를 진행하고,
+
+개발 서버용으로 유효시간이 무제한인 `JWT` 토큰을 발급하고 `spring`에서 환경변수로 주입하여 `로컬에서 테스트를 진행`하기로 결정했습니다.
+
+`supertest`를 사용하면 아래와 같이 `Nest 모듈`에 종속되지 않고 `엔드포인트로 테스트를 진행`할 수 있습니다.
+
+#### Nest 테스트 모듈 사용 시
+
+`mocking`을 통해 실제 `DB없이 테스트`를 진행할 수 있지만, 테스트 코드가 복잡해지고 테스트 코드가 늘어날수록 유지보수가 어려워집니다.
+
+```typescript
+describe('TodoModule', () => {
+  let app: INestApplication;
+
+  const mockTodoService = {
+    get: jest.fn(),
+  };
+
+  beforeEach(async () => {
+    const moduleFixture: TestingModule = await Test.createTestingModule({
+      imports: [AppModule],
+    })
+      .overrideProvider(TodoService)
+      .useValue(mockTodoService)
+      .compile();
+
+    app = moduleFixture.createNestApplication();
+    await app.init();
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  describe('GET: todo/:id', () => {
+    beforeEach(() => {
+      jest.spyOn(mockTodoService, 'get');
+    });
+
+    it('should return OK', async () => {
+      await request(app.getHttpServer()).get('/todo/1').expect(200, {});
+    });
+  });
+});
+```
+
+#### supertest 사용 시
+
+`supertest`를 사용하면 `실제 서버를 띄우고` 테스트를 진행하기 때문에 `실제 서버와 동일한 환경`에서 테스트를 진행할 수 있습니다.
+
+```typescript
+const baseURL = 'http://localhost:3000/';
+
+describe('Todo', () => {
+  const apiRequest = request(baseURL);
+
+  describe('GET: todo/:id', () => {
+    it('should have the response', async () => {
+      const response = await apiRequest.get('todo/1');
+
+      expect(response.status).toBe(200);
+    });
+  });
+});
+```
+
+`git actions` 테스트에서 `supertest`를 사용하기 위해선 아래와 같이 테스트를 진행하기 전 서버를 띄워줘야합니다.
+
+또한 프로젝트에서 `redis`를 사용하고 있기 때문에 `docker`로 `redis`를 띄우는 스크립트를 작성하여 테스트를 진행하였습니다.
+
+```yaml
+// ./github/workflows/main.yml
+
+test-e2e:
+    runs-on: ubuntu-latest
+    // ...
+        - name: Install Dependencies
+          run: yarn install
+
+        - name: Start Redis
+          run: yarn start:redis &
+
+        - name: Start Application
+          run: yarn start:timer-app:test &
+
+        - name: Wait for Services to Start
+          run: sleep 10
+
+        - name: Run E2E Tests
+          run: yarn test:e2e
+
+        - name: Stop Application
+          if: always()
+          run: kill $(lsof -t -i:4000) || true
+
+        - name: Stop Redis
+          if: always()
+          run: yarn stop:redis
+    // ...
+```
+
+### 환경변수 주입
+
+환경변수는 `github`에서 `secrets`로 관리했습니다.
+
+기존에 `secrets.APP_NAME`, `secrets.APP_PORT`, `secrets.APP_ENV` 처럼 하나하나 관리하다가 주입해야할 환경변수가 40개를 넘어가니 오히려 관리가 어려워졌습니다.
+
+따라서 아래와 같이 각 환경별 `secrets`를 하나로 묶어서 관리하였습니다.
+
+![alt text](https://d2quahb2ygxiv.cloudfront.net/326ef543bea9849fb3a9d.png?width=800&height=500)
+
+위 환경변수는 워크플로우 파일에서 다음과 같이 주입합니다.
+
+```yaml
+deploy:
+  needs: build
+  runs-on: [self-hosted, 'hororok']
+  steps:
+    - name: Create .env.prod file
+      run: |
+        sudo rm -rf .env.prod
+        echo "${{ secrets.ENV_PROD }}" >> .env.prod
+
+    - name: Login to DockerHub
+      env:
+        DOCKER_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+      run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+
+    // ...
+```
+
+### docker-compose.yml
+
+`docker-compose.yml`은 아래와 같이 구성하였습니다.
+
+`certbot`에서 `ssl` 인증서를 발급받고 `nginx`에서 `ssl`을 적용하여 `timer-app`으로 프록시하는 방식으로 구성하였습니다.
+
+`nginx`의 `command`에서 6시간마다 `nginx`를 reload하도록 설정하였고, `certbot`의 entrypoint에서 12시간마다 `certbot`을 실행하여 인증서를 갱신하도록 설정하였습니다.
+
+이로인해 `certbot`에서 인증서가 30일 이내로 만료되는지 확인하고 30일 미만이면 인증서를 갱신됩니다.
+
+`certbot`을 통한 `ssl` 인증서는 요청한도가 존재하기 때문에 너무 자주 갱신하면 인증서 발급이 어려울 수 있으니 주의해야합니다.
+
+```yaml
+version: '3.8'
+services:
+  timer-app:
+    image: changwoot/timer-app:latest
+    build:
+      context: .
+      dockerfile: DockerFile.timer-app
+    restart: always
+
+  nginx:
+    image: nginx:1.25.3-alpine
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    container_name: web.server.com
+    depends_on:
+      - timer-app
+    restart: always
+    command: '/bin/sh -c ''while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g "daemon off;"'''
+
+  certbot:
+    image: certbot/certbot
+    restart: unless-stopped
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+```
+
+### nginx.conf
+
+기존에는 `hororok` 이라는 메인 서버에서 인증을 처리했기 때문에 아래 주석처럼 `hororok` 서버가 존재하고 `/hororok-api`, `/timer-api`로 서버를 분리하여 사용하다가 hororok 서버를 제거하고 timer 서버만 남기게 되었습니다.
+
+또한 `certbot`을 위한 `.well-known/acme-challenge/` 경로를 제외하고 모든 요청을 `https`로 리다이렉트하도록 설정하였습니다.
+
+`docker`와 `nginx`를 사용하면서 좋은점은 서버의 컨테이너를 여러개 띄우더라도 `nginx`에서 자동으로 로드밸런싱을 해주는게 굉장히 편리했습니다.
+
+```nginx
+...
+http {
+    include /etc/nginx/mime.types;
+    default_type application/octet-stream;
+
+    upstream timer-server {
+        server timer-app:4000;
+    }
+
+//  upstream hororok-server {
+//      server hororok-app:5000;
+//  }
+
+    server {
+        listen 80;
+        listen [::]:80;
+
+        server_name horok.store;
+        server_tokens off;
+
+        location /.well-known/acme-challenge/ {
+            allow all;
+            root /var/www/certbot;
+        }
+
+        location / {
+            return 301 https://$host$request_uri;
+        }
+    }
+
+    server {
+        listen 443 ssl;
+        server_name horok.store;
+        server_tokens off;
+
+        ssl_certificate /etc/letsencrypt/live/horok.store/fullchain.pem;
+        ssl_certificate_key /etc/letsencrypt/live/horok.store/privkey.pem;
+        include /etc/letsencrypt/options-ssl-nginx.conf;
+        ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+
+        location /timer-api {
+            proxy_pass http://timer-server;
+        }
+
+//      location /hororok-api {
+//          proxy_pass http://hororok-server;
+//      }
+
+        location /socket.io/ {
+            proxy_pass http://timer-server;
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection "upgrade";
+            proxy_set_header Host $host;
+            proxy_cache_bypass $http_upgrade;
+        }
+    }
+
+    ...
+}
+```
+
+### 웹소켓 설정
+
+서버의 컨테이너를 여러개 띄우게 된다면 `웹소켓`을 사용할 때 문제가 발생할 수 있습니다.
+
+여러개의 서버 컨테이너 끼리는 서로의 메모리를 공유하지 않기 때문에 `redis` 같은 `외부 DB`를 사용하여 서버 간의 메시지를 주고 받아야합니다.
+
+따라서 아래와 같이 `redis adapter`를 사용하여 컨테이너간 연결을 유지하도록 설정하였습니다.
+
+[공식문서](https://docs.nestjs.com/websockets/adapter#extend-socketio)
+
+## 마무리
+
+여기까지 백엔드 이야기를 마무리 지어보려고 합니다. 생각보다 굉장히 짧게 마무리 짓게 되었네요.
+
+앱의 스펙이 `Web` 방식에서 `Native App`으로 변경되면서 인증 동작이나 기능 역할 등 크게크게 변경되어 테스트 코드를 작성할 시간이 없던게 아쉬웠습니다.
+
+이제 `flutter` 마이그레이션도 마무리되어 배포가 완료 되어서 여러 광고 보상 시스템, 랭킹, 도감 등을 추가하면서 백엔드 테스트 코드에 시간을 투자해봐야겠네요.
+
+다음에는 플러터 마이그레이션에 대한 이야기로 돌아오겠습니다!
