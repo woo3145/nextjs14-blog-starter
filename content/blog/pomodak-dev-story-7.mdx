@@ -1,8 +1,8 @@
 ---
 title: '뽀모닭 개발기 7편 - React+ PWA에서 Flutter 전환기 (1)'
-description: 한달만에 Dart 학습부터 Flutter로 네이티브앱 배포까지 끝내기
+description: 한달만에 Dart 학습부터 Flutter 플레이스토어 배포까지 끝내기
 date: '2024-04-28'
-image: 'https://d2quahb2ygxiv.cloudfront.net/d3326ef543bea9849fb3a.png'
+image: 'https://d2quahb2ygxiv.cloudfront.net/f543bea9849fb3a9d6b6b.png'
 authors:
   - woo3145
 tags:
@@ -13,19 +13,21 @@ tags:
 published: true
 ---
 
+![alt text](https://d2quahb2ygxiv.cloudfront.net/f543bea9849fb3a9d6b6b.png?width=1200)
+
 뽀모닭을 플러터로 마이그레이션하면서 겪은 과정을 공유합니다.
 
 일주일정도 일때문에 작업을 거의 못해서 실제 작업은 3주 정도 걸린 것 같습니다.
 
 리액트 네이티브와 플러터 중 엄청 고민했는데, 플러터를 선택한게 정말 만족스러웠습니다.
 
-PWA를 배포하면서 생성한 안드로이드 인증서(signing.keystore)를 생성했었는데, 이미 해당 인증서로 서명된 앱을 배포했기 때문에 플러터로 마이그레이션하면서 해당 인증서를 사용하여 버전업을 진행했습니다.
+PWA를 배포하면서 안드로이드 인증서(signing.keystore)를 생성했었는데, 이미 해당 인증서로 서명된 앱을 배포했기 때문에 플러터로 마이그레이션하면서 해당 인증서를 사용하여 버전업을 진행했습니다.
 
 아무래도 네이티브 앱 개발이 처음이라 iOS와 안드로이드의 환경과 빌드 과정 등에 시간을 좀더 투자한 것 같습니다.
 
-크로스 플랫폼 앱개발을 고려할때 리액트 경험 때문에 리액트 네이티브로 결정하기 보다 플러터도 한번 고려할 만한 가치가 있다고 생각합니다.
+크로스 플랫폼 앱개발을 고려할때 리액트 경험 때문에 리액트 네이티브로 바로 결정하기 보다 플러터도 한번 고려할 만한 가치가 크다고 느꼈습니다.
 
-iOS는 앱스토어 개발자 계정등록이 상당히 오래걸리네요. 최대 3주까지 걸린다고 해서 iOS는 이후에 배포를 진행해야 할 것 같습니다.
+iOS는 앱스토어 개발자 계정등록이 상당히 오래걸리네요. 신분증 확인만 최대 3주까지 걸린다고 해서 iOS는 이후에 배포를 진행해야 할 것 같습니다.
 
 ## 작업 기간
 
@@ -51,7 +53,7 @@ dart 학습부터 구글 플레이 스토어 배포까지 딱 한달이 걸렸�
 
 - 22 ~ 23일차 - socket 기능 작업
 
-- 24 ~ 30일차 - 리팩토링 및 안드로이드, iOS 빌드 체크
+- 24 ~ 30일차 - 리팩토링 및 안드로이드, iOS 빌드 학습
 
 - 31일차 - 구글 플레이스토어 배포
 
@@ -114,7 +116,7 @@ StatefulWidget부터 Provider, Bloc, Riverpod, Mobx, Redux, GetX 등 다양한 �
 
 Bloc과 Provider중 고민을 많이 했는데, 작업 인원도 1명이고, 엄청나게 복잡한 상태관리가 필요하지 않다고 판단하여 상대적으로 학습곡선이 적은 Provider로 선택했습니다.
 
-### Get_it
+### Get_it을 통한 DI 개선
 
 기존에는 아래와 같이 DI를 직접 구현했습니다.
 
@@ -159,6 +161,8 @@ class _MyAppState extends State<MyApp> {
 Get_it을 통해 의존성 파일을 분리하고, Get_it을 통해 의존성을 주입하도록 변경했습니다.
 
 ```dart
+// di.dart
+
 final getIt = GetIt.instance;
 
 Future<void> setupLocator() async {
@@ -226,3 +230,371 @@ void registerViewModels() {
   );
 }
 ```
+
+```dart
+// main.dart
+Future<void> main() async {
+  // ...
+  await setupLocator();
+
+  runApp(
+    const MyApp(),
+  );
+}
+
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiProvider(
+      providers: [
+        // ...
+        ChangeNotifierProvider(create: (_) => getIt<MemberViewModel>()),
+      ],
+      child: Builder(
+        builder: (context) {
+          final appRouter = AppRouter(
+              appViewModel: getIt<AppViewModel>(),
+              authViewModel: getIt<AuthViewModel>());
+          final goRouter = appRouter.router;
+
+          // ...
+        },
+      ),
+    );
+  }
+}
+```
+
+## API 처리
+
+처음에는 http 패키지를 사용했는데 Interceptor 처리를 위해 dio 패키지로 변경했습니다.
+
+위의 Get_it 적용 예제코드에서 apiService에 authLocalDataSource를 주입받아서 모든 요청에 jwtToken을 주입하고, 리프레시 토큰을 통해 토큰 만료시 재발급 후 재요청하는 로직을 구현했습니다.
+
+```dart
+class AuthInterceptor extends Interceptor {
+  final AuthLocalDataSource authLocalDataSource;
+  final Future<AuthTokens> Function(String rToken) refreshToken;
+
+  AuthInterceptor({
+    required this.authLocalDataSource,
+    required this.refreshToken,
+  });
+
+  @override
+  void onRequest(
+      RequestOptions options, RequestInterceptorHandler handler) async {
+    final tokens = await authLocalDataSource.getTokens();
+
+    if (tokens != null) {
+      options.headers['Authorization'] = 'Bearer ${tokens.accessToken}';
+    }
+    super.onRequest(options, handler);
+  }
+
+  @override
+  void onError(DioException err, ErrorInterceptorHandler handler) async {
+    if (err.response?.statusCode == 401) {
+      if (err.requestOptions.extra['retry'] == true) {
+        // 이미 재요청한 경우 더 이상 처리하지 않음
+        return handler.next(err);
+      }
+
+      AuthTokens? tokens = await authLocalDataSource.getTokens();
+      String? rToken = tokens?.refreshToken;
+      if (rToken == null) {
+        // refreshToken이 없는 경우 더 이상 처리하지 않음
+        return handler.next(err);
+      }
+
+      final AuthTokens newTokens = await refreshToken(rToken);
+
+      // 요청 재시도
+      RequestOptions updatedOptions = err.requestOptions.copyWith(
+        headers: {
+          ...err.requestOptions.headers,
+          'Authorization': 'Bearer ${newTokens.accessToken}',
+          "retry": true,
+        },
+      );
+      try {
+        final response = await Dio().fetch(updatedOptions);
+        handler.resolve(response);
+      } catch (e) {
+        handler.reject(err);
+      }
+    } else {
+      super.onError(err, handler);
+    }
+  }
+}
+```
+
+### 토큰 리프레시 로직 상호참조 처리
+
+기존에 autoRemoteDatasource에서 refreshToken 로직을 처리하다가 아래의 상호참조가 발생하여 refreshToken 로직만 NetworkApiService에 분리하여 인터셉터에 전달했습니다.
+
+`authRepository` \<- `authRemoteDatasource` \<- **`networkApiService`**
+
+**`networkApiService`** \<- `authRepository`
+
+```dart
+class NetworkApiService extends BaseApiServices {
+  final Dio _dio = Dio();
+  final String _nestApiEndpoint = dotenv.env['NEST_API_ENDPOINT']!;
+  final AuthLocalDataSource authLocalDataSource;
+
+  NetworkApiService({required this.authLocalDataSource}) {
+    _dio.interceptors.add(AuthInterceptor(
+      authLocalDataSource: authLocalDataSource,
+      refreshToken: refreshToken,
+    ));
+  }
+
+  @override
+  Future<dynamic> getGetApiResponse(String url) async {
+    // ...
+  }
+
+  @override
+  Future<dynamic> getPostApiResponse(String url, dynamic data) async {
+    // ...
+  }
+
+  @override
+  Future<dynamic> getPatchApiResponse(String url, dynamic data) async {
+    // ...
+  }
+
+  @override
+  Future<dynamic> getDeleteApiResponse(String url, dynamic data) async {
+    // ...
+  }
+
+  Future<AuthTokens> refreshToken(String rToken) async {
+    // ...
+  }
+
+  void _handleDioError(DioException dioError) {
+    // ...
+  }
+}
+```
+
+또한 Get_it 적용 예제코드의 setupLocator()를 보면 apiService이전에 authLocalDataSource를 위해 localDataSource를 먼저 등록하는 것을 볼 수 있습니다.
+
+### 응답 데이터 직렬화
+
+직렬화 또한 [공식문서](https://docs.flutter.dev/data-and-backend/serialization/json)를 참고하여 json_serializable 패키지를 통해 처리했습니다.
+
+또한 api 응답이 항상 동일한 구조로 통일했기 때문에 api 응답을 BaseApiResponse 클래스를 만들어서 사용했습니다.
+
+```dart
+import 'package:json_annotation/json_annotation.dart';
+
+part 'base_api_response.g.dart';
+
+@JsonSerializable(
+  genericArgumentFactories: true,
+)
+class BaseApiResponse<T> {
+  final String status; // success | error
+  final String? message;
+  final String? error;
+  final T? data;
+
+  BaseApiResponse({
+    required this.status,
+    this.data,
+    this.error,
+    this.message,
+  });
+
+  factory BaseApiResponse.fromJson(
+          Map<String, dynamic> json, T Function(Object? json) fromJsonT) =>
+      _$BaseApiResponseFromJson(json, fromJsonT);
+
+  Map<String, dynamic> toJson(Object? Function(T value) toJsonT) =>
+      _$BaseApiResponseToJson(this, toJsonT);
+}
+```
+
+#### 사용 예제
+
+**응답의 data에 담길 모델을 생성**
+
+```dart
+import 'package:json_annotation/json_annotation.dart';
+import 'package:pomodak/models/domain/account_model.dart';
+
+part 'login_response.g.dart';
+
+@JsonSerializable(createToJson: false)
+class LoginResponse {
+  AccountModel account;
+  @JsonKey(name: 'access_token')
+  String accessToken;
+  @JsonKey(name: 'refresh_token')
+  String refreshToken;
+  @JsonKey(name: 'expires_in')
+  int expiresIn;
+
+  LoginResponse({
+    required this.account,
+    required this.accessToken,
+    required this.refreshToken,
+    required this.expiresIn,
+  });
+
+  factory LoginResponse.fromJson(Map<String, dynamic> json) =>
+      _$LoginResponseFromJson(json);
+}
+```
+
+**api 호출**
+
+BaseApiResponse의 두번째 인자에 제너릭 T에 대한 fromJson 함수를 넘겨주면서 사용합니다.
+
+```dart
+// auth_remote_datasource.dart
+
+// ...
+  @override
+  Future<BaseApiResponse<LoginResponse>> emailLoginApi({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      Map body = {
+        "email": email,
+        "password": password,
+      };
+      Map<String, dynamic> responseJson = await apiService.getPostApiResponse(
+        '$_nestApiEndpoint/auth/email/login',
+        body,
+      );
+      BaseApiResponse<LoginResponse> response = BaseApiResponse.fromJson(
+        responseJson,
+        (json) => LoginResponse.fromJson(json as Map<String, dynamic>),
+      );
+
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+```
+
+### 응답의 data 형태가 매번 다른 경우 (all 랜덤 효과 아이템 사용)
+
+뽀모닭에 사용된 api는 대부분 정해진 형태로 응답이 오지만 뽑기 api의 경우 결과에 따라 T의 형태가 다른 경우가 존재합니다.
+
+기존에는 캐릭터 뽑기, 팔레트 뽑기 ... 이런식으로 각각의 api를 만들어서 처리해서 아이템 사용시 해당 아이템 효과에 맞는 결과(캐릭터만 획득, 포인트만 획득)만 응답했었습니다.
+
+하지만 위 방식은 유연성이 적고 확장성도 떨어지기 때문에 `아이템 사용`이라는 하나의 api로 통일하고, 응답의 data 형태에 따라 다른 모델을 사용하도록 백엔드 로직을 변경했습니다.
+
+타입스크립트는 유니온 타입을 지원하기 때문에 유니온 타입으로 받아서 result 필드에 따라 구분했지만, 다트는 유니온 타입을 지원하지 않기 때문에 다음과 같이 처리했습니다.
+
+```dart
+// transaction_remote_datasource.dart
+// ...
+  @override
+  Future<dynamic> consumeItemApi(String inventoryId) async {
+    try {
+      Map<String, dynamic> responseJson = await apiService.getPostApiResponse(
+        '$_springApiEndpoint/v2/item-inventory/$inventoryId',
+        {},
+      );
+      final String result = responseJson["data"]["result"];
+      late final BaseApiResponse<dynamic> response;
+      switch (result) {
+        case consumableItemAcquisition:
+          response = BaseApiResponse.fromJson(
+            responseJson,
+            (json) => ConsumableItemAcquisition.fromJson(
+                json as Map<String, dynamic>),
+          );
+          break;
+        case characterAcquisition:
+          response = BaseApiResponse.fromJson(
+            responseJson,
+            (json) =>
+                CharacterAcquisition.fromJson(json as Map<String, dynamic>),
+          );
+          break;
+        case paletteAcquisition:
+          response = BaseApiResponse.fromJson(
+            responseJson,
+            (json) => PaletteAcquisition.fromJson(json as Map<String, dynamic>),
+          );
+          break;
+        case pointAcquisition:
+          response = BaseApiResponse.fromJson(
+            responseJson,
+            (json) => PointAcquisition.fromJson(json as Map<String, dynamic>),
+          );
+          break;
+        default:
+          throw Exception('Unknown result type: $result');
+      }
+
+      var data = response.data;
+      return data;
+    } catch (e) {
+      rethrow;
+    }
+  }
+```
+
+dart는 is를 통해 런타임에서 타입을 체크할 수 있기 때문에 응답 데이터에 대한 처리를 다음과 같이 할 수 있습니다.
+
+```dart
+// transaction_view_model.dart
+
+// ...
+  // ConsumableItemAcquisition, CharacterAcquisition, PaletteAcuisition, PointAcquisition
+  // 위 타입체킹 필요
+  Future<dynamic> consumeItem(
+      {required String inventoryId, bool isFood = false}) async {
+    if (_isLoadingConsumeItem) return;
+    _setLoadingState('consumeItem', isLoading: true);
+    try {
+      _setError('consumeItem');
+      var result = await repository.consumeItem(inventoryId);
+
+      if (result is ConsumableItemAcquisition) {
+        memberViewModel.loadConsumableInventory();
+      } else if (result is CharacterAcquisition) {
+        memberViewModel.loadCharacterInventory();
+      } else if (result is PaletteAcquisition) {
+        memberViewModel.loadPalette();
+      } else if (result is PointAcquisition) {
+        memberViewModel.loadMember(forceUpdate: true);
+      }
+
+      // 음식 아이템으로 사용한 경우와 사용아이템으로 사용한 경우의 수량 갱신
+      if (isFood) {
+        memberViewModel.loadFoodInventory();
+      } else {
+        if (result is ConsumableItemAcquisition) {
+          memberViewModel.loadConsumableInventory();
+        }
+      }
+
+      return result;
+    } catch (e) {
+      _handleError('consumeItem', e);
+    } finally {
+      _setLoadingState('consumeItem', isLoading: false);
+    }
+  }
+```
+
+## 마무리
+
+실제 코드를 넣으면서 작성하다보니 생각보다 길어져서 2편으로 나눠서 작성하겠습니다.
+
+2편에서 라우팅 처리, 타이머 관련 처리, 소켓 통신에 대해 정리하겠습니다.
