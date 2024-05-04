@@ -1,6 +1,6 @@
 ---
 title: '뽀모닭 개발기 8편 - 플러터가 망한다고? Flutter 전환기 (2)'
-description: 라우팅 및 타이머 구현
+description: 라우팅 및 구글 애드몹 적용
 date: '2024-05-03'
 image: 'https://d2quahb2ygxiv.cloudfront.net/f543bea9849fb3a9d6b6b.png'
 authors:
@@ -31,7 +31,7 @@ published: false
 
 플러터에서 라우팅은 `Navigator 위젯`에서 관리합니다. 스택 구조로 되어있어서 `push`, `pop`을 통해 화면을 전환할 수 있습니다.
 
-보통 `Widget.of(context)`는 상위에서 가장 가까운 위젯을 찾아주는 역할을 하는데 이를 이용해 가장 가까운 Navigator를 찾아 라우팅을 수행할 수 있습니다.
+`Widget.of(context)`는 상위에서 가장 가까운 위젯을 찾아주는 역할을 하는데 이를 이용해 가장 가까운 Navigator를 찾아 라우팅을 수행할 수 있습니다.
 
 - `Navigator.of(context).push('/route')` or `Navigator.push(context, '/route')`
 - `Navigator.of(context).pop()` or `Navigator.pop(context)`
@@ -209,3 +209,155 @@ String? _redirectLogic(BuildContext context, GoRouterState state) {
     return null;
 }
 ```
+
+## 구글 애드몹 적용
+
+생각중인 광고는 배너와 보상형 광고였으며 이를 위해 `google_mobile_ads` 패키지를 사용했습니다.
+
+하지만 광고를 적용하기 전에 앱의 포인트 획득 모델을 개선하는 작업을 먼저 진행했습니다.
+
+### 포인트 획득모델 개선
+
+기존 포인트를 획득하는 방식은 다음과 같았습니다.
+
+- 무료알 구매
+- 타이머 사용 (120분)
+- 알 사용
+- 100 ~ 200 포인트 획득
+
+알은 최대 4개까지 보유할 수 있고 타이머 사용시 보유한 알들의 요구시간이 채워지고, 4개를 모두 사용하면 2시간에 최대 800포인트를 획득할 수 있었습니다.
+
+여기서 리워드 광고를 적용 한다면 다음과 같은 방식이 떠오릅니다.
+
+- 보상형 광고를 통해 조금더 강화된 광고알 구매
+- 알 사용시 광고 시청을 통해 보상을 업그레이드
+
+또한 포인트 획득 이외에도 캐릭터 뽑기를 위한 알도 2시간 정도의 요구시간을 가지고 있었습니다.
+
+하지만 해당 방식은 다음과 같은 단점이 있었습니다.
+
+- 중간중간 알을 구매해야하는 번거로움
+- 알을 사용하지 않고 타이머를 사용하면 손해보는 느낌
+- 포인트를 모아 캐릭터 알을 구매해도 2시간 정도의 요구시간이 필요
+
+매번 사용해야 하는 기능이기에 피로감을 줄이고, 집중을 돕기 위한 앱의 목적에 맞춰 다음과 같이 개선하기로 했습니다.
+
+- 뽀모도로 집중 & 일반 타이머 사용 시 분당 9포인트 획득
+- 기존 캐릭터 뽑기를 위한 알 요구시간 제거
+- 알의 요구시간은 특별한 알에만 적용 (이벤트 알, 시즌 알 등)
+
+이를 통해 사용자가 타이머 사용시 중간중간 알을 구매하는 번거로움을 줄이고, 쉬는 타임에 포인트를 통해 캐릭터 뽑기를 할 수 있게 변경했습니다.
+
+포인트 획득량은 시간당 540포인트를 획득할 수 있도록 기준을 잡았습니다.
+
+해당 비율은 가장 낮은 캐릭터 뽑기 비용을 기준으로 1시간당 1회 정도의 캐릭터 뽑기를 할 수 있도록 설정했습니다.
+
+![alt text](?width=500)
+
+### 리워드형 광고 적용
+
+포인트 획득모델 개선에 따라 리워드형 광고를 적용하기로 했습니다.
+
+타이머를 종료할때 포인트를 지급하고 알람 페이지에서 광고 시청 후 한번더 포인트를 지급하는 방식으로 적용했습니다.
+
+이를 통해 사용자가 타이머 종료 후 광고 시청을 선택할 수 있으며 이를 통해 추가적인 포인트를 획득할 수 있습니다.
+
+리워드 광고 적용을 진행하며 다음과 같은 상황을 생각해야 했습니다.
+
+- 광고를 로드할 시점
+- 광고를 시청한 후 보상 지급
+- 반복적인 광고 시청 방지
+
+먼저 광고를 로드할때 시간이 좀 걸립니다. 기존에 알람페이지에 도착 후 광고를 로드하면 최대 3초 ~ 4초 까지 걸리는 일이 발생합니다.
+
+이는 사용자가 광고를 보기도 전에 확인을 눌러 페이지를 벗어나는 경우가 발생하기 때문에 광고를 로드하는 시점을 조정해야 합니다.
+
+보통 5라운드 종료 후 광고를 띄우려면 3라운드쯤 광고를 로드하는 것이 적절하다고 권장되고 있습니다.
+
+또 이를 위해 싱글톤으로 광고를 로드하고, 시청한 후에는 새 광고를 로드할 수 있도록 초기화를 해주어야 합니다.
+
+따라서 저같은 경우는 provider 패키지로 mvvm 패턴을 따르고 있기에 보상형 광고를 위한 `RewardedAdViewModel`을 만들어서 관리했습니다.
+
+```dart
+class RewardedAdViewModel extends ChangeNotifier {
+  RewardedAd? _rewardedAd; // 보상형 광고 객체
+  bool _rewardEarned = false; // 보상 획득 상태
+  bool isAdReady = false; // 광고가 준비되었는지의 여부
+
+  // 보상형 광고를 로드 (타이머 페이지에서 미리 호출)
+  void loadRewardedAd() {
+    RewardedAd.load(
+      adUnitId: AdMobHelper.rewardedAdUnitId,
+      request: const AdRequest(),
+      rewardedAdLoadCallback: RewardedAdLoadCallback(
+        onAdLoaded: (RewardedAd ad) {
+          debugPrint('보상형 광고 로드 완료');
+          _rewardedAd = ad;
+          isAdReady = true;
+          notifyListeners();
+        },
+        onAdFailedToLoad: (LoadAdError error) {
+          debugPrint('보상형 광고 로드 실패: ${error.message}');
+          isAdReady = false;
+          notifyListeners();
+        },
+      ),
+    );
+  }
+
+  // 준비된 광고 표시
+  void showRewardedAd({int points = 0}) {
+    if (_rewardedAd == null || !isAdReady) {
+      debugPrint('광고 준비 안 됨.');
+      return;
+    }
+
+    _rewardedAd!.fullScreenContentCallback = FullScreenContentCallback(
+      onAdShowedFullScreenContent: (RewardedAd ad) => debugPrint('광고 표시됨.'),
+      onAdDismissedFullScreenContent: (RewardedAd ad) {
+        debugPrint('광고 닫힘');
+        if (_rewardEarned) {
+          MessageUtil.showSuccessToast("$points 포인트를 추가 획득하였습니다!!");
+        }
+        ad.dispose(); // 광고 닫힐 때 리소스 해제
+        _rewardEarned = false;
+        isAdReady = false;
+        _rewardedAd = null;
+        notifyListeners();
+      },
+      onAdFailedToShowFullScreenContent: (RewardedAd ad, AdError error) {
+        debugPrint('보상형 광고 표시 실패: ${error.message}');
+        ad.dispose(); // 표시 실패시 리소스 해제
+        _rewardEarned = false;
+        isAdReady = false;
+        _rewardedAd = null;
+        notifyListeners();
+      },
+    );
+
+    _rewardedAd!.show(
+      onUserEarnedReward: (AdWithoutView ad, RewardItem reward) {
+        debugPrint('보상 획득: ${reward.type}, 수량 ${reward.amount}');
+
+        if (reward.type == 'double_points') {
+          // 포인트 한번 더 적립
+          getIt<TransactionViewModel>().rewardPoints(points);
+          _rewardEarned = true; // 앱으로 돌아가 보상 획득 여부를 알리기 위한 플래그
+        }
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    _rewardedAd?.dispose();
+    super.dispose();
+  }
+}
+```
+
+추가로 주의할 점은 onUserEarnedReward에서 광고를 띄울 때 루트 위젯에서 띄우는 toast가 보이지 않기 때문에 flag를 통해 광고가 닫은 후 획득 여부에 따라 toast를 띄우도록 했습니다.
+
+위 뷰모델을 루트에 등록하고 타이머를 시작 후 광고를 로드하도록 하여 타이머 종료 시 준비된 광고를 바로 사용할 수 있도록 했습니다.
+
+또한 광고를 짧은 시간에 반복적으로 시청하는 것을 방지하기 위해 광고를 시청한 후 로컬에 시청한 시간을 저장하고, 일정 시간이 지나지 않으면 버튼을 비활성화 하여 반복적인 광고 시청을 방지하는게 좋습니다.
