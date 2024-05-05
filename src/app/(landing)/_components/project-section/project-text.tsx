@@ -17,9 +17,9 @@ export const ProjectText = () => {
     >
       <motion.div
         variants={slideInFromLeft(0.5)}
-        className="text-[30px] text-foreground font-medium mt-[10px] text-center mb-[15px]"
+        className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600"
       >
-        Portfolio
+        Projects
       </motion.div>
     </motion.div>
   );

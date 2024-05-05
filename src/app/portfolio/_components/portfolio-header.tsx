@@ -27,7 +27,7 @@ export const PortfolioDetailHeader = ({
   footer,
 }: ProjectSectionProps) => {
   return (
-    <section className={cn('w-full bg-background overflow-hidden', className)}>
+    <section className={cn('w-full overflow-hidden', className)}>
       <div className="relative w-full max-w-[1200px] h-auto mx-auto">
         <div className="py-24 px-4 lg:px-16 border-l border-dashed">
           <div className="flex items-end pb-12 gap-4">

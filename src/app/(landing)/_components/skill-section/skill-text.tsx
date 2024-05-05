@@ -3,8 +3,10 @@ import * as React from 'react';
 import { motion, useInView } from 'framer-motion';
 
 import { slideInFromLeft, slideInFromRight } from '@/lib/motion';
+import { useTranslation } from '../../translation-provider';
 
 export const SkillText = () => {
+  const { translate } = useTranslation();
   const ref = React.useRef(null);
   const isInView = useInView(ref, { once: true });
 
@@ -19,24 +21,26 @@ export const SkillText = () => {
         variants={slideInFromRight(0.5)}
         className="flex items-center gap-2"
       >
-        <div className="py-2 px-2 border border-[#7042f88b] opacity-[0.9] rounded-md">
-          <h1 className="text-xs">Skills</h1>
-        </div>
-        <div className="py-2 px-2 border border-[#7042f88b] opacity-[0.9] rounded-md">
-          <h1 className="text-xs">Experience</h1>
-        </div>
+        {(translate('skillTags') as string[]).map((tag) => (
+          <div
+            key={tag}
+            className="py-2 px-2 border border-[#7042f88b] opacity-[0.9] rounded-md"
+          >
+            <h1 className="text-xs">{tag}</h1>
+          </div>
+        ))}
       </motion.div>
       <motion.div
         variants={slideInFromLeft(0.5)}
         className="text-[30px] text-foreground font-medium mt-[10px] text-center mb-[15px]"
       >
-        I love creating full-stack apps
+        {translate('skillTitle')}
       </motion.div>
       <motion.div
         variants={slideInFromRight(0.5)}
         className="cursive text-[20px] text-foreground/40 mb-10 mt-[10px] text-center"
       >
-        also, I love learning and enjoy bringing my ideas to life.
+        {translate('skillDescription')}
       </motion.div>
     </motion.div>
   );

@@ -1,6 +1,7 @@
 'use client';
 import * as React from 'react';
 import { motion } from 'framer-motion';
+import { useTranslation } from '../../translation-provider';
 
 interface Props {
   frontImage: React.ReactNode;
@@ -8,7 +9,7 @@ interface Props {
 }
 
 export const FlipImage = ({ frontImage, backImage }: Props) => {
-  const [isFlipped, setIsFlipped] = React.useState(false);
+  const { toggleLanguage, language } = useTranslation();
 
   const variants = {
     front: { rotateY: 0 },
@@ -17,11 +18,11 @@ export const FlipImage = ({ frontImage, backImage }: Props) => {
 
   return (
     <div
-      onClick={() => setIsFlipped(!isFlipped)}
+      onClick={toggleLanguage}
       style={{ perspective: 1000, cursor: 'pointer' }}
     >
       <motion.div
-        animate={isFlipped ? 'back' : 'front'}
+        animate={language == 'ko' ? 'back' : 'front'}
         variants={variants}
         transition={{ duration: 0.8 }}
         style={{
