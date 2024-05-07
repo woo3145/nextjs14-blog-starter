@@ -11,6 +11,7 @@ import { BaaSCard } from '../_components/skill-section/baas-card';
 import { BackEndCard } from '../_components/skill-section/backend-card';
 import { ResponsiveDesignCard } from '../_components/skill-section/responsive-design-card';
 import { CicdCard } from '../_components/skill-section/cicd-card';
+import { MobileCard } from '../_components/skill-section/mobile-card';
 
 export const useTranslatedItems = () => {
   const { translate } = useTranslation();
@@ -71,7 +72,7 @@ export const useTranslatedItems = () => {
         description: (
           <span className="text-sm">{translate('mobileAppDevDesc')}</span>
         ),
-        header: <ResponsiveDesignCard />,
+        header: <MobileCard />,
         className: 'md:col-span-1',
         icon: (
           <IconDeviceDesktopAnalytics className="h-4 w-4 text-neutral-500" />

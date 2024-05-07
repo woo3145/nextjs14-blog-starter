@@ -56,6 +56,7 @@ export const CDN_IMAGES = {
     octopus_2: 'https://d2quahb2ygxiv.cloudfront.net/2ccf80faba38501bbbd72.png',
     render_tree:
       'https://d2quahb2ygxiv.cloudfront.net/ccf80faba38501bbbd725.png',
+    squid_1: 'https://d2quahb2ygxiv.cloudfront.net/43bea9849fb3a9d6b6b27.jpg',
   },
   thumbnail: {
     aws: 'https://d2quahb2ygxiv.cloudfront.net/4f58ec43fa267cc8ae79a.png',

@@ -1,23 +1,14 @@
 import { IconContainer } from '@/components/ui/icon-container';
 import { Radar } from '@/components/ui/radar';
 import {
-  IconArtboard,
   IconBrandApple,
   IconBrandAws,
   IconBrandDocker,
   IconBrandGithub,
   IconBrandGoogle,
   IconBrandGooglePlay,
-  IconBrandGooglePodcasts,
   IconBrandVercel,
-  IconCameraCheck,
   IconCloudNetwork,
-  IconCodeMinus,
-  IconGitBranch,
-  IconGitMerge,
-  IconMobiledata,
-  IconServer,
-  IconServer2,
 } from '@tabler/icons-react';
 
 export const CicdCard = () => {
