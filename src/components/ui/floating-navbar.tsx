@@ -59,7 +59,7 @@ export const FloatingNav = ({
             duration: 0.2,
           }}
           className={cn(
-            'flex max-w-fit fixed top-10 inset-x-0 mx-auto rounded-full bg-background shadow-md z-[100] px-8 py-2 items-center justify-center space-x-4',
+            'flex max-w-fit fixed top-10 inset-x-0 mx-auto rounded-full bg-background shadow-md z-[100] px-8 py-2 items-center justify-center space-x-8',
             className
           )}
         >
@@ -70,14 +70,36 @@ export const FloatingNav = ({
                 key={`nav-item-${idx}`}
                 href={navItem.link}
                 className={cn(
-                  'text-sm font-medium relative text-foreground px-4 py-2 rounded-full hover:bg-accent hover:text-accent-foreground',
-                  isActive ? 'text-sm font-medium text-foreground' : ''
+                  'text-sm font-medium relative text-foreground py-2 rounded-full hover:text-accent-foreground duration-200 bg-indi',
+                  isActive
+                    ? 'text-sm font-medium text-foreground'
+                    : 'text-foreground/60'
                 )}
               >
                 <span className="block sm:hidden">{navItem.icon}</span>
                 <span className="hidden sm:block text-sm">{navItem.name}</span>
                 {isActive ? (
-                  <span className="absolute inset-x-0 w-1/2 mx-auto -bottom-px bg-gradient-to-r from-transparent via-primary to-transparent h-px" />
+                  <motion.div className="absolute -bottom-[1px] left-0 right-0 h-[1px]">
+                    <svg width="37" height="8" viewBox="0 0 37 8" fill="none">
+                      <motion.path
+                        d="M1 5.39971C7.48565 -1.08593 6.44837 -0.12827 8.33643 6.47992C8.34809 6.52075 11.6019 2.72875 12.3422 2.33912C13.8991 1.5197 16.6594 2.96924 18.3734 2.96924C21.665 2.96924 23.1972 1.69759 26.745 2.78921C29.7551 3.71539 32.6954 3.7794 35.8368 3.7794"
+                        className="stroke-indigo-400"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        initial={{
+                          strokeDasharray: 84.20591735839844,
+                          strokeDashoffset: 84.20591735839844,
+                        }}
+                        animate={{
+                          strokeDashoffset: 0,
+                        }}
+                        transition={{
+                          duration: 1,
+                        }}
+                      />
+                    </svg>
+                  </motion.div>
                 ) : null}
               </Link>
             );

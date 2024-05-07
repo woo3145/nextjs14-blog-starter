@@ -5,11 +5,7 @@ import './styles/globals.css';
 import { ThemeProvider } from '@/components/providers/theme-provider';
 import { DarkModeToggle } from '@/components/darkmode-toggle';
 import { siteMetadata } from '@/data/siteMetadata';
-import {
-  FileCode2Icon,
-  HomeIcon,
-  NotebookPenIcon,
-} from 'lucide-react';
+import { FileCode2Icon, HomeIcon, NotebookPenIcon } from 'lucide-react';
 import { FloatingNav } from '@/components/ui/floating-navbar';
 import { cn } from '@/lib/utils';
 import { IconPlanet } from '@tabler/icons-react';
