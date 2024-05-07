@@ -8,7 +8,6 @@ import { siteMetadata } from '@/data/siteMetadata';
 import {
   FileCode2Icon,
   HomeIcon,
-  LibraryIcon,
   NotebookPenIcon,
 } from 'lucide-react';
 import { FloatingNav } from '@/components/ui/floating-navbar';
