@@ -87,6 +87,14 @@ module.exports = {
             transform: 'translate(-50%,-40%) scale(1)',
           },
         },
+        'radar-spin': {
+          from: {
+            transform: 'rotate(20deg)',
+          },
+          to: {
+            transform: 'rotate(380deg)',
+          },
+        },
         aurora: {
           from: {
             backgroundPosition: '50% 50%, 50% 50%',
@@ -101,6 +109,7 @@ module.exports = {
         'accordion-up': 'accordion-up 0.2s ease-out',
         spotlight: 'spotlight 2s ease .75s 1 forwards',
         aurora: 'aurora 60s linear infinite',
+        'radar-spin': 'radar-spin 10s linear infinite',
       },
     },
   },

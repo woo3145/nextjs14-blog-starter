@@ -10,6 +10,7 @@ import { NextJsCard } from '../_components/skill-section/nextjs-card';
 import { BaaSCard } from '../_components/skill-section/baas-card';
 import { BackEndCard } from '../_components/skill-section/backend-card';
 import { ResponsiveDesignCard } from '../_components/skill-section/responsive-design-card';
+import { CicdCard } from '../_components/skill-section/cicd-card';
 
 export const useTranslatedItems = () => {
   const { translate } = useTranslation();
@@ -66,9 +67,9 @@ export const useTranslatedItems = () => {
         ),
       },
       {
-        title: translate('cicdDev'),
+        title: translate('mobileAppDev'),
         description: (
-          <span className="text-sm">{translate('cicdDevDesc')}</span>
+          <span className="text-sm">{translate('mobileAppDevDesc')}</span>
         ),
         header: <ResponsiveDesignCard />,
         className: 'md:col-span-1',
@@ -77,11 +78,11 @@ export const useTranslatedItems = () => {
         ),
       },
       {
-        title: translate('mobileAppDev'),
+        title: translate('cicdDev'),
         description: (
-          <span className="text-sm">{translate('mobileAppDevDesc')}</span>
+          <span className="text-sm">{translate('cicdDevDesc')}</span>
         ),
-        header: <ResponsiveDesignCard />,
+        header: <CicdCard />,
         className: 'md:col-span-2',
         icon: (
           <IconDeviceDesktopAnalytics className="h-4 w-4 text-neutral-500" />
