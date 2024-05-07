@@ -1,20 +1,9 @@
 'use client';
 import * as React from 'react';
-import {
-  IconCode,
-  IconDatabase,
-  IconDeviceDesktopAnalytics,
-  IconServer,
-} from '@tabler/icons-react';
 
 import { BentoGrid, BentoGridItem } from '@/components/ui/bento-grid';
 import { cn } from '@/lib/utils';
 import { SkillText } from './skill-text';
-import { DynamicBrowserCard } from './dynamic-browser-card';
-import { NextJsCard } from './nextjs-card';
-import { BaaSCard } from './baas-card';
-import { ResponsiveDesignCard } from './responsive-design-card';
-import { BackEndCard } from './backend-card';
 import { useTranslatedItems } from '../../_hooks/useTranslatedItems';
 
 interface SkillSectionProps {
