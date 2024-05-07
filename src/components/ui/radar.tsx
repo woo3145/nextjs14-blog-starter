@@ -3,10 +3,12 @@ import React from 'react';
 import { twMerge } from 'tailwind-merge';
 import { motion } from 'framer-motion';
 import { useTheme } from 'next-themes';
+import { useMounted } from '@/hooks/use-mounted';
 
 export const Radar = ({ className }: any) => {
   const { theme } = useTheme();
   const circles = new Array(8).fill(1);
+  const mounted = useMounted();
 
   return (
     <div
@@ -31,7 +33,7 @@ export const Radar = ({ className }: any) => {
 
         // 다크 모드에 따라 다른 색상 적용
         const borderColor =
-          theme === 'dark'
+          mounted && theme === 'dark'
             ? `rgba(71, 85, 105, ${borderOpacity})`
             : `rgba(148, 163, 184, ${borderOpacity})`;
         return (

@@ -44,7 +44,7 @@ export const ResponsiveDesignCard = () => {
       width: 192,
       transition: {
         duration: 0.7,
-        repeatDelay: 4,
+        repeatDelay: 3,
         repeatType: 'mirror',
         repeat: Infinity,
       },

@@ -14,7 +14,7 @@ export const DynamicBrowserCard = () => {
       borderRadius: '4px',
       transition: {
         duration: 0.7,
-        repeatDelay: 4,
+        repeatDelay: 3,
         repeatType: 'reverse',
         repeat: Infinity,
       },
@@ -28,7 +28,7 @@ export const DynamicBrowserCard = () => {
       height: 48,
       transition: {
         duration: 0.7,
-        repeatDelay: 6,
+        repeatDelay: 4,
         repeatType: 'reverse',
         repeat: Infinity,
       },
@@ -42,7 +42,7 @@ export const DynamicBrowserCard = () => {
       height: 32,
       transition: {
         duration: 0.7,
-        repeatDelay: 6,
+        repeatDelay: 4,
         repeatType: 'reverse',
         repeat: Infinity,
       },
