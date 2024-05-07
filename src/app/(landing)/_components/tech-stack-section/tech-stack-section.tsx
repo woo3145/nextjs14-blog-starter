@@ -2,6 +2,8 @@
 import { cn } from '@/lib/utils';
 import { TechStackDataProvider } from './tech-stack-data-provider';
 import { CDN_IMAGES } from '@/data/cdn-images';
+import * as React from 'react';
+import { TeckStackText } from './teck-stack-text';
 
 interface TechStack {
   imageSrc: string;
@@ -151,9 +153,7 @@ export const TechStackSection = ({ className }: TechStackSectionProps) => {
         className
       )}
     >
-      <p className="text-[30px] text-foreground font-medium mt-[10px] text-center mb-[15px]">
-        Tech Stacks
-      </p>
+      <TeckStackText />
       <div className="w-full max-w-screen-xl">
         <div className="space-y-12">
           <div className="flex justify-center items-center flex-wrap gap-6">

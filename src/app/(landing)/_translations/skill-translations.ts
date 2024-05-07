@@ -2,7 +2,7 @@ import { Translations } from '.';
 
 export const skillTranslations: Translations = {
   en: {
-    skillTags: ['Skill', 'Experience'],
+    skillTags: ['Web', 'Frontend', 'Backend', 'Mobile', 'Serverless'],
     skillTitle: 'I love creating full-stack apps.',
     skillDescription:
       'also, I have a tendency to learn everything for development without being tied to a specific tech-stacks',
@@ -29,7 +29,7 @@ export const skillTranslations: Translations = {
       'Deployment and pipeline setup suitable for the situation using S3, EC2, Docker, Vercel, GitActions, etc.',
   },
   ko: {
-    skillTags: ['기술', '경험'],
+    skillTags: ['웹', '프론트엔드', '백엔드', '모바일', '서버리스'],
     skillTitle: '저는 풀스택 개발을 좋아합니다.',
     skillDescription:
       '또한, 특정 기술에 얽매이지 않고 개발을 위한 모든 것을 습득하는 성향을 가지고있습니다.',

@@ -4,7 +4,7 @@ import * as React from 'react';
 import { BentoGrid, BentoGridItem } from '@/components/ui/bento-grid';
 import { cn } from '@/lib/utils';
 import { SkillText } from './skill-text';
-import { useTranslatedItems } from '../../_hooks/useTranslatedItems';
+import { useTranslatedItems } from '../../_hooks/use-translated-items';
 
 interface SkillSectionProps {
   className?: string;

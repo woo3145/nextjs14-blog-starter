@@ -32,13 +32,13 @@ export const SkillText = () => {
       </motion.div>
       <motion.div
         variants={slideInFromLeft(0.5)}
-        className="text-[30px] text-foreground font-medium mt-[10px] text-center mb-[15px]"
+        className="text-2xl md:text-3xl text-center pt-4 pb-4 text-transparent font-bold bg-clip-text bg-gradient-to-r from-rose-400 to-orange-300"
       >
         {translate('skillTitle')}
       </motion.div>
       <motion.div
         variants={slideInFromRight(0.5)}
-        className="cursive text-[20px] text-foreground/40 mb-10 mt-[10px] text-center"
+        className="cursive text-lg text-foreground/40 mb-10 pt-2 text-center"
       >
         {translate('skillDescription')}
       </motion.div>
