@@ -8,7 +8,7 @@ interface MobileDeviceProps {
 export const MobileDevice = ({ children }: MobileDeviceProps) => {
   return (
     <div
-      className="flex flex-col aspect-[9/16] h-auto border-[3px] border-black rounded-md bg-background relative
+      className="flex flex-col aspect-[9/16] h-auto min-h-[150px] border-[3px] border-black rounded-md bg-background relative
     group cursor-pointer"
     >
       {/* Top Nav */}
