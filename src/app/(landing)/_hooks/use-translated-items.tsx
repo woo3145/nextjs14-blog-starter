@@ -11,7 +11,7 @@ import { BaaSCard } from '../_components/skill-section/baas-card';
 import { BackEndCard } from '../_components/skill-section/backend-card';
 import { ResponsiveDesignCard } from '../_components/skill-section/responsive-design-card';
 import { CicdCard } from '../_components/skill-section/cicd-card';
-import { MobileCard } from '../_components/skill-section/mobile-card';
+import { MobileCard } from '../_components/skill-section/mobile-card/mobile-card';
 
 export const useTranslatedItems = () => {
   const { translate } = useTranslation();
