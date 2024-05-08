@@ -14,9 +14,9 @@ import {
 export const CicdCard = () => {
   return (
     <div className="flex flex-1 w-full h-full min-h-[6rem]  dark:bg-dot-white/[0.2] bg-dot-black/[0.2] flex-row space-x-2">
-      <div className="relative flex h-auto w-full flex-col items-center justify-center space-y-4 overflow-hidden px-4">
+      <div className="relative flex h-auto w-full flex-col items-center justify-center space-y-4 py-6 md:py-0 overflow-hidden px-4">
         <div className="mx-auto w-full">
-          <div className="flex w-full  items-center justify-center space-x-10 md:justify-between md:space-x-0 px-10">
+          <div className="flex w-full items-center justify-center space-x-10 md:justify-between md:space-x-0 px-10">
             <IconContainer
               text="App Store"
               delay={0.2}
