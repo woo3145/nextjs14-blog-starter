@@ -12,10 +12,10 @@ import Matter, {
 } from 'matter-js';
 import { IconHandClick } from '@tabler/icons-react';
 
-const MAX_BALLS = 40;
+const MAX_BALLS = 15;
 const ballSize = 24; // 공 크기
 const ballImageSize = 432; // 이미지 크기 (픽셀)
-const ballImages = ['ball_1.png', 'ball_2.png', 'ball_3.png'];
+const ballImages = ['ball_1.png', 'ball_2.png', 'ball_3.png', 'ball_4.png'];
 
 export const WatermelonGame = () => {
   const sceneRef = useRef<HTMLDivElement>(null);
@@ -73,10 +73,10 @@ export const WatermelonGame = () => {
 
       // 월드의 경계 설정
       const boundaries = [
-        Bodies.rectangle(37.5, 0, 75, 8, {
-          isStatic: true,
-          render: { visible: false },
-        }), // 상단
+        // Bodies.rectangle(37.5, 0, 75, 8, {
+        //   isStatic: true,
+        //   render: { visible: false },
+        // }), // 상단
         Bodies.rectangle(37.5, 132, 75, 8, {
           isStatic: true,
           render: { visible: false },
@@ -111,13 +111,40 @@ export const WatermelonGame = () => {
     };
   }, [createInitialBalls]);
 
+  const resetBalls = () => {
+    if (!engine.current) return;
+    World.clear(engine.current.world, false);
+    setBalls([]);
+
+    const boundaries = [
+      Bodies.rectangle(37.5, 132, 75, 8, {
+        isStatic: true,
+        render: { visible: false },
+      }), // 하단
+      Bodies.rectangle(0, 66, 8, 132, {
+        isStatic: true,
+        render: { visible: false },
+      }), // 좌측
+      Bodies.rectangle(75, 66, 8, 132, {
+        isStatic: true,
+        render: { visible: false },
+      }), // 우측
+    ];
+
+    World.add(engine.current!.world, boundaries);
+    createInitialBalls(4);
+  };
+
   // 공 생성 핸들러
   const handleClick = (e: React.MouseEvent) => {
-    if (balls.length >= MAX_BALLS) return;
+    if (balls.length > MAX_BALLS) {
+      resetBalls();
+      return;
+    }
 
     const rect = sceneRef.current!.getBoundingClientRect();
     let x = e.clientX - rect.left;
-    let y = ballSize / 2; // 공이 맨 위에서 생성되도록 설정
+    let y = -ballSize; // 공이 맨 위에서 생성되도록 설정
     const size = ballSize;
 
     // 공이 서로 붙어 있도록 겹치지 않는 위치 찾기
