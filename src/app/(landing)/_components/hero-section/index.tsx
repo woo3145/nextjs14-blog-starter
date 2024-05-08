@@ -7,6 +7,7 @@ import { SnakeBeam } from './snake-beam';
 import { FlipImage } from './flip-image';
 import { CDN_IMAGES } from '@/data/cdn-images';
 import { useTranslation } from '../../translation-provider';
+import { BubbleMessage } from './bubble-message';
 
 export const HeroSection = () => {
   const { translate } = useTranslation();
@@ -54,7 +55,7 @@ export const HeroSection = () => {
             ease: [0.4, 0.0, 0.2, 1],
             delay: 0.3,
           }}
-          className="flex items-center justify-center mt-10"
+          className="flex flex-col items-center justify-center mt-10 relative"
         >
           <FlipImage
             frontImage={
@@ -77,6 +78,9 @@ export const HeroSection = () => {
               />
             }
           />
+          <div className="animate-bounce absolute bottom-12 md:bottom-0">
+            <BubbleMessage>{translate('characterMessage')}</BubbleMessage>
+          </div>
         </motion.div>
       </div>
     </div>
