@@ -1,4 +1,5 @@
 'use client';
+import * as React from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 
@@ -8,12 +9,44 @@ import { FlipImage } from './flip-image';
 import { CDN_IMAGES } from '@/data/cdn-images';
 import { useTranslation } from '../../translation-provider';
 import { BubbleMessage } from './bubble-message';
+import { slideInFromLeft, slideInFromRight } from '@/lib/motion';
 
 export const HeroSection = () => {
   const { translate } = useTranslation();
+  const [showBubble, setShowBubble] = React.useState(true);
+  const hoverTimeoutRef = React.useRef<NodeJS.Timeout | null>(null);
+
+  const handleMouseEnter = () => {
+    setShowBubble(true);
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    hoverTimeoutRef.current = setTimeout(() => {
+      setShowBubble(false);
+    }, 3000);
+  };
+
+  React.useEffect(() => {
+    hoverTimeoutRef.current = setTimeout(() => {
+      setShowBubble(false);
+    }, 5000);
+    return () => {
+      if (hoverTimeoutRef.current) {
+        clearTimeout(hoverTimeoutRef.current);
+      }
+    };
+  }, []);
+
   return (
     <div className="h-[40rem] md:h-screen w-full rounded-md flex items-center md:justify-center relative overflow-hidden bg-background bg-grid-black/[0.04] dark:bg-grid-white/[0.04]">
-      <div className="p-4 max-w-7xl mx-auto relative z-10 w-full pt-20 md:pt-0 flex flex-col items-center">
+      <div
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        className="p-4 max-w-7xl mx-auto relative z-10 w-full pt-20 md:pt-0 flex flex-col items-center"
+      >
         <SnakeBeam className="mb-4" />
         <motion.h1
           initial={{
@@ -78,9 +111,20 @@ export const HeroSection = () => {
               />
             }
           />
-          <div className="animate-bounce absolute bottom-12 md:bottom-0">
-            <BubbleMessage>{translate('characterMessage')}</BubbleMessage>
-          </div>
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={slideInFromRight(0.7)}
+            className="absolute bottom-12 md:bottom-0"
+          >
+            <motion.div
+              animate={{ opacity: showBubble ? 1 : 0 }}
+              transition={{ duration: 0.3 }}
+              className="animate-bounce"
+            >
+              <BubbleMessage>{translate('characterMessage')}</BubbleMessage>
+            </motion.div>
+          </motion.div>
         </motion.div>
       </div>
     </div>
