@@ -13,14 +13,44 @@ import Matter, {
 import { IconHandClick } from '@tabler/icons-react';
 
 const MAX_BALLS = 40;
-const ballSize = 20; // 공 크기
+const ballSize = 24; // 공 크기
 const ballImageSize = 432; // 이미지 크기 (픽셀)
+const ballImages = ['ball_1.png', 'ball_2.png', 'ball_3.png'];
 
 export const WatermelonGame = () => {
   const sceneRef = useRef<HTMLDivElement>(null);
   const engine = useRef<Engine | null>(null);
   const render = useRef<Render | null>(null);
   const [balls, setBalls] = useState<Body[]>([]);
+
+  const getRandomBallImage = () => {
+    const idx = Math.floor(Math.random() * ballImages.length);
+    return ballImages[idx];
+  };
+
+  const createInitialBalls = React.useCallback((count: number) => {
+    const newBalls: Body[] = [];
+
+    for (let i = 0; i < count; ++i) {
+      const x = Math.random() * (75 - ballSize) + ballSize / 2;
+      const y = ballSize / 2;
+
+      const newBall = Bodies.circle(x, y, ballSize / 2, {
+        restitution: 0.5,
+        render: {
+          sprite: {
+            texture: getRandomBallImage(), // 이미지 경로 설정
+            xScale: ballSize / ballImageSize, // 이미지 크기 조정
+            yScale: ballSize / ballImageSize, // 이미지 크기 조정
+          },
+        },
+      });
+
+      newBalls.push(newBall);
+    }
+    World.add(engine.current!.world, newBalls);
+    setBalls(newBalls);
+  }, []);
 
   useEffect(() => {
     // 엔진과 렌더링 설정을 한 번만 생성
@@ -79,7 +109,7 @@ export const WatermelonGame = () => {
         Composite.clear(engine.current.world, false);
       }
     };
-  }, []);
+  }, [createInitialBalls]);
 
   // 공 생성 핸들러
   const handleClick = (e: React.MouseEvent) => {
@@ -98,7 +128,7 @@ export const WatermelonGame = () => {
         restitution: 0.5,
         render: {
           sprite: {
-            texture: '/ball.png', // 이미지 경로 설정
+            texture: getRandomBallImage(), // 이미지 경로 설정
             xScale: size / ballImageSize, // 이미지 크기 조정
             yScale: size / ballImageSize, // 이미지 크기 조정
           },
@@ -122,30 +152,6 @@ export const WatermelonGame = () => {
         'Failed to find a non-overlapping position after multiple attempts'
       );
     }
-  };
-
-  const createInitialBalls = (count: number) => {
-    const newBalls: Body[] = [];
-
-    for (let i = 0; i < count; ++i) {
-      const x = Math.random() * (75 - ballSize) + ballSize / 2;
-      const y = ballSize / 2;
-
-      const newBall = Bodies.circle(x, y, ballSize / 2, {
-        restitution: 0.5,
-        render: {
-          sprite: {
-            texture: '/ball.png', // 이미지 경로 설정
-            xScale: ballSize / ballImageSize, // 이미지 크기 조정
-            yScale: ballSize / ballImageSize, // 이미지 크기 조정
-          },
-        },
-      });
-
-      newBalls.push(newBall);
-    }
-    World.add(engine.current!.world, newBalls);
-    setBalls(newBalls);
   };
 
   return (
