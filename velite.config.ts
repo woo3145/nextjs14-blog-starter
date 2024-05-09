@@ -44,7 +44,7 @@ const posts = defineCollection({
 
 const projects = defineCollection({
   name: 'Project',
-  pattern: 'project/**/*.mdx',
+  pattern: 'projects/**/*.mdx',
   schema: s
     .object({
       slug: s.path(),

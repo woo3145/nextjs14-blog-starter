@@ -74,8 +74,8 @@ const navItems = [
     icon: <NotebookPenIcon className="h-4 w-4 text-foreground/60" />,
   },
   {
-    name: 'Portfolio',
-    link: '/portfolio',
+    name: 'Projects',
+    link: '/projects',
     icon: <IconPlanet className="h-4 w-4 text-foreground/60" />,
   },
   {
