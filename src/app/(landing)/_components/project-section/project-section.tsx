@@ -3,41 +3,40 @@ import * as React from 'react';
 
 import { cn } from '@/lib/utils';
 import { ProjectText } from './project-text';
-import { ProjectCard } from './project-card';
 import { IconBrandGithub, IconBrandGooglePlay } from '@tabler/icons-react';
 import Link from 'next/link';
 import { buttonVariants } from '@/components/ui/button';
 import { IconHome } from '@tabler/icons-react';
 import { toast } from 'sonner';
 import { CDN_IMAGES } from '@/data/cdn-images';
+import { projects as allProjects, Project } from '#site/content';
+import { ProjectCard } from './project-card';
+import { compareDesc } from 'date-fns';
 
 interface ProjectSectionProps {
   className?: string;
 }
 
 export const ProjectSection = ({ className }: ProjectSectionProps) => {
+  const projects = allProjects
+    .filter((project) => project.published)
+    .sort((a, b) => {
+      return compareDesc(new Date(a.date), new Date(b.date));
+    });
   return (
     <section className={cn('min-h-screen w-full space-y-10', className)}>
       <ProjectText />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 gap-y-8 max-w-6xl mx-auto">
-        {items.map((item, idx) => {
-          return (
-            <ProjectCard
-              key={idx}
-              stacks={item.stacks}
-              footer={item.footer}
-              imgSrc={item.imgSrc}
-              title={item.title}
-              description={item.description}
-            />
-          );
+        {projects.map((item, idx) => {
+          return <ProjectCard key={idx} project={item} />;
         })}
       </div>
     </section>
   );
 };
 
+// 참고용으로 남겨놈
 const items = [
   {
     imgSrc: CDN_IMAGES.project.pomodak_flutter,
