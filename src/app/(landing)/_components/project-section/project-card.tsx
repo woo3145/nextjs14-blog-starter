@@ -52,7 +52,7 @@ export const ProjectCard = ({
         />
       </div>
       <div className="p-2 space-y-2">
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-1 flex-wrap">
           {project.tags.map((tag) => {
             return (
               <p

@@ -68,6 +68,7 @@ const projects = defineCollection({
           appstore: s.string().optional(),
         })
         .optional(),
+      featured: s.boolean().default(false), // true면 메인 페이지에서 표시됨
       body: s.mdx(),
     })
     .transform(computedFields),
