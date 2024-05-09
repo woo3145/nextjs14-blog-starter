@@ -58,9 +58,9 @@ export const FlySquidGame = () => {
         />
       </motion.div>
 
-      <p className="flex gap-1 items-center text-xs font-bold text-blue-400 group-hover:scale-110 duration-200">
+      <p className="absolute w-full bottom-4 flex gap-1 justify-center items-center text-xs font-bold text-purple-400 group-hover:scale-110 duration-200">
         Touch
-        <IconHandClick className="text-foreground size-4 text-blue-400" />
+        <IconHandClick className="text-foreground size-4 text-purple-400" />
       </p>
     </div>
   );
