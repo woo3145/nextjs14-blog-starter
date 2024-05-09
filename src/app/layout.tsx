@@ -101,7 +101,7 @@ export default function RootLayout({
         >
           <FloatingNav navItems={navItems} />
 
-          <div className="h-auto min-h-screen w-full rounded-md bg-background bg-grid-black/[0.04] dark:bg-grid-white/[0.04] font-noto-sans overflow-hidden">
+          <div className="h-auto min-h-screen w-full rounded-md bg-background bg-grid-black/[0.04] dark:bg-grid-white/[0.04] font-noto-sans">
             {children}
           </div>
           <DarkModeToggle />

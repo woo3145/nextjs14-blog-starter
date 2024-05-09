@@ -9,7 +9,7 @@ import { buttonVariants } from '@/components/ui/button';
 import { IconHome } from '@tabler/icons-react';
 import { toast } from 'sonner';
 import { CDN_IMAGES } from '@/data/cdn-images';
-import { projects as allProjects, Project } from '#site/content';
+import { projects as allProjects } from '#site/content';
 import { ProjectCard } from './project-card';
 import { compareDesc } from 'date-fns';
 
@@ -23,13 +23,44 @@ export const ProjectSection = ({ className }: ProjectSectionProps) => {
     .sort((a, b) => {
       return compareDesc(new Date(a.date), new Date(b.date));
     });
+  const [zoomedProjectId, setZoomedProjectId] = React.useState<number | null>(
+    null
+  );
+
+  const handleOutsideClick = () => {
+    setZoomedProjectId(null);
+  };
+
+  const handleZoomToggle = (projectId: number) => {
+    setZoomedProjectId((prev) => (prev === projectId ? null : projectId));
+  };
+
+  React.useEffect(() => {
+    const handleClickOutside = () => {
+      handleOutsideClick();
+    };
+
+    window.addEventListener('click', handleClickOutside);
+
+    return () => {
+      window.removeEventListener('click', handleClickOutside);
+    };
+  }, []);
   return (
     <section className={cn('min-h-screen w-full space-y-10', className)}>
       <ProjectText />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 gap-y-8 max-w-6xl mx-auto">
         {projects.map((item, idx) => {
-          return <ProjectCard key={idx} project={item} />;
+          return (
+            <ProjectCard
+              id={idx}
+              key={idx}
+              project={item}
+              isZoomed={zoomedProjectId === idx}
+              onZoomToggle={handleZoomToggle}
+            />
+          );
         })}
       </div>
     </section>

@@ -1,3 +1,4 @@
+'use client';
 import * as React from 'react';
 import Image from 'next/image';
 
@@ -13,13 +14,35 @@ import { cn } from '@/lib/utils';
 import { buttonVariants } from '@/components/ui/button';
 
 interface ProjectCardProps {
+  id: number;
   project: Project;
+  isZoomed: boolean;
+  onZoomToggle: (projectId: number) => void;
 }
 
-export const ProjectCard = ({ project }: ProjectCardProps) => {
+export const ProjectCard = ({
+  id,
+  project,
+  isZoomed,
+  onZoomToggle,
+}: ProjectCardProps) => {
+  const toggleZoom = () => {
+    onZoomToggle(id);
+  };
   return (
-    <div className="flex flex-col gap-2 row-span-1 rounded-lg hover:shadow-xl transition duration-200 shadow-input p-4 dark:bg-black dark:border-white/[0.2] bg-white border border-transparent">
-      <div className="relative flex flex-1 justify-center items-center w-full max-h-[14rem] dark:bg-dot-white/[0.2] bg-dot-black/[0.2] space-y-2">
+    <div
+      onClick={(e) => e.stopPropagation()}
+      className="flex flex-col gap-2 row-span-1 rounded-lg hover:shadow-xl transition duration-200 shadow-input p-4 dark:bg-black dark:border-white/[0.2] bg-white border border-transparent"
+    >
+      <div
+        onClick={toggleZoom}
+        className={cn(
+          'relative flex flex-1 justify-center items-center w-full max-h-[14rem] dark:bg-dot-white/[0.2] bg-dot-black/[0.2] space-y-2',
+          isZoomed
+            ? 'transform scale-[1.8] md:scale-[2.5] z-50 transition-transform duration-300 cursor-zoom-out'
+            : 'cursor-zoom-in'
+        )}
+      >
         <Image
           src={project.image}
           alt="thumbnail"
