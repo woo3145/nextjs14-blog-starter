@@ -7,7 +7,7 @@ import { TranslationProvider } from './translation-provider';
 export default async function Landing({}) {
   return (
     <TranslationProvider initialLanguage={'en'}>
-      <div className="flex flex-col gap-10 px-6">
+      <div className="flex flex-col gap-10 px-6 overflow-x-hidden">
         <HeroSection />
         <div className="py-20">
           <SkillSection />

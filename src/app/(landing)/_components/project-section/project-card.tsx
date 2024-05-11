@@ -61,12 +61,12 @@ export const ProjectCard = ({
             );
           })}
         </div>
-        <h1 className="font-sans font-bold text-neutral-600 dark:text-neutral-200">
-          {project.title}
-        </h1>
         <h2 className="font-sans font-normal text-neutral-600 text-sm dark:text-neutral-300 pb-2">
           {project.description}
         </h2>
+        <p className="font-sans text-sm text-zinc-600 dark:text-zinc-200">
+          {project.period}
+        </p>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
             {project.links?.github ? (

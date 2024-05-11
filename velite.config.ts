@@ -47,11 +47,12 @@ const projects = defineCollection({
   pattern: 'projects/**/*.mdx',
   schema: s
     .object({
+      id: s.number(),
       slug: s.path(),
       toc: s.toc(),
       title: s.string().max(99),
       description: s.string().max(999).optional(),
-      date: s.isodate(),
+      period: s.string(),
       published: s.boolean().default(true),
       image: s.string().max(99),
       tags: s.array(
