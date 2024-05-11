@@ -49,6 +49,8 @@ export const CDN_IMAGES = {
     video_streaming:
       'https://d2quahb2ygxiv.cloudfront.net/76586b12ccf80faba3850.png',
     woo3145: 'https://d2quahb2ygxiv.cloudfront.net/bea9849fb3a9d6b6b274e.png',
+    flutter_vertical_heatmap:
+      'https://d2quahb2ygxiv.cloudfront.net/ea9849fb3a9d6b6b274e8.png',
     etc: 'https://d2quahb2ygxiv.cloudfront.net/176586b12ccf80faba385.png',
   },
   landing: {
