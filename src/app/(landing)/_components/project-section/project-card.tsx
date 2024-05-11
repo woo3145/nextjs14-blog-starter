@@ -12,6 +12,7 @@ import {
 } from '@tabler/icons-react';
 import { cn } from '@/lib/utils';
 import { buttonVariants } from '@/components/ui/button';
+import { ProjectTag } from './project-tag';
 
 interface ProjectCardProps {
   id: number;
@@ -29,6 +30,7 @@ export const ProjectCard = ({
   const toggleZoom = () => {
     onZoomToggle(id);
   };
+
   return (
     <div
       onClick={(e) => e.stopPropagation()}
@@ -55,14 +57,7 @@ export const ProjectCard = ({
         <div className="flex items-center gap-1 flex-wrap">
           {project.tags.map((tag) => {
             return (
-              <p
-                key={tag.text}
-                className={cn(
-                  `border border-${tag.color}-500 bg-${tag.color}-100 dark:bg-${tag.color}-900/20 text-${tag.color}-600 dark:text-${tag.color}-400 text-xs rounded-full px-2 py-0.5`
-                )}
-              >
-                {tag.text}
-              </p>
+              <ProjectTag key={tag.text} text={tag.text} color={tag.color} />
             );
           })}
         </div>
