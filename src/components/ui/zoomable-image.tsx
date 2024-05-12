@@ -1,7 +1,8 @@
-import Image from "next/image";
-import * as React from "react";
+'use client';
+import Image from 'next/image';
+import * as React from 'react';
 
-import { cn } from "@/lib/utils";
+import { cn } from '@/lib/utils';
 
 interface ZoomableImageProps {
   src: string;
@@ -21,10 +22,10 @@ export const ZoomableImage = ({
   className,
 }: ZoomableImageProps) => {
   if (zoomPercentage < 1 || zoomPercentage > 100) {
-    throw "Zoom percentage must be between 1 and 100";
+    throw 'Zoom percentage must be between 1 and 100';
   }
 
-  const containerRef = React.useRef<HTMLDivElement>(null);
+  const containerRef = React.useRef<HTMLImageElement>(null);
   const [clicked, setClicked] = React.useState(false);
 
   const calculateScale = (
@@ -59,13 +60,13 @@ export const ZoomableImage = ({
     containerRef.current.style.transform = `translate(${wPrim - cL}px, ${
       hPrim - cT
     }px) scale(${scale})`;
-    window.document.addEventListener("scroll", closeWrapper, { once: true });
+    window.document.addEventListener('scroll', closeWrapper, { once: true });
     setClicked(true);
   };
 
   const closeWrapper = () => {
     if (!containerRef.current) return;
-    containerRef.current.style.transform = "scale(1)";
+    containerRef.current.style.transform = 'scale(1)';
     setClicked(false);
   };
 
@@ -74,28 +75,28 @@ export const ZoomableImage = ({
       {clicked && (
         <div
           className={cn(
-            "fixed z-40 top-0 left-0 w-full h-full bg-background/90 backdrop-blur-sm",
-            clicked ? "cursor-zoom-out" : ""
+            'fixed z-40 top-0 left-0 w-full h-full bg-background/90 backdrop-blur-sm',
+            clicked ? 'cursor-zoom-out' : ''
           )}
           onClick={closeWrapper}
         />
       )}
-      <div
-        className={cn(
-          "relative duration-300 overflow-hidden",
-          clicked ? "z-50 cursor-zoom-out" : "z-0 cursor-zoom-in"
-        )}
+
+      <Image
         ref={containerRef}
         onClick={handleImageZoom}
-      >
-        <Image
-          src={src}
-          alt={alt}
-          width={width}
-          height={height}
-          className={cn(className)}
-        />
-      </div>
+        src={src}
+        alt={alt}
+        width={width}
+        height={height}
+        className={cn(
+          'relative duration-300 overflow-hidden',
+          clicked ? 'z-50 cursor-zoom-out' : 'z-0 cursor-zoom-in',
+          className
+        )}
+        placeholder="blur"
+        blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAFklEQVR42mN8//HLfwYiAOOoQvoqBABbWyZJf74GZgAAAABJRU5ErkJggg=="
+      />
     </>
   );
 };

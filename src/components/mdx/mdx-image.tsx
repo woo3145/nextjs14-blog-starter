@@ -1,6 +1,6 @@
 import { siteMetadata } from '@/data/siteMetadata';
 import { cn } from '@/lib/utils';
-import NextImage from 'next/image';
+import ZoomableImage from '../ui/zoomable-image';
 
 // 마크다운 이미지 태그에서 width와 height를 추출하여 next/image 컴포넌트에 적용하는 컴포넌트
 export function MDXImage({
@@ -44,10 +44,10 @@ export function MDXImage({
   };
 
   return (
-    <NextImage
+    <ZoomableImage
       {...imageProps}
-      placeholder="blur"
-      blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAFklEQVR42mN8//HLfwYiAOOoQvoqBABbWyZJf74GZgAAAABJRU5ErkJggg==" // 추가
+      // placeholder="blur"
+      // blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAFklEQVR42mN8//HLfwYiAOOoQvoqBABbWyZJf74GZgAAAABJRU5ErkJggg==" // 추가
     />
   );
 }

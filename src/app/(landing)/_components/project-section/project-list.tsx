@@ -11,29 +11,6 @@ interface ProjectListProps {
 }
 
 export const ProjectList = ({ className, projects }: ProjectListProps) => {
-  const [zoomedProjectId, setZoomedProjectId] = React.useState<number | null>(
-    null
-  );
-
-  const handleOutsideClick = () => {
-    setZoomedProjectId(null);
-  };
-
-  const handleZoomToggle = (projectId: number) => {
-    setZoomedProjectId((prev) => (prev === projectId ? null : projectId));
-  };
-
-  React.useEffect(() => {
-    const handleClickOutside = () => {
-      handleOutsideClick();
-    };
-
-    window.addEventListener('click', handleClickOutside);
-
-    return () => {
-      window.removeEventListener('click', handleClickOutside);
-    };
-  }, []);
   return (
     <div
       className={cn(
@@ -42,15 +19,7 @@ export const ProjectList = ({ className, projects }: ProjectListProps) => {
       )}
     >
       {projects.map((item, idx) => {
-        return (
-          <ProjectCard
-            id={idx}
-            key={idx}
-            project={item}
-            isZoomed={zoomedProjectId === idx}
-            onZoomToggle={handleZoomToggle}
-          />
-        );
+        return <ProjectCard id={idx} key={idx} project={item} />;
       })}
     </div>
   );
