@@ -3,14 +3,14 @@ import { headers } from 'next/headers';
 import Link from 'next/link';
 import { ChevronLeft } from 'lucide-react';
 
-import { cn, formatDate } from '@/lib/utils';
-import { Separator } from '@/components/ui/separator';
+import { cn } from '@/lib/utils';
 import { TracingBeam } from '@/components/ui/tracking-beam';
 import { CommentList } from './_components/comment-list';
 import { BlogMdx } from '@/components/mdx/blog-mdx-components';
 import { TableOfContents } from './_components/toc';
 import { buttonVariants } from '@/components/ui/button';
 import { posts as allPosts } from '#site/content';
+import { BlogHeader } from './_components/blog-header';
 
 interface PostPageProps {
   params: {
@@ -21,12 +21,7 @@ interface PostPageProps {
 async function getPostFromParams(params: PostPageProps['params']) {
   const slug = params?.slug?.join('/');
   const post = allPosts.find((post) => post.slugAsParams === slug);
-
-  if (!post) {
-    null;
-  }
-
-  return post;
+  return post || null;
 }
 
 export async function generateStaticParams(): Promise<
@@ -37,24 +32,20 @@ export async function generateStaticParams(): Promise<
   }));
 }
 
-export default async function PostPage({ params }: PostPageProps) {
-  const post = await getPostFromParams(params);
-
-  if (!post) {
-    notFound();
-  }
-
-  let userIp;
+const extractUserIp = (): string => {
   const FALLBACK_IP_ADDRESS = '0.0.0.0';
   const forwardedFor = headers().get('x-forwarded-for');
-
   if (forwardedFor) {
-    userIp = forwardedFor.split(',')[0] ?? FALLBACK_IP_ADDRESS;
-  } else {
-    userIp = headers().get('x-real-ip') ?? FALLBACK_IP_ADDRESS;
+    return forwardedFor.split(',')[0];
   }
+  return headers().get('x-real-ip') ?? FALLBACK_IP_ADDRESS;
+};
 
+export default async function PostPage({ params }: PostPageProps) {
+  const post = await getPostFromParams(params);
   if (!post) return notFound();
+
+  const userIp = extractUserIp();
 
   return (
     <article className="relative w-full max-w-7xl py-6 xl:flex xl:gap-10 xl:py-10">
@@ -67,30 +58,7 @@ export default async function PostPage({ params }: PostPageProps) {
             <ChevronLeft className="mr-2 size-4" />
             See all posts
           </Link>
-          <header className={cn('flex flex-col gap-4 pb-12')}>
-            <h2 className="font-heading mt-2 scroll-m-20 text-3xl font-bold leading-tight">
-              {post.title}
-            </h2>
-            <div className="flex items-center space-x-4">
-              <span className="text-foreground/60 font-semibold">
-                {formatDate(post.date)}
-              </span>
-              <Separator orientation="vertical" />
-              <div className="list-none flex items-center gap-4 ml-0">
-                {post?.tags?.map((tag) => (
-                  <Link
-                    href={`/blog?tag=${tag}`}
-                    key={tag}
-                    className={cn(
-                      'text-xs px-3 py-1 bg-muted rounded-md cursor-pointer duration-200 hover:bg-primary hover:text-primary-foreground'
-                    )}
-                  >
-                    {tag}
-                  </Link>
-                ))}
-              </div>
-            </div>
-          </header>
+          <BlogHeader post={post} />
           <BlogMdx code={post.body} />
         </TracingBeam>
 

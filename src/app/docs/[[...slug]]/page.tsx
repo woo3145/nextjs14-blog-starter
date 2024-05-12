@@ -14,12 +14,7 @@ interface DocPageProps {
 async function getDocFromParams(params: DocPageProps['params']) {
   const slug = params.slug?.join('/') || '';
   const doc = allDocs.find((doc) => doc.slugAsParams === slug);
-  console.log(slug);
-  if (!doc) {
-    null;
-  }
-
-  return doc;
+  return doc || null;
 }
 
 export async function generateStaticParams(): Promise<
@@ -32,10 +27,7 @@ export async function generateStaticParams(): Promise<
 
 export default async function DocPage({ params }: DocPageProps) {
   const doc = await getDocFromParams(params);
-
-  if (!doc) {
-    notFound();
-  }
+  if (!doc) return notFound();
 
   return (
     <div className="w-full flex flex-col md:px-6">
