@@ -18,7 +18,9 @@ links:
   homepage: https://pub.dev/packages/flutter_vertical_heatmap
 ---
 
-- [깃허브](https://github.com/woo3145/flutter_vertical_heatmap)
+## Link
+
+- [Github](https://github.com/woo3145/flutter_vertical_heatmap)
 - [pub.dev](https://pub.dev/packages/flutter_vertical_heatmap)
 
 ## Purpose
@@ -57,18 +59,18 @@ links:
 
 ### 스택
 
-- Dart
-- Flutter
+- Dart v3.3.4
+- Flutter v1.1.7
 
 ## Feature
 
-Bottom-up 방식으로 개발을 진행했습니다.
+아래와 같이 1번부터 Bottom-up 방식으로 개발을 진행했습니다.
 
-1. 한칸을 표시하는 `HeatMapCell` - background/selected color, margin, radius 등 UI 요소와 기능을 위한 onTap, dateTime을 받아 onTap(dateTime)으로 실행하는 기능
+1. 한 칸을 표시하는 `HeatMapCell` - background/selected color, margin, radius 등 UI 요소와 기능을 위한 onTap, dateTime을 받아 onTap(dateTime)으로 실행하는 기능
 
 2. 한 줄을 표시하는 `HeatMapRow` - 시작일과 표시할 칸 수를 받아 적절하게 cells과 emptySpaces를 표시하고 monthText를 선택적으로 받아 월을 표시
 
-3. 여러줄을 표시하는 `HeatMap` - 시작일과 마지막일을 받아 7개씩 split하고 1일이 포함되면 monthText를 포함시켜 Row Widget List를 만들어 렌더링
+3. 히트맵 전체를 렌더링하는 `HeatMap` - 시작일과 마지막일을 받아 7개씩 split하고 1일이 포함되면 monthText를 포함시켜 `HeatMapRow` List를 만든 후 배열을 렌더링
 
 4. 컬러를 표시하는 `colorTip`과 주를 표시하는 `weekText`
 
