@@ -44,6 +44,9 @@ export const ProjectCard = ({ id, project }: ProjectCardProps) => {
             <ProjectTag key={tag.text} text={tag.text} color={tag.color} />
           ))}
         </div>
+        <h1 className="font-sans font-semibold text-foreground text-md pb-2">
+          {project.title}
+        </h1>
         <h2 className="font-sans font-normal text-neutral-600 text-sm dark:text-neutral-300 pb-2">
           {project.description}
         </h2>
