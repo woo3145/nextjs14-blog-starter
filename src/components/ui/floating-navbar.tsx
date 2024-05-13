@@ -76,8 +76,8 @@ export const FloatingNav = ({
                     : 'text-foreground/60'
                 )}
               >
-                <span className="block sm:hidden">{navItem.icon}</span>
-                <span className="hidden sm:block text-sm">{navItem.name}</span>
+                {/* <span className="block sm:hidden">{navItem.icon}</span> */}
+                <span className="block text-xs sm:text-sm">{navItem.name}</span>
                 {isActive ? (
                   <motion.div className="absolute -bottom-[1px] left-0 right-0 h-[1px]">
                     <svg width="37" height="8" viewBox="0 0 37 8" fill="none">
