@@ -48,7 +48,7 @@ export const HeroSection = ({ className }: HeroSectionProps) => {
   return (
     <div
       className={cn(
-        'h-screen w-full rounded-md flex items-center justify-center relative overflow-hidden bg-background bg-grid-black/[0.04] dark:bg-grid-white/[0.04]',
+        'h-screen w-full rounded-md flex items-center justify-center relative overflow-hidden',
         className
       )}
     >
