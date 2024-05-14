@@ -1,14 +1,15 @@
 'use client';
-import React, { useState } from 'react';
+import React, { ReactNode, useState } from 'react';
 import {
   motion,
   AnimatePresence,
   useScroll,
   useMotionValueEvent,
 } from 'framer-motion';
-import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { usePathname } from 'next/navigation';
+import NavigationLink from '../navigation-link';
+import { AppPathnames } from '@/config';
 
 export const FloatingNav = ({
   navItems,
@@ -16,8 +17,8 @@ export const FloatingNav = ({
 }: {
   navItems: {
     name: string;
-    link: string;
-    icon?: JSX.Element;
+    link: AppPathnames;
+    icon: ReactNode;
   }[];
   className?: string;
 }) => {
@@ -66,7 +67,7 @@ export const FloatingNav = ({
           {navItems.map((navItem, idx) => {
             const isActive = pathname === navItem.link;
             return (
-              <Link
+              <NavigationLink
                 key={`nav-item-${idx}`}
                 href={navItem.link}
                 className={cn(
@@ -101,7 +102,7 @@ export const FloatingNav = ({
                     </svg>
                   </motion.div>
                 ) : null}
-              </Link>
+              </NavigationLink>
             );
           })}
         </motion.div>

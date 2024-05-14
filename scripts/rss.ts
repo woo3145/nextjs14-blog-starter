@@ -5,21 +5,26 @@ import { marked } from 'marked';
 import matter from 'gray-matter';
 import { siteMetadata } from '../data/siteMetadata';
 
-const posts = fs
-  .readdirSync(path.resolve(__dirname, '../content/blog/'))
-  .filter(
-    (file) => path.extname(file) === '.md' || path.extname(file) === '.mdx'
-  )
-  .map((file) => {
-    const postContent = fs.readFileSync(`./content/blog/${file}`, 'utf8');
-    const { data, content }: { data: any; content: string } =
-      matter(postContent);
-    return { ...data, body: content };
-  })
-  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+const getPosts = (locale: string): File[] => {
+  const directory = path.resolve(__dirname, `../content/${locale}/blog/`);
+  return fs
+    .readdirSync(directory)
+    .filter(
+      (file) => path.extname(file) === '.md' || path.extname(file) === '.mdx'
+    )
+    .map((file) => {
+      const postContent = fs.readFileSync(path.join(directory, file), 'utf8');
+      const { data, content }: { data: any; content: string } =
+        matter(postContent);
+      return { ...data, body: content };
+    })
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+};
+
+const posts_ko = getPosts('ko');
+const posts_en = getPosts('en');
 
 const renderer = new marked.Renderer();
-
 renderer.link = (href, _, text) =>
   `<a href="${href}" target="_blank" rel="noopener noreferrer">${text}</a>`;
 
@@ -31,27 +36,30 @@ marked.setOptions({
 
 const renderPost = (md: string) => marked.parse(md);
 
-const main = () => {
-  const feed = new RSS({
-    title: siteMetadata.title,
-    site_url: siteMetadata.siteUrl,
-    feed_url: `${siteMetadata.siteUrl}/feed.xml`,
-    language: 'ko',
-    description: siteMetadata.description,
-  });
-
-  posts.forEach(async (post) => {
-    const url = `${siteMetadata.siteUrl}/blog/${post.slug}`;
-
+const addPostsToFeed = (feed: RSS, posts: any[], locale: string) => {
+  posts.forEach((post) => {
+    const url = `${siteMetadata.siteUrl}/${locale}/blog/${post.slug}`;
     feed.item({
       title: post.title,
-      description: await renderPost(post.body),
-      date: new Date(post?.date),
+      description: post.description,
+      date: new Date(post.date),
       author: siteMetadata.hero.author,
       url,
       guid: url,
     });
   });
+};
+
+const main = async () => {
+  const feed = new RSS({
+    title: siteMetadata.title,
+    site_url: siteMetadata.siteUrl,
+    feed_url: `${siteMetadata.siteUrl}/feed.xml`,
+    description: siteMetadata.description,
+  });
+
+  addPostsToFeed(feed, posts_ko, 'ko');
+  addPostsToFeed(feed, posts_en, 'en');
 
   const rss = feed.xml({ indent: true });
   fs.writeFileSync(path.join(__dirname, '../public/feed.xml'), rss);
