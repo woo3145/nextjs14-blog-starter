@@ -14,5 +14,9 @@
     "siteUrl": "https://woo3145.com",
     "locale": "en",
     "language": "en-us"
+  },
+  "NotFound": {
+    "text": "This page could not be found.",
+    "linkText": "Go Main"
   }
 }

@@ -14,5 +14,9 @@
     "siteUrl": "https://woo3145.com",
     "locale": "ko",
     "language": "ko-kr"
+  },
+  "NotFound": {
+    "text": "해당 페이지를 찾을 수 없습니다.",
+    "linkText": "메인으로"
   }
 }

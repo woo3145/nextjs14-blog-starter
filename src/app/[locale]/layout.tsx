@@ -10,7 +10,6 @@ import { DarkModeToggle } from '@/components/darkmode-toggle';
 import {
   FileCode2Icon,
   HomeIcon,
-  LucideIcon,
   NotebookPenIcon,
 } from 'lucide-react';
 import { FloatingNav } from '@/components/ui/floating-navbar';
