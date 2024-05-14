@@ -5,12 +5,13 @@ import { defineCollection, defineConfig, s } from 'velite';
 
 const computedFields = <T extends { slug: string }>(data: T) => ({
   ...data,
-  slugAsParams: data.slug.split('/').slice(1).join('/'),
+  slugAsParams: data.slug.split('/').slice(2).join('/'),
+  locale: data.slug.split('/')[0],
 });
 
 const docs = defineCollection({
   name: 'Doc',
-  pattern: 'docs/**/*.mdx',
+  pattern: '**/docs/**/*.mdx',
   schema: s
     .object({
       slug: s.path(),
@@ -25,7 +26,7 @@ const docs = defineCollection({
 
 const posts = defineCollection({
   name: 'Post',
-  pattern: 'blog/**/*.mdx',
+  pattern: '**/blog/**/*.mdx',
   schema: s
     .object({
       slug: s.path(),
@@ -44,7 +45,7 @@ const posts = defineCollection({
 
 const projects = defineCollection({
   name: 'Project',
-  pattern: 'projects/**/*.mdx',
+  pattern: '**/projects/**/*.mdx',
   schema: s
     .object({
       id: s.number(),
