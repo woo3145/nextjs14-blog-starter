@@ -15,17 +15,22 @@ import { BlogHeader } from './_components/blog-header';
 interface PostPageProps {
   params: {
     slug: string[];
+    locale: string;
   };
 }
 
 async function getPostFromParams(params: PostPageProps['params']) {
   const slug = params?.slug?.join('/');
-  const post = allPosts.find((post) => post.slugAsParams === slug);
+  const post = allPosts.find(
+    (post) => post.slugAsParams === slug && post.locale === params.locale
+  );
   return post || null;
 }
 
 export async function generateStaticParams(): Promise<
-  PostPageProps['params'][]
+  {
+    slug: string[];
+  }[]
 > {
   return allPosts.map((post) => ({
     slug: post.slugAsParams.split('/'),

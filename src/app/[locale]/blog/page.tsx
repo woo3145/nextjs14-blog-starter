@@ -23,9 +23,17 @@ const getTagCounts = (posts: Post[]): { tag: string; count: number }[] => {
   return Object.entries(tagCounts).map(([tag, count]) => ({ tag, count }));
 };
 
-export default async function Home() {
+interface BlogPageProps {
+  params: {
+    slug: string[];
+    locale: string;
+  };
+}
+
+export default async function BlogPage({ params }: BlogPageProps) {
   const posts = allPosts
     .filter((post) => post.published)
+    .filter((post) => post.locale === params.locale)
     .sort((a, b) => {
       return compareDesc(new Date(a.date), new Date(b.date));
     });

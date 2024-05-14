@@ -13,17 +13,23 @@ import { ProjectHeader } from './_components/project-header';
 interface ProjectPageProps {
   params: {
     slug: string[];
+    locale: string;
   };
 }
 
 async function getProjectFromParams(params: ProjectPageProps['params']) {
   const slug = params?.slug?.join('/');
-  const project = allProjects.find((project) => project.slugAsParams === slug);
+  const project = allProjects.find(
+    (project) =>
+      project.slugAsParams === slug && project.locale === params.locale
+  );
   return project || null;
 }
 
 export async function generateStaticParams(): Promise<
-  ProjectPageProps['params'][]
+  {
+    slug: string[];
+  }[]
 > {
   return allProjects.map((project) => ({
     slug: project.slugAsParams.split('/'),
