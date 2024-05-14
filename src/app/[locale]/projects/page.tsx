@@ -1,5 +1,6 @@
 import { getSortedProjects } from '@/lib/project-utils';
 import { ProjectList } from '../(landing)/_components/project-section/project-list';
+import GoogleAdsense from '@/components/google-adsense';
 
 interface ProjectPagesProps {
   params: {
@@ -16,6 +17,11 @@ export default async function ProjectsPage({ params }: ProjectPagesProps) {
         프로젝트
       </h2>
       <ProjectList projects={projects} className="pb-20" />
+
+      <GoogleAdsense
+        pId={process.env.NEXT_PUBLIC_GOOGLE_ADSENSE_PID || ''}
+        adType="side"
+      />
     </div>
   );
 }

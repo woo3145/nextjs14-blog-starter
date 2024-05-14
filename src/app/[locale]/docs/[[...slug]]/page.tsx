@@ -5,6 +5,7 @@ import { TracingBeam } from '@/components/ui/tracking-beam';
 import { docs as allDocs } from '#site/content';
 import { DocsMdx } from '@/components/mdx/docs-mdx-components';
 import { getDocBySlug } from '@/lib/doc-utils';
+import GoogleAdsense from '@/components/google-adsense';
 
 interface DocPageProps {
   params: {
@@ -34,22 +35,33 @@ export default async function DocPage({ params }: DocPageProps) {
   if (!doc) return notFound();
 
   return (
-    <div className="w-full flex flex-col md:px-6">
-      <Bread items={['Docs', 'Introduce']} />
+    <>
+      {' '}
+      <div className="w-full flex flex-col md:px-6">
+        <Bread items={['Docs', 'Introduce']} />
 
-      <TracingBeam className="">
-        <div className="w-full">
-          <div className="space-y-4 mb-8">
-            <h1 className={cn('scroll-m-20 text-4xl font-bold tracking-tight')}>
-              {doc.title}
-            </h1>
-            {doc.description && (
-              <p className="text-lg text-muted-foreground">{doc.description}</p>
-            )}
+        <TracingBeam className="">
+          <div className="w-full">
+            <div className="space-y-4 mb-8">
+              <h1
+                className={cn('scroll-m-20 text-4xl font-bold tracking-tight')}
+              >
+                {doc.title}
+              </h1>
+              {doc.description && (
+                <p className="text-lg text-muted-foreground">
+                  {doc.description}
+                </p>
+              )}
+            </div>
+            <DocsMdx code={doc.body} />
           </div>
-          <DocsMdx code={doc.body} />
-        </div>
-      </TracingBeam>
-    </div>
+        </TracingBeam>
+      </div>
+      <GoogleAdsense
+        pId={process.env.NEXT_PUBLIC_GOOGLE_ADSENSE_PID || ''}
+        adType="side"
+      />
+    </>
   );
 }

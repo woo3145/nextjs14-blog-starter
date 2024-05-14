@@ -11,6 +11,7 @@ import { TableOfContents } from './_components/toc';
 import { buttonVariants } from '@/components/ui/button';
 import { BlogHeader } from './_components/blog-header';
 import { getPostBySlug, getSortedPosts } from '@/lib/post-utils';
+import GoogleAdsense from '@/components/google-adsense';
 
 interface PostPageProps {
   params: {
@@ -55,28 +56,38 @@ export default function PostPage({ params }: PostPageProps) {
   const userIp = extractUserIp();
 
   return (
-    <article className="relative w-full max-w-7xl py-6 xl:flex xl:gap-10 xl:py-10">
-      <div className="w-full xl:w-[calc(100%-340px)]">
-        <TracingBeam className="">
-          <Link
-            href={`/${params.locale}/blog`}
-            className={cn(buttonVariants({ variant: 'ghost' }))}
-          >
-            <ChevronLeft className="mr-2 size-4" />
-            See all posts
-          </Link>
-          <BlogHeader post={post} />
-          <BlogMdx code={post.body} />
-        </TracingBeam>
+    <>
+      <article className="relative w-full max-w-7xl py-6 xl:flex xl:gap-10 xl:py-10">
+        <div className="w-full xl:w-[calc(100%-340px)]">
+          <TracingBeam className="">
+            <Link
+              href={`/${params.locale}/blog`}
+              className={cn(buttonVariants({ variant: 'ghost' }))}
+            >
+              <ChevronLeft className="mr-2 size-4" />
+              See all posts
+            </Link>
+            <BlogHeader post={post} />
+            <BlogMdx code={post.body} />
+          </TracingBeam>
 
-        <CommentList slug={post.slug} userIp={userIp} />
-      </div>
-
-      <div className="hidden text-sm xl:block">
-        <div className="sticky top-16 -mt-10 min-w-[300px] shrink-0 max-h-[calc(var(--vh)-4rem)] overflow-y-auto pt-10">
-          <TableOfContents toc={post.toc} />
+          <CommentList slug={post.slug} userIp={userIp} />
         </div>
-      </div>
-    </article>
+
+        <div className="hidden text-sm xl:block">
+          <div className="sticky top-16 -mt-10 min-w-[300px] shrink-0 max-h-[calc(var(--vh)-4rem)] overflow-y-auto pt-10">
+            <TableOfContents toc={post.toc} />
+          </div>
+        </div>
+      </article>
+      <GoogleAdsense
+        pId={process.env.NEXT_PUBLIC_GOOGLE_ADSENSE_PID || ''}
+        adType="side"
+      />
+      <GoogleAdsense
+        pId={process.env.NEXT_PUBLIC_GOOGLE_ADSENSE_PID || ''}
+        adType="horizon"
+      />
+    </>
   );
 }

@@ -3,6 +3,7 @@ import { PostList } from './_components/post-list';
 import TagList from './_components/tag-list';
 import { Suspense } from 'react';
 import { getAllPostTags, getSortedPosts } from '@/lib/post-utils';
+import GoogleAdsense from '@/components/google-adsense';
 
 interface BlogPageProps {
   params: {
@@ -33,6 +34,10 @@ export default async function BlogPage({ params }: BlogPageProps) {
           </Suspense>
         </div>
       </div>
+      <GoogleAdsense
+        pId={process.env.NEXT_PUBLIC_GOOGLE_ADSENSE_PID || ''}
+        adType="side"
+      />
     </div>
   );
 }
