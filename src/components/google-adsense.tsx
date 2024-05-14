@@ -1,38 +1,19 @@
-'use client';
-import React, { useEffect } from 'react';
+import Script from 'next/script';
 
-declare global {
-  interface Window {
-    adsbygoogle: any;
-  }
-}
-type Props = {
+type GoogleAdsenseProps = {
   pId: string;
-  adType: 'side' | 'horizon';
 };
 
-const GoogleAdsense = ({ pId, adType }: Props) => {
-  const AD_TYPES = {
-    side: 7375820656,
-    horizon: 1931922280,
-  };
-  useEffect(() => {
-    if (window) {
-      (window.adsbygoogle = window.adsbygoogle || [])?.push({});
-    }
-  }, []);
-
+export const GoogleAdsense = ({ pId }: GoogleAdsenseProps) => {
+  if (process.env.NODE_ENV !== 'production') {
+    return null;
+  }
   return (
-    <div className="googleAd-container" style={{ border: '1px solid #eee' }}>
-      <ins
-        className="adsbygoogle"
-        style={{ display: 'block' }}
-        data-ad-format="auto" // autorelaxed
-        data-ad-client={`ca-pub-${pId}`}
-        data-ad-slot={AD_TYPES[adType]}
-      ></ins>
-    </div>
+    <Script
+      async
+      src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-${pId}`}
+      crossOrigin="anonymous"
+      strategy="lazyOnload"
+    />
   );
 };
-
-export default React.memo(GoogleAdsense);

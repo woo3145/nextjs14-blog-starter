@@ -11,7 +11,7 @@ import { TableOfContents } from './_components/toc';
 import { buttonVariants } from '@/components/ui/button';
 import { BlogHeader } from './_components/blog-header';
 import { getPostBySlug, getSortedPosts } from '@/lib/post-utils';
-import GoogleAdsense from '@/components/google-adsense';
+import { GoogleAdsense } from '@/components/google-adsense';
 
 interface PostPageProps {
   params: {
@@ -80,14 +80,7 @@ export default function PostPage({ params }: PostPageProps) {
           </div>
         </div>
       </article>
-      <GoogleAdsense
-        pId={process.env.NEXT_PUBLIC_GOOGLE_ADSENSE_PID || ''}
-        adType="side"
-      />
-      <GoogleAdsense
-        pId={process.env.NEXT_PUBLIC_GOOGLE_ADSENSE_PID || ''}
-        adType="horizon"
-      />
+      <GoogleAdsense pId={process.env.NEXT_PUBLIC_GOOGLE_ADSENSE_PID || ''} />
     </>
   );
 }
