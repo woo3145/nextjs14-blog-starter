@@ -1,5 +1,18 @@
 {
-  "Index": {
-    "title": "안녕하세요."
+  "Hero": {
+    "author": "woo3145",
+    "avatarUrl": "https://d2quahb2ygxiv.cloudfront.net/12ccf80faba38501bbbd7.png",
+    "text_1": "Woo3145",
+    "text_2": "Web 개발자 이창우입니다.",
+    "text_3": "JavaScript 생태계를 활용한 전반적인 웹 개발과 Flutter를 사용한 모바일 개발에 관심이 많습니다.",
+    "email": "lcwoo3145@gmail.com",
+    "github": "https://github.com/woo3145"
+  },
+  "Metadata": {
+    "title": "Woo3145 블로그",
+    "description": "Woo3145 개발자 페이지에 오신 것을 환영합니다. 저는 TypeScript, React, Next.js, Flutter를 주로 다루는 웹 개발자 이창우입니다.",
+    "siteUrl": "https://woo3145.com",
+    "locale": "ko",
+    "language": "ko-kr"
   }
 }

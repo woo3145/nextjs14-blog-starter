@@ -11,14 +11,12 @@ import { useTranslation } from '../../translation-provider';
 import { BubbleMessage } from './bubble-message';
 import { slideInFromRight } from '@/lib/motion';
 import { cn } from '@/lib/utils';
-import { useTranslations } from 'next-intl';
 
 interface HeroSectionProps {
   className?: string;
 }
 
 export const HeroSection = ({ className }: HeroSectionProps) => {
-  const t = useTranslations('Index');
   const { translate } = useTranslation();
   const [showBubble, setShowBubble] = React.useState(true);
   const hoverTimeoutRef = React.useRef<NodeJS.Timeout | null>(null);

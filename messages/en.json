@@ -1,5 +1,18 @@
 {
-  "Index": {
-    "title": "Hello world!"
+  "Hero": {
+    "author": "woo3145",
+    "avatarUrl": "https://d2quahb2ygxiv.cloudfront.net/12ccf80faba38501bbbd7.png",
+    "text_1": "Woo3145",
+    "text_2": "I'm Changwoo Lee, a Web developer.",
+    "text_3": "I'm interested in overall web development using the JavaScript ecosystem and mobile development using Flutter.",
+    "email": "lcwoo3145@gmail.com",
+    "github": "https://github.com/woo3145"
+  },
+  "Metadata": {
+    "title": "Woo3145 Blog",
+    "description": "Welcome to Woo3145's developer page. I'm Changwoo Lee, a web developer primarily working with TypeScript, React, Next.js, and Flutter.",
+    "siteUrl": "https://woo3145.com",
+    "locale": "en",
+    "language": "en-us"
   }
 }
