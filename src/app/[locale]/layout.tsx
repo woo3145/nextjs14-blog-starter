@@ -1,5 +1,5 @@
 import { Noto_Sans_KR } from 'next/font/google';
-import { getTranslations } from 'next-intl/server';
+import { getTranslations, unstable_setRequestLocale } from 'next-intl/server';
 
 import './styles/globals.css';
 
@@ -7,17 +7,13 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { ThemeProvider } from '@/components/providers/theme-provider';
 import { DarkModeToggle } from '@/components/darkmode-toggle';
-import {
-  FileCode2Icon,
-  HomeIcon,
-  NotebookPenIcon,
-} from 'lucide-react';
+import { FileCode2Icon, HomeIcon, NotebookPenIcon } from 'lucide-react';
 import { FloatingNav } from '@/components/ui/floating-navbar';
 import { cn } from '@/lib/utils';
 import { IconPlanet } from '@tabler/icons-react';
 import { GoogleAdsense } from '@/components/google-adsense';
 import { Toaster } from '@/components/ui/sonner';
-import { AppPathnames } from '@/config';
+import { AppPathnames, locales } from '@/config';
 import { ReactNode } from 'react';
 import { LocaleToggle } from '@/components/locale-toggle';
 
@@ -122,6 +118,14 @@ const navItems: {
   },
 ];
 
+// 참고 (unstable_setRequestLocale)
+// https://next-intl-docs.vercel.app/docs/getting-started/app-router#add-unstable_setrequestlocale-to-all-layouts-and-pages
+// 요약: [locale]이라는 동적 경로를 사용하기 때문에 하위에서 generateStaticParams를 통해 정적페이지를 렌더링 하기 위함
+// 임시방편 API이기 때문에 추후 제거하는 방향으로 업데이트 예정
+export function generateStaticParams() {
+  return locales.map((locale) => ({ locale }));
+}
+
 export default async function RootLayout({
   children,
   params: { locale },
@@ -129,6 +133,8 @@ export default async function RootLayout({
   children: React.ReactNode;
   params: { locale: string };
 }>) {
+  unstable_setRequestLocale(locale);
+
   const messages = await getMessages();
   return (
     <html suppressHydrationWarning lang={locale}>

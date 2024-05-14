@@ -9,9 +9,8 @@ import { CommentList } from './_components/comment-list';
 import { BlogMdx } from '@/components/mdx/blog-mdx-components';
 import { TableOfContents } from './_components/toc';
 import { buttonVariants } from '@/components/ui/button';
-import { posts as allPosts } from '#site/content';
 import { BlogHeader } from './_components/blog-header';
-import { getPostBySlug } from '@/lib/post-utils';
+import { getPostBySlug, getSortedPosts } from '@/lib/post-utils';
 
 interface PostPageProps {
   params: {
@@ -26,12 +25,16 @@ const getPostFromParams = (params: PostPageProps['params']) => {
   return post || null;
 };
 
-export async function generateStaticParams(): Promise<
+export async function generateStaticParams({
+  params: { locale },
+}: {
+  params: { locale: string };
+}): Promise<
   {
     slug: string[];
   }[]
 > {
-  return allPosts.map((post) => ({
+  return getSortedPosts(locale).map((post) => ({
     slug: post.slugAsParams.split('/'),
   }));
 }
