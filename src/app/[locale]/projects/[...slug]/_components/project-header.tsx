@@ -1,5 +1,5 @@
 import { Project } from '#site/content';
-import { ProjectTag } from '@/app/(landing)/_components/project-section/project-tag';
+import { ProjectTag } from '@/app/[locale]/(landing)/_components/project-section/project-tag';
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
 

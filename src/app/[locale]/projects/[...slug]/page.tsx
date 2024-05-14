@@ -7,7 +7,7 @@ import { TracingBeam } from '@/components/ui/tracking-beam';
 import { BlogMdx } from '@/components/mdx/blog-mdx-components';
 import { buttonVariants } from '@/components/ui/button';
 import { projects as allProjects } from '#site/content';
-import { TableOfContents } from '@/app/blog/[...slug]/_components/toc';
+import { TableOfContents } from '@/app/[locale]/blog/[...slug]/_components/toc';
 import { ProjectHeader } from './_components/project-header';
 
 interface ProjectPageProps {

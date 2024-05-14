@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import { Noto_Sans_KR } from 'next/font/google';
 import './styles/globals.css';
 
+import { NextIntlClientProvider } from 'next-intl';
+import { getMessages } from 'next-intl/server';
 import { ThemeProvider } from '@/components/providers/theme-provider';
 import { DarkModeToggle } from '@/components/darkmode-toggle';
 import { siteMetadata } from '@/data/siteMetadata';
@@ -62,6 +64,7 @@ export const viewport = {
     { media: '(prefers-color-scheme: dark)', color: '#000' },
   ],
 };
+
 const navItems = [
   {
     name: 'Main',
@@ -85,13 +88,16 @@ const navItems = [
   },
 ];
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
+  params: { locale },
 }: Readonly<{
   children: React.ReactNode;
+  params: { locale: string };
 }>) {
+  const messages = await getMessages();
   return (
-    <html suppressHydrationWarning>
+    <html suppressHydrationWarning lang={locale}>
       <body className={cn('', inter.variable)} suppressHydrationWarning>
         <ThemeProvider
           attribute="class"
@@ -99,11 +105,13 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <FloatingNav navItems={navItems} />
+          <NextIntlClientProvider messages={messages}>
+            <FloatingNav navItems={navItems} />
 
-          <div className="h-auto min-h-screen w-full rounded-md bg-background bg-grid-black/[0.04] dark:bg-grid-white/[0.04] font-noto-sans ">
-            {children}
-          </div>
+            <div className="h-auto min-h-screen w-full rounded-md bg-background bg-grid-black/[0.04] dark:bg-grid-white/[0.04] font-noto-sans ">
+              {children}
+            </div>
+          </NextIntlClientProvider>
           <DarkModeToggle />
 
           <Toaster />
