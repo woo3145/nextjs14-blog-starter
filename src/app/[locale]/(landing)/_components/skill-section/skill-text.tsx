@@ -3,7 +3,6 @@ import * as React from 'react';
 import { motion, useInView } from 'framer-motion';
 
 import { slideInFromLeft, slideInFromRight } from '@/lib/motion';
-import { useTranslation } from '../../translation-provider';
 import { useTranslations } from 'next-intl';
 
 export const SkillText = () => {
