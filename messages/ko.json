@@ -18,5 +18,35 @@
   "NotFound": {
     "text": "해당 페이지를 찾을 수 없습니다.",
     "linkText": "메인으로"
+  },
+  "Landing": {
+    "greeting": "👋 안녕하세요, ",
+    "introductionPreHilight": "웹 개발자",
+    "introduction": "이창우입니다.",
+    "introductionPostHilight": "",
+    "description": "저는 끊임없이 배우고 성장하고 있습니다.",
+    "characterMessage": "👆 If you want English, Click Me!",
+
+    "skillTags": ["웹", "프론트엔드", "백엔드", "모바일", "서버리스"],
+    "skillTitle": "저는 풀스택 개발을 좋아합니다.",
+    "skillDescription": "또한, 특정 기술에 얽매이지 않고 개발을 위한 모든 것을 습득하는 성향을 가지고있습니다.",
+
+    "reactDev": "React 기반 프론트 개발",
+    "reactDevDesc": "React를 사용한 반응형 UI 구성과 상태 관리",
+    "nextjsDev": "Next.js 기반 프론트/풀스택 개발",
+    "nextjsDevDesc": "RSC 기반의 App Router와 CSR, SSR, SSG, ISR의 이해에 기반한 앱 개발",
+    "baasDev": "BaaS를 활용한 서버리스 앱 개발",
+    "baasDevDesc": "Supabase, Firebase 등을 활용하여 인증, DB, 스토리지, FCM 등 서버리스 개발",
+    "backendDev": "NestJS/Express를 이용한 백엔드 개발",
+    "backendDevDesc": "Typescript와 함께 NestJS/Express를 사용하여 유지보수가 용이하고 확장 가능한 Http, WebSocket 서버 개발",
+    "responsiveDesignDev": "반응형 웹 디자인",
+    "responsiveDesignDevDesc": "다양한 디바이스에서의 사용자 경험을 최적화하기 위한 반응형 웹 디자인",
+    "mobileAppDev": "모바일앱 개발",
+    "mobileAppDevDesc": "PWA 방식의 웹뷰, Flutter를 사용한 크로스 플랫폼 개발 및 배포/출시",
+    "cicdDev": "CI/CD 구축",
+    "cicdDevDesc": "S3, EC2, Docker, Vercel, GitActions 등 상황에 맞는 배포 및 파이프라인 구축",
+
+    "teckStackTitle": "기술 스택",
+    "projectTitle": "프로젝트"
   }
 }

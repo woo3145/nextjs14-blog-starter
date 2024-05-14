@@ -7,17 +7,17 @@ import { Highlight } from '@/components/ui/highlight';
 import { SnakeBeam } from './snake-beam';
 import { FlipImage } from './flip-image';
 import { CDN_IMAGES } from '@/data/cdn-images';
-import { useTranslation } from '../../translation-provider';
 import { BubbleMessage } from './bubble-message';
 import { slideInFromRight } from '@/lib/motion';
 import { cn } from '@/lib/utils';
+import { useTranslations } from 'next-intl';
 
 interface HeroSectionProps {
   className?: string;
 }
 
 export const HeroSection = ({ className }: HeroSectionProps) => {
-  const { translate } = useTranslation();
+  const t = useTranslations('Landing');
   const [showBubble, setShowBubble] = React.useState(true);
   const hoverTimeoutRef = React.useRef<NodeJS.Timeout | null>(null);
 
@@ -76,22 +76,22 @@ export const HeroSection = ({ className }: HeroSectionProps) => {
             'text-2xl leading-normal sm:text-3xl sm:leading-snug md:text-4xl md:leading-snug lg:text-5xl lg:leading-snug'
           )}
         >
-          {translate('greeting')}
-          {translate('introductionPreHilight') && (
+          {t('greeting')}
+          {t('introductionPreHilight') && (
             <Highlight className="text-black dark:text-white text-2xl sm:text-3xl md:text-4xl lg:text-5xl">
-              {translate('introductionPreHilight')}
+              {t('introductionPreHilight')}
             </Highlight>
           )}
           <br />
-          {translate('introduction')}
-          {translate('introductionPostHilight') && (
+          {t('introduction')}
+          {t('introductionPostHilight') && (
             <Highlight className="text-black dark:text-white text-2xl sm:text-3xl md:text-4xl lg:text-5xl">
-              {translate('introductionPostHilight')}
+              {t('introductionPostHilight')}
             </Highlight>
           )}
           <br />
           <span className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-medium">
-            {translate('description')}
+            {t('description')}
           </span>
         </motion.h1>
         <motion.div
@@ -136,7 +136,7 @@ export const HeroSection = ({ className }: HeroSectionProps) => {
               transition={{ duration: 0.3 }}
               className="animate-bounce"
             >
-              <BubbleMessage>{translate('characterMessage')}</BubbleMessage>
+              <BubbleMessage>{t('characterMessage')}</BubbleMessage>
             </motion.div>
           </motion.div>
         </motion.div>
