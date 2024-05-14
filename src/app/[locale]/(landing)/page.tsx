@@ -4,7 +4,13 @@ import { SkillSection } from './_components/skill-section/skill-section';
 import { TechStackSection } from './_components/tech-stack-section/tech-stack-section';
 import { TranslationProvider } from './translation-provider';
 
-export default async function Landing({}) {
+interface LandingPageProps {
+  params: {
+    locale: string;
+  };
+}
+
+export default async function LandingPage({ params }: LandingPageProps) {
   return (
     <TranslationProvider initialLanguage={'en'}>
       <div className="flex flex-col gap-10 overflow-x-hidden">
@@ -12,7 +18,7 @@ export default async function Landing({}) {
         <div className="py-20 px-4">
           <SkillSection />
           <TechStackSection className="py-20" />
-          <ProjectSection className="pb-40" />
+          <ProjectSection className="pb-40" locale={params.locale} />
         </div>
       </div>
     </TranslationProvider>

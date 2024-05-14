@@ -3,18 +3,16 @@ import * as React from 'react';
 
 import { cn } from '@/lib/utils';
 import { ProjectText } from './project-text';
-import { projects as allProjects } from '#site/content';
 import { ProjectList } from './project-list';
+import { getSortedProjects } from '@/lib/project-utils';
 
 interface ProjectSectionProps {
   className?: string;
+  locale: string;
 }
 
-export const ProjectSection = ({ className }: ProjectSectionProps) => {
-  const projects = allProjects
-    .filter((project) => project.published)
-    .filter((project) => project.featured)
-    .sort((a, b) => b.id - a.id);
+export const ProjectSection = ({ className, locale }: ProjectSectionProps) => {
+  const projects = getSortedProjects(locale);
 
   return (
     <section className={cn('min-h-screen w-full space-y-10', className)}>

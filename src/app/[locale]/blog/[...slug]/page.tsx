@@ -56,7 +56,7 @@ export default function PostPage({ params }: PostPageProps) {
       <div className="w-full xl:w-[calc(100%-340px)]">
         <TracingBeam className="">
           <Link
-            href="/blog"
+            href={`/${params.locale}/blog`}
             className={cn(buttonVariants({ variant: 'ghost' }))}
           >
             <ChevronLeft className="mr-2 size-4" />

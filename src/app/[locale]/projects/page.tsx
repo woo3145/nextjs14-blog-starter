@@ -1,4 +1,4 @@
-import { projects as allProjects } from '#site/content';
+import { getSortedProjects } from '@/lib/project-utils';
 import { ProjectList } from '../(landing)/_components/project-section/project-list';
 
 interface ProjectPagesProps {
@@ -9,12 +9,7 @@ interface ProjectPagesProps {
 }
 
 export default async function ProjectsPage({ params }: ProjectPagesProps) {
-  const projects = allProjects
-    .filter((project) => project.published)
-    .filter((project) => project.locale === params.locale)
-    .sort((a, b) => {
-      return b.id - a.id;
-    });
+  const projects = getSortedProjects(params.locale);
   return (
     <div className="w-full">
       <h2 className="text-center py-20 text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-400">

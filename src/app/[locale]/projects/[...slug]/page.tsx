@@ -9,6 +9,7 @@ import { buttonVariants } from '@/components/ui/button';
 import { projects as allProjects } from '#site/content';
 import { TableOfContents } from '@/app/[locale]/blog/[...slug]/_components/toc';
 import { ProjectHeader } from './_components/project-header';
+import { getProjectBySlug } from '@/lib/project-utils';
 
 interface ProjectPageProps {
   params: {
@@ -19,10 +20,7 @@ interface ProjectPageProps {
 
 async function getProjectFromParams(params: ProjectPageProps['params']) {
   const slug = params?.slug?.join('/');
-  const project = allProjects.find(
-    (project) =>
-      project.slugAsParams === slug && project.locale === params.locale
-  );
+  const project = getProjectBySlug(params.locale, slug);
   return project || null;
 }
 
@@ -45,7 +43,7 @@ export default async function PostPage({ params }: ProjectPageProps) {
       <div className="w-full xl:w-[calc(100%-340px)]">
         <TracingBeam className="">
           <Link
-            href="/projects"
+            href={`/${params.locale}/projects`}
             className={cn(buttonVariants({ variant: 'ghost' }))}
           >
             <ChevronLeft className="mr-2 size-4" />

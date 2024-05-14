@@ -1,7 +1,9 @@
 import { Post, posts } from '#site/content';
 
 export const getPostsByLocale = (locale: string) => {
-  return posts.filter((post) => post.locale === locale);
+  return posts
+    .filter((post) => post.published)
+    .filter((post) => post.locale === locale);
 };
 
 export const getSortedPosts = (locale: string) => {
