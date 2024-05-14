@@ -1,6 +1,7 @@
 'use client';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { TagListItem } from './tag-list-item';
+import { useLocale } from 'next-intl';
 
 interface TagListProps {
   tags: { tag: string; count: number }[];
@@ -9,14 +10,15 @@ interface TagListProps {
 
 export default function TagList({ tags, totalPosts }: TagListProps) {
   const router = useRouter();
+  const locale = useLocale();
   const params = useSearchParams();
 
   const handleClickTag = (tag: string) => {
     if (tag === 'all' || params.get('tag') === tag) {
-      router.push('/blog');
+      router.push(`/${locale}/blog`);
       return;
     } else {
-      router.push(`/blog?tag=${tag}`);
+      router.push(`/${locale}/blog?tag=${tag}`);
     }
   };
 
@@ -28,7 +30,7 @@ export default function TagList({ tags, totalPosts }: TagListProps) {
           key={0}
           tag={'전체'}
           count={totalPosts}
-          isSelected={params.get('tag') === 'all'}
+          isSelected={params.get('tag') === 'all' || !params.get('tag')}
           onClick={() => handleClickTag('all')}
         />
         {tags.map((item, index) => (

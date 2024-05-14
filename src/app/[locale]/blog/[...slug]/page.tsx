@@ -11,6 +11,7 @@ import { TableOfContents } from './_components/toc';
 import { buttonVariants } from '@/components/ui/button';
 import { posts as allPosts } from '#site/content';
 import { BlogHeader } from './_components/blog-header';
+import { getPostBySlug } from '@/lib/post-utils';
 
 interface PostPageProps {
   params: {
@@ -19,13 +20,11 @@ interface PostPageProps {
   };
 }
 
-async function getPostFromParams(params: PostPageProps['params']) {
+const getPostFromParams = (params: PostPageProps['params']) => {
   const slug = params?.slug?.join('/');
-  const post = allPosts.find(
-    (post) => post.slugAsParams === slug && post.locale === params.locale
-  );
+  const post = getPostBySlug(params.locale, slug);
   return post || null;
-}
+};
 
 export async function generateStaticParams(): Promise<
   {
@@ -46,8 +45,8 @@ const extractUserIp = (): string => {
   return headers().get('x-real-ip') ?? FALLBACK_IP_ADDRESS;
 };
 
-export default async function PostPage({ params }: PostPageProps) {
-  const post = await getPostFromParams(params);
+export default function PostPage({ params }: PostPageProps) {
+  const post = getPostFromParams(params);
   if (!post) return notFound();
 
   const userIp = extractUserIp();

@@ -4,6 +4,7 @@ import { Post } from '#site/content';
 import { useEffect, useRef, useState } from 'react';
 import { PostCard } from './post-card';
 import { useSearchParams } from 'next/navigation';
+import { filterPostsByTag } from '@/lib/post-utils';
 
 interface Props {
   posts: Post[];
@@ -13,6 +14,7 @@ export const PostList = ({ posts }: Props) => {
   const loadMoreRef = useRef(null);
   const params = useSearchParams();
   const tag = params.get('tag');
+  const filteredPosts = filterPostsByTag(posts, tag);
 
   useEffect(() => {
     setVisibleCount(6);
@@ -42,12 +44,7 @@ export const PostList = ({ posts }: Props) => {
         observer.unobserve(currentElement);
       }
     };
-  }, [loadMoreRef, posts]);
-
-  const filteredPosts = posts.filter((post) => {
-    if (!tag) return true;
-    return post.tags.includes(tag);
-  });
+  }, [loadMoreRef, filteredPosts]);
 
   return (
     <>

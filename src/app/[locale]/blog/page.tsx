@@ -2,26 +2,7 @@ import { HeroCard } from './_components/hero-card';
 import { PostList } from './_components/post-list';
 import TagList from './_components/tag-list';
 import { Suspense } from 'react';
-import { posts as allPosts, Post } from '#site/content';
-import { compareDesc } from 'date-fns';
-
-// 태그를 추출하고 각 태그별로 포스트 개수를 세어 반환
-const getTagCounts = (posts: Post[]): { tag: string; count: number }[] => {
-  const tags = posts
-    .map((post) => post.tags)
-    .flat()
-    .filter(Boolean);
-  const tagCounts = tags.reduce((acc, tag) => {
-    if (!acc[tag]) {
-      acc[tag] = 1;
-    } else {
-      acc[tag]++;
-    }
-    return acc;
-  }, {} as { [key: string]: number });
-
-  return Object.entries(tagCounts).map(([tag, count]) => ({ tag, count }));
-};
+import { getAllPostTags, getSortedPosts } from '@/lib/post-utils';
 
 interface BlogPageProps {
   params: {
@@ -31,13 +12,8 @@ interface BlogPageProps {
 }
 
 export default async function BlogPage({ params }: BlogPageProps) {
-  const posts = allPosts
-    .filter((post) => post.published)
-    .filter((post) => post.locale === params.locale)
-    .sort((a, b) => {
-      return compareDesc(new Date(a.date), new Date(b.date));
-    });
-  const tags = getTagCounts(posts);
+  const posts = getSortedPosts(params.locale);
+  const tags = getAllPostTags(posts);
 
   return (
     <div className="w-full flex flex-col pt-6 md:pt-12">

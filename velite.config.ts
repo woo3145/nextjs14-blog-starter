@@ -79,16 +79,11 @@ const projects = defineCollection({
 const authors = defineCollection({
   name: 'Author',
   pattern: 'authors/**/*.mdx',
-  schema: s
-    .object({
-      slug: s.path(),
-      title: s.string().max(99),
-      description: s.string().max(999).optional(),
-      avatar: s.string().max(99),
-      github: s.string().max(99),
-      body: s.mdx(),
-    })
-    .transform(computedFields),
+  schema: s.object({
+    name: s.string().max(99),
+    avatar: s.string().max(99),
+    github: s.string().max(99),
+  }),
 });
 
 export default defineConfig({
