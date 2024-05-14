@@ -1,7 +1,7 @@
 'use client';
 import * as React from 'react';
 import { motion } from 'framer-motion';
-import { useTranslation } from '../../translation-provider';
+import { useToggleLocale } from '@/hooks/use-toggle-locale';
 
 interface Props {
   frontImage: React.ReactNode;
@@ -9,7 +9,11 @@ interface Props {
 }
 
 export const FlipImage = ({ frontImage, backImage }: Props) => {
-  const { toggleLanguage, language } = useTranslation();
+  const { locale, handleClick } = useToggleLocale();
+
+  const toggleLanguage = () => {
+    handleClick(locale === 'en' ? 'ko' : 'en');
+  };
 
   const variants = {
     front: { rotateY: 0 },
@@ -22,7 +26,7 @@ export const FlipImage = ({ frontImage, backImage }: Props) => {
       style={{ perspective: 1000, cursor: 'pointer' }}
     >
       <motion.div
-        animate={language == 'ko' ? 'back' : 'front'}
+        animate={locale == 'en' ? 'back' : 'front'}
         variants={variants}
         transition={{ duration: 0.8 }}
         style={{

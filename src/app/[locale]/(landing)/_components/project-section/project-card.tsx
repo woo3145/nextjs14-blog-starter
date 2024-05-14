@@ -57,7 +57,7 @@ export const ProjectCard = ({ id, project }: ProjectCardProps) => {
         <div className="flex items-center justify-between">
           <ProjectLinks links={project.links} />
           <Link
-            href={project.slug}
+            href={`/${project.slug}`}
             className={cn(
               buttonVariants(),
               'h-8 bg-black hover:bg-black/80 dark:bg-white dark:hover:bg-gray-200 dark:text-black'

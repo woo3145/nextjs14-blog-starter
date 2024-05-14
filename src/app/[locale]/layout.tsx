@@ -7,12 +7,20 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { ThemeProvider } from '@/components/providers/theme-provider';
 import { DarkModeToggle } from '@/components/darkmode-toggle';
-import { FileCode2Icon, HomeIcon, NotebookPenIcon } from 'lucide-react';
+import {
+  FileCode2Icon,
+  HomeIcon,
+  LucideIcon,
+  NotebookPenIcon,
+} from 'lucide-react';
 import { FloatingNav } from '@/components/ui/floating-navbar';
 import { cn } from '@/lib/utils';
 import { IconPlanet } from '@tabler/icons-react';
 import { GoogleAdsense } from '@/components/google-adsense';
 import { Toaster } from '@/components/ui/sonner';
+import { AppPathnames } from '@/config';
+import { ReactNode } from 'react';
+import { LocaleToggle } from '@/components/locale-toggle';
 
 const inter = Noto_Sans_KR({
   weight: ['400', '600', '800'],
@@ -88,7 +96,11 @@ export const viewport = {
   ],
 };
 
-const navItems = [
+const navItems: {
+  name: string;
+  link: AppPathnames;
+  icon: ReactNode;
+}[] = [
   {
     name: 'Main',
     link: '/',
@@ -135,6 +147,7 @@ export default async function RootLayout({
               {children}
             </div>
           </NextIntlClientProvider>
+          <LocaleToggle />
           <DarkModeToggle />
 
           <Toaster />
