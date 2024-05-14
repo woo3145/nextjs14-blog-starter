@@ -4,21 +4,25 @@ import { cn } from '@/lib/utils';
 import { TracingBeam } from '@/components/ui/tracking-beam';
 import { docs as allDocs } from '#site/content';
 import { DocsMdx } from '@/components/mdx/docs-mdx-components';
+import { getDocBySlug } from '@/lib/doc-utils';
 
 interface DocPageProps {
   params: {
     slug: string[];
+    locale: string;
   };
 }
 
 async function getDocFromParams(params: DocPageProps['params']) {
   const slug = params.slug?.join('/') || '';
-  const doc = allDocs.find((doc) => doc.slugAsParams === slug);
+  const doc = getDocBySlug(params.locale, slug);
   return doc || null;
 }
 
 export async function generateStaticParams(): Promise<
-  DocPageProps['params'][]
+  {
+    slug: string[];
+  }[]
 > {
   return allDocs.map((doc) => ({
     slug: doc.slugAsParams.split('/'),

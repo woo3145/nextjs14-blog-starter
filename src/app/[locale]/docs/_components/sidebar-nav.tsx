@@ -5,37 +5,47 @@ import { usePathname } from 'next/navigation';
 
 import { cn } from '@/lib/utils';
 import { SidebarNavItem } from '../types/nav';
+import { useLocale } from 'next-intl';
 
 export interface DocsSidebarNavProps {
   items: SidebarNavItem[];
 }
 
 export const DocsSidebarNav = ({ items }: DocsSidebarNavProps) => {
+  const locale = useLocale();
   const pathname = usePathname();
   return items.length ? (
     <div className="w-full">
-      {items.map((item, index) => (
-        <div key={index} className={cn('pb-4')}>
-          <h4 className="mb-1 rounded-md px-2 py-1 text-base font-semibold">
-            {item.title}
-          </h4>
-          {item?.items?.length && (
-            <DocsSidebarNavItems items={item.items} pathname={pathname} />
-          )}
-        </div>
-      ))}
+      {items.map((item, index) => {
+        return (
+          <div key={index} className={cn('pb-4')}>
+            <h4 className="mb-1 rounded-md px-2 py-1 text-base font-semibold">
+              {item.title}
+            </h4>
+            {item?.items?.length && (
+              <DocsSidebarNavItems
+                items={item.items}
+                pathname={pathname}
+                locale={locale}
+              />
+            )}
+          </div>
+        );
+      })}
     </div>
   ) : null;
 };
 
 interface DocsSidebarNavItemsProps {
   items: SidebarNavItem[];
-  pathname: string | null;
+  pathname: string;
+  locale: string;
 }
 
 export const DocsSidebarNavItems = ({
   items,
   pathname,
+  locale,
 }: DocsSidebarNavItemsProps) => {
   return items?.length ? (
     <div className="grid grid-flow-row auto-rows-max pl-2">
@@ -43,11 +53,11 @@ export const DocsSidebarNavItems = ({
         item.href && !item.disabled ? (
           <Link
             key={index}
-            href={item.href}
+            href={`/${locale}${item.href}`}
             className={cn(
               'group flex w-full items-center rounded-md border border-transparent px-2 py-1 hover:underline',
               item.disabled && 'cursor-not-allowed opacity-60',
-              pathname === item.href
+              `/${locale}${item.href}` === pathname
                 ? 'font-medium text-primary'
                 : 'text-muted-foreground'
             )}
