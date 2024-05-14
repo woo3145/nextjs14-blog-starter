@@ -11,7 +11,6 @@ import { FileCode2Icon, HomeIcon, NotebookPenIcon } from 'lucide-react';
 import { FloatingNav } from '@/components/ui/floating-navbar';
 import { cn } from '@/lib/utils';
 import { IconPlanet } from '@tabler/icons-react';
-import { GoogleAdsense } from '@/components/google-adsense';
 import { Toaster } from '@/components/ui/sonner';
 import { AppPathnames, locales } from '@/config';
 import { ReactNode } from 'react';
@@ -158,7 +157,6 @@ export default async function RootLayout({
           <Toaster />
         </ThemeProvider>
       </body>
-      <GoogleAdsense pId={process.env.NEXT_PUBLIC_GOOGLE_ADSENSE_PID || ''} />
     </html>
   );
 }
