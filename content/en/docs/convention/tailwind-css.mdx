@@ -1,0 +1,144 @@
+---
+title: Tailwind CSS
+description: Tailwind CSS
+---
+
+## class 유틸함수 사용
+
+<Steps>
+
+<Step>
+Install dependencies
+
+```bash
+yarn add clsx tailwind-merge
+```
+
+</Step>
+
+<Step>
+lib/utils.ts
+```tsx
+import { type ClassValue, clsx } from 'clsx';
+import { twMerge } from 'tailwind-merge';
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
+```
+</Step>
+</Steps>
+
+## 스타일 정의 순서
+
+- Layout & Position & Size
+
+- Border & Shape
+
+- Background
+
+- Text
+
+- Interaction
+
+- Transition
+
+## 컴포넌트 자체의 Position을 가지면 안됨
+
+#### 자체적인 position 속성을 가지면 안됨
+
+```tsx
+// 🚨 Bad
+export const ThemeToggle = () => {
+  return (
+    <button className="fixed bottom-10 right-10 py-2 px-4 bg-primary text-foreground"></button>
+  );
+};
+```
+
+#### 사용하는 쪽에서 포지션 지정
+
+```tsx
+// ✅ Good
+interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
+  text: string;
+}
+export const ThemeToggle = ({ text, className, ...props }: ButtonProps) => {
+  return (
+    <button
+      className={cn('py-2 px-4 bg-primary text-foreground', className)}
+      {...props}
+    >
+      {text}
+    </button>
+  );
+};
+
+// Usage
+<ThemeToggle text={'다크모드 토글'} className="fixed bottom-10 right-10" />;
+```
+
+## 기본적인 테마 설정
+
+<Steps>
+
+<Step>
+styles/index.css
+
+```css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@layer base {
+  :root {
+    --primary: 262.1 83.3% 57.8%;
+    --primary-foreground: 210 20% 98%;
+    --secondary: 220 14.3% 95.9%;
+    --secondary-foreground: 220.9 39.3% 11%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 20% 98%;
+  }
+
+  .dark {
+    --primary: 263.4 70% 50.4%;
+    --primary-foreground: 210 20% 98%;
+    --secondary: 215 27.9% 16.9%;
+    --secondary-foreground: 210 20% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 20% 98%;
+  }
+}
+```
+
+</Step>
+
+<Step>
+tailwind.config.ts
+```ts {7-18} showLineNumbers
+module.exports = { 
+  darkMode: ['class'],
+  content: ['./src/**/*.{js,jsx,ts,tsx}'],
+  theme: {
+    extend: {
+      colors: {
+        primary: {
+          DEFAULT: 'hsl(var(--primary))',
+          foreground: 'hsl(var(--primary-foreground))',
+        },
+        secondary: {
+          DEFAULT: 'hsl(var(--secondary))',
+          foreground: 'hsl(var(--secondary-foreground))',
+        },
+        destructive: {
+          DEFAULT: 'hsl(var(--destructive))',
+          foreground: 'hsl(var(--destructive-foreground))',
+        },
+      },
+    },
+  },
+};
+```
+</Step>
+</Steps
+
+>
