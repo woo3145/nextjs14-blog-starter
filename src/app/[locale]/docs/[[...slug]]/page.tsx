@@ -5,7 +5,6 @@ import { TracingBeam } from '@/components/ui/tracking-beam';
 import { docs as allDocs } from '#site/content';
 import { DocsMdx } from '@/components/mdx/docs-mdx-components';
 import { getDocBySlug } from '@/lib/doc-utils';
-import { GoogleAdsense } from '@/components/google-adsense';
 
 interface DocPageProps {
   params: {
@@ -51,8 +50,6 @@ export default async function DocPage({ params }: DocPageProps) {
           <DocsMdx code={doc.body} />
         </div>
       </TracingBeam>
-
-      <GoogleAdsense pId={process.env.NEXT_PUBLIC_GOOGLE_ADSENSE_PID || ''} />
     </div>
   );
 }

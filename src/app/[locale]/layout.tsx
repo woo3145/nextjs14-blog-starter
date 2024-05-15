@@ -15,6 +15,7 @@ import { Toaster } from '@/components/ui/sonner';
 import { AppPathnames, locales } from '@/config';
 import { ReactNode } from 'react';
 import { LocaleToggle } from '@/components/locale-toggle';
+import { GoogleAdsense } from '@/components/google-adsense';
 
 const inter = Noto_Sans_KR({
   weight: ['400', '600', '800'],
@@ -156,6 +157,7 @@ export default async function RootLayout({
 
           <Toaster />
         </ThemeProvider>
+        <GoogleAdsense pId={process.env.NEXT_PUBLIC_GOOGLE_ADSENSE_PID || ''} />
       </body>
     </html>
   );
