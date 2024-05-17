@@ -1,10 +1,9 @@
-'use client';
 import * as React from 'react';
 
 import { cn } from '@/lib/utils';
 import { ProjectText } from './project-text';
-import { ProjectList } from './project-list';
 import { getSortedProjects } from '@/lib/project-utils';
+import { ProjectList } from './project-list';
 
 interface ProjectSectionProps {
   className?: string;
@@ -13,11 +12,10 @@ interface ProjectSectionProps {
 
 export const ProjectSection = ({ className, locale }: ProjectSectionProps) => {
   const projects = getSortedProjects(locale);
-
   return (
     <section
       className={cn(
-        'flex flex-col items-center justify-center max-w-screen-xl mx-auto gap-4',
+        'flex flex-col items-center justify-center max-w-screen-2xl mx-auto gap-4',
         className
       )}
     >
