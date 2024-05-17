@@ -46,7 +46,7 @@
     "cicdDev": "CI/CD 구축",
     "cicdDevDesc": "S3, EC2, Docker, Vercel, GitActions 등 상황에 맞는 배포 및 파이프라인 구축",
 
-    "teckStackTitle": "기술 스택",
+    "techStackTitle": "기술 스택",
     "projectTitle": "프로젝트"
   }
 }

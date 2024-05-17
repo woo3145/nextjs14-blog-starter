@@ -46,7 +46,7 @@
     "cicdDev": "CI/CD Setup Suitable for the Context",
     "cicdDevDesc": "Deployment and pipeline setup suitable for the situation using S3, EC2, Docker, Vercel, GitActions, etc.",
 
-    "teckStackTitle": "Tech Stacks",
+    "techStackTitle": "Tech Stacks",
     "projectTitle": "Projects"
   }
 }

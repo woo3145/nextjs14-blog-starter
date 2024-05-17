@@ -15,7 +15,7 @@ export default async function LandingPage({ params }: LandingPageProps) {
       <HeroSection className="" />
       <div className="py-20 px-4">
         <SkillSection />
-        <TechStackSection className="py-20" />
+        <TechStackSection className="py-24" />
         <ProjectSection className="pb-40" locale={params.locale} />
       </div>
     </div>
