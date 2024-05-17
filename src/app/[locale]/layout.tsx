@@ -16,50 +16,13 @@ import { AppPathnames, locales } from '@/config';
 import { ReactNode } from 'react';
 import { LocaleToggle } from '@/components/locale-toggle';
 import { GoogleAdsense } from '@/components/google-adsense';
+import { Footer } from '@/components/footer';
 
 const inter = Noto_Sans_KR({
   weight: ['400', '600', '800'],
   variable: '--font-noto-sans',
   subsets: ['latin'],
 });
-
-// export const metadata: Metadata = {
-//   title: {
-//     template: `%s | ${siteMetadata.hero.author}`,
-//     default: `${siteMetadata.hero.author}`,
-//   },
-//   description: `${siteMetadata.description}`,
-//   openGraph: {
-//     title: `${siteMetadata.title}`,
-//     description: `${siteMetadata.description}`,
-//     url: `${siteMetadata.siteUrl}`,
-//     siteName: `${siteMetadata.title}`,
-//     locale: `${siteMetadata.locale}`,
-//     type: 'website',
-//     images: [
-//       {
-//         url: siteMetadata.siteLogo,
-//         width: 1200,
-//         height: 630,
-//         alt: 'logo',
-//       },
-//     ],
-//   },
-//   twitter: {
-//     title: siteMetadata.title,
-//     card: 'summary',
-//     creator: `@${siteMetadata.hero.author}`,
-//   },
-//   icons: {
-//     shortcut: `/favicon.ico`,
-//   },
-//   alternates: {
-//     types: {
-//       // See the RSS Feed section for more details
-//       'application/rss+xml': `${siteMetadata.siteUrl}/feed.xml`,
-//     },
-//   },
-// };
 
 export async function generateMetadata({
   params: { locale },
@@ -148,13 +111,13 @@ export default async function RootLayout({
           <NextIntlClientProvider messages={messages}>
             <FloatingNav navItems={navItems} />
 
-            <div className="h-auto min-h-screen w-full rounded-md bg-background bg-grid-black/[0.04] dark:bg-grid-white/[0.04] font-noto-sans ">
-              {children}
+            <div className="h-auto min-h-screen w-full rounded-md bg-background bg-grid-black/[0.04] dark:bg-grid-white/[0.04] font-noto-sans">
+              <main>{children}</main>
+              <Footer />
             </div>
           </NextIntlClientProvider>
           <LocaleToggle />
           <DarkModeToggle />
-
           <Toaster />
         </ThemeProvider>
         <GoogleAdsense pId={process.env.NEXT_PUBLIC_GOOGLE_ADSENSE_PID || ''} />
