@@ -8,9 +8,9 @@ import { SnakeBeam } from './snake-beam';
 import { FlipImage } from './flip-image';
 import { CDN_IMAGES } from '@/data/cdn-images';
 import { BubbleMessage } from './bubble-message';
-import { slideInFromRight } from '@/lib/motion';
 import { cn } from '@/lib/utils';
 import { useTranslations } from 'next-intl';
+import { Reveal } from '@/components/reveal';
 
 interface HeroSectionProps {
   className?: string;
@@ -125,10 +125,13 @@ export const HeroSection = ({ className }: HeroSectionProps) => {
               />
             }
           />
-          <motion.div
-            initial="hidden"
-            animate="visible"
-            variants={slideInFromRight(0.7)}
+          <Reveal
+            initial={{ opacity: 0, x: 100 }}
+            whileInView={{
+              opacity: 1,
+              x: 0,
+              transition: { duration: 0.4, delay: 0.4 },
+            }}
             className="absolute bottom-12 md:bottom-0"
           >
             <motion.div
@@ -138,7 +141,7 @@ export const HeroSection = ({ className }: HeroSectionProps) => {
             >
               <BubbleMessage>{t('characterMessage')}</BubbleMessage>
             </motion.div>
-          </motion.div>
+          </Reveal>
         </motion.div>
       </div>
     </div>

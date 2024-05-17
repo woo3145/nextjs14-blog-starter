@@ -11,11 +11,21 @@ interface RevealProps {
   children: React.ReactNode;
   initial: AnimationProps['initial'];
   whileInView: TargetAndTransition | VariantLabels | undefined;
+  className?: string;
 }
 
-export const Reveal = ({ children, initial, whileInView }: RevealProps) => {
+export const Reveal = ({
+  children,
+  initial,
+  whileInView,
+  className,
+}: RevealProps) => {
   return (
-    <motion.div initial={initial} whileInView={whileInView}>
+    <motion.div
+      initial={initial}
+      whileInView={whileInView}
+      className={className}
+    >
       {children}
     </motion.div>
   );

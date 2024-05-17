@@ -1,34 +1,38 @@
 'use client';
 import * as React from 'react';
-import { motion, useInView } from 'framer-motion';
 
-import { slideInFromLeft, slideInFromRight } from '@/lib/motion';
 import { useTranslations } from 'next-intl';
+import { Reveal } from '@/components/reveal';
 
 export const SkillText = () => {
   const t = useTranslations('Landing');
-  const ref = React.useRef(null);
-  const isInView = useInView(ref, { once: true });
 
   return (
-    <motion.div
-      ref={ref}
-      initial="hidden"
-      animate={isInView ? 'visible' : 'hidden'}
-      className="w-full h-auto flex flex-col items-center justify-center"
-    >
-      <motion.div
-        variants={slideInFromLeft(0.5)}
-        className="text-2xl md:text-3xl text-center pt-4 pb-4 text-transparent font-bold bg-clip-text bg-gradient-to-r from-rose-400 to-orange-300"
+    <div>
+      <Reveal
+        initial={{ opacity: 0, x: -100 }}
+        whileInView={{
+          opacity: 1,
+          x: 0,
+          transition: { duration: 0.4 },
+        }}
       >
-        {t('skillTitle')}
-      </motion.div>
-      <motion.div
-        variants={slideInFromRight(0.5)}
-        className="cursive text-lg text-foreground/40 mb-10 pt-2 text-center"
+        <h3 className="text-2xl md:text-3xl text-center pt-4 pb-4 text-transparent font-bold bg-clip-text bg-gradient-to-r from-rose-400 to-orange-300">
+          {t('skillTitle')}
+        </h3>
+      </Reveal>
+      <Reveal
+        initial={{ opacity: 0, x: 100 }}
+        whileInView={{
+          opacity: 1,
+          x: 0,
+          transition: { duration: 0.4, delay: 0.5 },
+        }}
       >
-        {t('skillDescription')}
-      </motion.div>
-    </motion.div>
+        <p className="cursive text-lg text-foreground/40 mb-10 pt-2 text-center">
+          {t('skillDescription')}
+        </p>
+      </Reveal>
+    </div>
   );
 };

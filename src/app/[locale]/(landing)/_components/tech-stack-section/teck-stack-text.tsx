@@ -1,15 +1,11 @@
 'use client';
 import * as React from 'react';
-import { motion, useInView } from 'framer-motion';
 
-import { slideInFromRight } from '@/lib/motion';
 import { useTranslations } from 'next-intl';
 import { Reveal } from '@/components/reveal';
 
 export const TechStackText = () => {
   const t = useTranslations('Landing');
-  const ref = React.useRef(null);
-  const isInView = useInView(ref, { once: true });
 
   return (
     <Reveal

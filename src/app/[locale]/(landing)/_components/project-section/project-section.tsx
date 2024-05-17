@@ -15,7 +15,12 @@ export const ProjectSection = ({ className, locale }: ProjectSectionProps) => {
   const projects = getSortedProjects(locale);
 
   return (
-    <section className={cn('min-h-screen w-full space-y-10', className)}>
+    <section
+      className={cn(
+        'flex flex-col items-center justify-center max-w-screen-xl mx-auto gap-4',
+        className
+      )}
+    >
       <ProjectText />
       <ProjectList projects={projects} />
     </section>
