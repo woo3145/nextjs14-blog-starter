@@ -1,3 +1,4 @@
+import { ContactSection } from './_components/contact-section';
 import { HeroSection } from './_components/hero-section';
 import { ProjectSection } from './_components/project-section/project-section';
 import { SkillSection } from './_components/skill-section/skill-section';
@@ -13,10 +14,11 @@ export default async function LandingPage({ params }: LandingPageProps) {
   return (
     <div className="flex flex-col gap-10 overflow-x-hidden">
       <HeroSection className="" />
-      <div className="py-20 px-4">
+      <div className="px-4">
         <SkillSection />
         <TechStackSection className="py-24" />
-        <ProjectSection className="pb-40" locale={params.locale} />
+        <ProjectSection locale={params.locale} />
+        <ContactSection className="py-28" />
       </div>
     </div>
   );
