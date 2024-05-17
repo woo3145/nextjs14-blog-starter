@@ -29,7 +29,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const posts = allPosts.filter((post) => post.published);
   const docs = allDocs.filter((doc) => doc.published);
-  const projects = allProjects.filter((doc) => doc.published);
+  const projects = allProjects;
 
   const postPages = posts.map((post) => ({
     url: `${host}/${post.slug}`,
