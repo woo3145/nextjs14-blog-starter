@@ -5,40 +5,40 @@ import { Moon, Sun } from 'lucide-react';
 import { useTheme } from 'next-themes';
 
 import { Button } from '@/components/ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
 
 export function DarkModeToggle() {
   const { setTheme } = useTheme();
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button
-          variant="outline"
-          size="icon"
-          className="fixed bottom-10 right-10"
-        >
+    <Popover>
+      <PopoverTrigger asChild>
+        <Button variant="outline" size="icon" className="border-none">
           <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
           <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
           <span className="sr-only">Toggle theme</span>
         </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => setTheme('light')}>
+      </PopoverTrigger>
+      <PopoverContent align="end" className="z-50 min-w-[8rem] w-full p-0 mt-4">
+        <div
+          className="py-2 px-4 text-sm hover:bg-accent"
+          onClick={() => setTheme('light')}
+        >
           Light
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme('dark')}>
+        </div>
+        <div
+          className="py-2 px-4 text-sm hover:bg-accent"
+          onClick={() => setTheme('dark')}
+        >
           Dark
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme('system')}>
+        </div>
+        <div
+          className="py-2 px-4 text-sm hover:bg-accent"
+          onClick={() => setTheme('system')}
+        >
           System
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+        </div>
+      </PopoverContent>
+    </Popover>
   );
 }

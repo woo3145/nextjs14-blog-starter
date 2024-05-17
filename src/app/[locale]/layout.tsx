@@ -6,7 +6,6 @@ import './styles/globals.css';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { ThemeProvider } from '@/components/providers/theme-provider';
-import { DarkModeToggle } from '@/components/darkmode-toggle';
 import { FileCode2Icon, HomeIcon, NotebookPenIcon } from 'lucide-react';
 import { FloatingNav } from '@/components/ui/floating-navbar';
 import { cn } from '@/lib/utils';
@@ -14,7 +13,6 @@ import { IconPlanet } from '@tabler/icons-react';
 import { Toaster } from '@/components/ui/sonner';
 import { AppPathnames, locales } from '@/config';
 import { ReactNode } from 'react';
-import { LocaleToggle } from '@/components/locale-toggle';
 import { GoogleAdsense } from '@/components/google-adsense';
 import { Footer } from '@/components/footer';
 
@@ -116,8 +114,6 @@ export default async function RootLayout({
               <Footer />
             </div>
           </NextIntlClientProvider>
-          <LocaleToggle />
-          <DarkModeToggle />
           <Toaster />
         </ThemeProvider>
         <GoogleAdsense pId={process.env.NEXT_PUBLIC_GOOGLE_ADSENSE_PID || ''} />

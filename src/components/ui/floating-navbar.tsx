@@ -7,9 +7,11 @@ import {
   useMotionValueEvent,
 } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import { usePathname } from 'next/navigation';
 import NavigationLink from '../navigation-link';
 import { AppPathnames } from '@/config';
+import { DarkModeToggle } from '../darkmode-toggle';
+import { LocaleToggle } from '../locale-toggle';
+import { usePathname } from '@/navigation';
 
 export const FloatingNav = ({
   navItems,
@@ -105,6 +107,10 @@ export const FloatingNav = ({
               </NavigationLink>
             );
           })}
+          <div className="flex items-center gap-2">
+            <LocaleToggle />
+            <DarkModeToggle />
+          </div>
         </motion.div>
       )}
     </AnimatePresence>
