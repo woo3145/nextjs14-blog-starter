@@ -50,28 +50,19 @@ const projects = defineCollection({
     .object({
       id: s.number(),
       slug: s.path(),
-      toc: s.toc(),
       title: s.string().max(99),
       description: s.string().max(999).optional(),
-      period: s.string(),
-      published: s.boolean().default(true),
-      image: s.string().max(99),
-      tags: s.array(
-        s.object({
-          text: s.string(),
-          color: s.string(),
-        })
-      ),
+      type: s.string().max(120),
+      image: s.string().max(400),
+      skills: s.array(s.string()),
       links: s
         .object({
           github: s.string().optional(),
-          homepage: s.string().optional(),
+          demo: s.string().optional(),
           playstore: s.string().optional(),
           appstore: s.string().optional(),
         })
         .optional(),
-      featured: s.boolean().default(false), // true면 메인 페이지에서 표시됨
-      body: s.mdx(),
     })
     .transform(computedFields),
 });
