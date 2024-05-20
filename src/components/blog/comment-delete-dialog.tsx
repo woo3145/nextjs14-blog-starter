@@ -12,9 +12,9 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { Comment } from '@/lib/init-supabase';
-import { deleteCommentServerAction } from '../server-actions/delete-comment';
 import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
+import { deleteCommentServerAction } from '@/app/[locale]/blog/[...slug]/server-actions/delete-comment';
 
 interface CommentDeleteDialogProps {
   children: React.ReactNode;

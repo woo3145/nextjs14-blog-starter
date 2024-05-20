@@ -1,10 +1,10 @@
 'use client';
 
+import { addCommentServerAction } from '@/app/[locale]/blog/[...slug]/server-actions/add-comment';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
 import React from 'react';
-import { addCommentServerAction } from '../server-actions/add-comment';
 import { toast } from 'sonner';
 
 interface CommentWriterProps {

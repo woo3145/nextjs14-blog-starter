@@ -5,12 +5,12 @@ import { ChevronLeft } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 import { TracingBeam } from '@/components/ui/tracking-beam';
-import { CommentList } from './_components/comment-list';
 import { BlogMdx } from '@/components/mdx/blog-mdx-components';
-import { TableOfContents } from './_components/toc';
 import { buttonVariants } from '@/components/ui/button';
-import { BlogHeader } from './_components/blog-header';
 import { getPostBySlug, getSortedPosts } from '@/lib/post-utils';
+import { BlogHeader } from '@/components/blog/blog-header';
+import { CommentList } from '@/components/blog/comment-list';
+import { TableOfContents } from '@/components/blog/toc';
 
 interface PostPageProps {
   params: {

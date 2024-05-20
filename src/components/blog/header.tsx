@@ -2,7 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { siteMetadata } from '@/data/siteMetadata';
+import { siteMetadata } from '@/data/site-metadata';
 
 export default function Header() {
   return (

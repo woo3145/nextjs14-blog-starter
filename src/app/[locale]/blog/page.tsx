@@ -1,8 +1,8 @@
-import { HeroCard } from './_components/hero-card';
-import { PostList } from './_components/post-list';
-import TagList from './_components/tag-list';
 import { Suspense } from 'react';
 import { getAllPostTags, getSortedPosts } from '@/lib/post-utils';
+import { HeroCard } from '@/components/blog/hero-card';
+import TagList from '@/components/blog/tag-list';
+import { PostList } from '@/components/blog/post-list';
 
 interface BlogPageProps {
   params: {
