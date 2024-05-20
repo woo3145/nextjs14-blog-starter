@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { cn } from '@/lib/utils';
 import { ProjectText } from './project-text';
-import { getSortedProjects } from '@/lib/project-utils';
+import { getSortedProjects } from '@/lib/velite/project-utils';
 import { ProjectList } from './project-list';
 
 interface ProjectSectionProps {

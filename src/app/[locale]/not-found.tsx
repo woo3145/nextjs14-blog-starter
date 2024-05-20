@@ -1,6 +1,6 @@
 'use client';
 
-import NavigationLink from '@/components/navigation-link';
+import NavigationLink from '@/components/common/navigation-link';
 import { buttonVariants } from '@/components/ui/button';
 import { CDN_IMAGES } from '@/data/cdn-images';
 import { cn } from '@/lib/utils';

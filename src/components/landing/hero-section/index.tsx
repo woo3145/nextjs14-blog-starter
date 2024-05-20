@@ -7,10 +7,10 @@ import { useTranslations } from 'next-intl';
 import { cn } from '@/lib/utils';
 import { CDN_IMAGES } from '@/data/cdn-images';
 import { Highlight } from '@/components/ui/highlight';
-import { Reveal } from '@/components/reveal';
 import { SnakeBeam } from './snake-beam';
 import { FlipImage } from './flip-image';
 import { BubbleMessage } from './bubble-message';
+import { Reveal } from '@/components/common/reveal';
 
 interface HeroSectionProps {
   className?: string;

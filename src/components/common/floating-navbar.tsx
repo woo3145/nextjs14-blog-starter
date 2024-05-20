@@ -1,5 +1,5 @@
 'use client';
-import React, { ReactNode, useState } from 'react';
+import React, { useState } from 'react';
 import {
   motion,
   AnimatePresence,
@@ -7,21 +7,17 @@ import {
   useMotionValueEvent,
 } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import NavigationLink from '../navigation-link';
-import { AppPathnames } from '@/config';
-import { DarkModeToggle } from '../darkmode-toggle';
-import { LocaleToggle } from '../locale-toggle';
+import NavigationLink from './navigation-link';
+import { DarkModeToggle } from './darkmode-toggle';
+import { LocaleToggle } from './locale-toggle';
 import { usePathname } from '@/navigation';
+import { MainNavItem } from '@/types/nav';
 
 export const FloatingNav = ({
   navItems,
   className,
 }: {
-  navItems: {
-    name: string;
-    link: AppPathnames;
-    icon: ReactNode;
-  }[];
+  navItems: MainNavItem[];
   className?: string;
 }) => {
   const { scrollY, scrollYProgress } = useScroll({});
@@ -67,11 +63,11 @@ export const FloatingNav = ({
           )}
         >
           {navItems.map((navItem, idx) => {
-            const isActive = pathname === navItem.link;
+            const isActive = pathname === navItem.href;
             return (
               <NavigationLink
                 key={`nav-item-${idx}`}
-                href={navItem.link}
+                href={navItem.href}
                 className={cn(
                   'text-sm font-medium relative text-foreground py-2 rounded-full hover:text-accent-foreground duration-200 bg-indi',
                   isActive
@@ -79,8 +75,9 @@ export const FloatingNav = ({
                     : 'text-foreground/60'
                 )}
               >
-                {/* <span className="block sm:hidden">{navItem.icon}</span> */}
-                <span className="block text-xs sm:text-sm">{navItem.name}</span>
+                <span className="block text-xs sm:text-sm">
+                  {navItem.title}
+                </span>
                 {isActive ? (
                   <motion.div className="absolute -bottom-[1px] left-0 right-0 h-[1px]">
                     <svg width="37" height="8" viewBox="0 0 37 8" fill="none">

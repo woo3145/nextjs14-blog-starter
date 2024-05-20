@@ -1,10 +1,11 @@
-import { Bread } from '../_components/bread';
 import { notFound } from 'next/navigation';
+
 import { cn } from '@/lib/utils';
 import { TracingBeam } from '@/components/ui/tracking-beam';
-import { docs as allDocs } from '#site/content';
 import { DocsMdx } from '@/components/mdx/docs-mdx-components';
-import { getDocBySlug } from '@/lib/doc-utils';
+import { Bread } from '@/components/docs/bread';
+import { getDocBySlug } from '@/lib/velite/doc-utils';
+import { docs as allDocs } from '#site/content';
 
 interface DocPageProps {
   params: {

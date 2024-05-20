@@ -3,7 +3,7 @@ import {
   docs as allDocs,
   projects as allProjects,
 } from '#site/content';
-import { host, locales, pathnames } from '@/config';
+import { host, locales, pathnames } from '@/config/app-config';
 import { getPathname } from '@/navigation';
 import { MetadataRoute } from 'next';
 

@@ -5,7 +5,7 @@ import { Moon, Sun } from 'lucide-react';
 import { useTheme } from 'next-themes';
 
 import { Button } from '@/components/ui/button';
-import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
+import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 
 export function DarkModeToggle() {
   const { setTheme } = useTheme();

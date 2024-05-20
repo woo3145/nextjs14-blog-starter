@@ -1,4 +1,4 @@
-import { Reveal } from '@/components/reveal';
+import { Reveal } from '@/components/common/reveal';
 import { cn } from '@/lib/utils';
 import { IconMail } from '@tabler/icons-react';
 import { useTranslations } from 'next-intl';

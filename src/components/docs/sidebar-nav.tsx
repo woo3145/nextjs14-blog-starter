@@ -4,19 +4,19 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 import { cn } from '@/lib/utils';
-import { SidebarNavItem } from '../types/nav';
 import { useLocale } from 'next-intl';
+import { SidebarNavItem } from '@/types/nav';
 
 export interface DocsSidebarNavProps {
-  items: SidebarNavItem[];
+  navItems: SidebarNavItem[];
 }
 
-export const DocsSidebarNav = ({ items }: DocsSidebarNavProps) => {
+export const DocsSidebarNav = ({ navItems }: DocsSidebarNavProps) => {
   const locale = useLocale();
   const pathname = usePathname();
-  return items.length ? (
+  return navItems.length ? (
     <div className="w-full">
-      {items.map((item, index) => {
+      {navItems.map((item, index) => {
         return (
           <div key={index} className={cn('pb-4')}>
             <h4 className="mb-1 rounded-md px-2 py-1 text-base font-semibold">

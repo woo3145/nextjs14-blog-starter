@@ -2,9 +2,9 @@
 import * as React from 'react';
 
 import { Project } from '#site/content';
-import { Reveal } from '@/components/reveal';
-import { Project3dCard } from '@/components/project-3d-card';
+import { Reveal } from '@/components/common/reveal';
 import { cn } from '@/lib/utils';
+import { Project3dCard } from '@/components/common/project-3d-card';
 
 interface ProjectListProps {
   projects: Project[];

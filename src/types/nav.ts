@@ -1,11 +1,10 @@
-import { icons } from 'lucide-react';
+import { AppPathnames } from "@/config/app-config";
 
 export interface NavItem {
   title: string;
   href?: string;
   disabled?: boolean;
   external?: boolean;
-  icon?: keyof typeof icons;
   label?: string;
 }
 
@@ -13,6 +12,8 @@ export interface NavItemWithChildren extends NavItem {
   items: NavItemWithChildren[];
 }
 
-export interface MainNavItem extends NavItem {}
+export interface MainNavItem extends NavItem {
+  href: AppPathnames;
+}
 
 export interface SidebarNavItem extends NavItemWithChildren {}

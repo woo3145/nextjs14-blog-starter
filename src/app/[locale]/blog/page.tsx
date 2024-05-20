@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import { getAllPostTags, getSortedPosts } from '@/lib/post-utils';
+import { getAllPostTags, getSortedPosts } from '@/lib/velite/post-utils';
 import { HeroCard } from '@/components/blog/hero-card';
 import TagList from '@/components/blog/tag-list';
 import { PostList } from '@/components/blog/post-list';

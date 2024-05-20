@@ -4,7 +4,7 @@ import { Post } from '#site/content';
 import { useEffect, useRef, useState } from 'react';
 import { PostCard } from './post-card';
 import { useSearchParams } from 'next/navigation';
-import { filterPostsByTag } from '@/lib/post-utils';
+import { filterPostsByTag } from '@/lib/velite/post-utils';
 
 interface Props {
   posts: Post[];

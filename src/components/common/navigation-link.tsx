@@ -2,9 +2,9 @@
 
 import { useSelectedLayoutSegment } from 'next/navigation';
 import { ComponentProps } from 'react';
-import type { AppPathnames } from '@/config';
 import { Link } from '@/navigation';
 import { cn } from '@/lib/utils';
+import { AppPathnames } from '@/config/app-config';
 
 export default function NavigationLink<Pathname extends AppPathnames>({
   href,

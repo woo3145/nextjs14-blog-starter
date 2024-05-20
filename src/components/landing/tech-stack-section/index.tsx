@@ -1,4 +1,4 @@
-import { Reveal } from '@/components/reveal';
+import { Reveal } from '@/components/common/reveal';
 import { TechStackText } from './teck-stack-text';
 import {
   backStacks,
@@ -6,7 +6,7 @@ import {
   frontStacks,
   languageStacks,
   otherStacks,
-} from '../../../data/teck-stack-data';
+} from '@/data/teck-stack-data';
 import { TechStackItem } from './tech-stack-item';
 import { cn } from '@/lib/utils';
 

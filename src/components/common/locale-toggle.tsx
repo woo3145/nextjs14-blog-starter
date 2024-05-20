@@ -1,11 +1,11 @@
 'use client';
 
 import * as React from 'react';
-import { locales } from '@/config';
 
 import { Button } from '@/components/ui/button';
 import { useToggleLocale } from '@/hooks/use-toggle-locale';
-import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
+import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
+import { locales } from '@/config/app-config';
 
 export function LocaleToggle() {
   const { icons, locale, labels, handleClick } = useToggleLocale();

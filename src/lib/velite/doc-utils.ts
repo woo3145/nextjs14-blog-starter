@@ -1,4 +1,4 @@
-import { Doc, docs } from '#site/content';
+import { docs } from '#site/content';
 
 export const getDocsByLocale = (locale: string) => {
   return docs.filter((project) => project.locale === locale);

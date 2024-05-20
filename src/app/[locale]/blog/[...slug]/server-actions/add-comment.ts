@@ -1,6 +1,6 @@
 'use server';
 
-import { supabase } from '@/lib/init-supabase';
+import { supabase } from '@/lib/supabase/client';
 import { revalidatePath } from 'next/cache';
 
 interface AddCommentServerActionProps {
