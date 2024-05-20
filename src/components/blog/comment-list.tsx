@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { supabase } from '@/lib/init-supabase';
 import { CommentListItem } from './comment-list-item';
 import CommentWriter from './comment-writer';
+import { supabase } from '@/lib/supabase/client';
 
 export async function CommentList({
   slug,

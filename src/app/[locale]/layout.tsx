@@ -32,9 +32,6 @@ export async function generateMetadata({
       default: `${metadata('title')}`,
     },
     description: metadata('description'),
-    icons: {
-      shortcut: '/favicon.ico',
-    },
     alternates: {
       types: {
         'application/rss+xml': `${metadata('siteUrl')}/feed.xml`,

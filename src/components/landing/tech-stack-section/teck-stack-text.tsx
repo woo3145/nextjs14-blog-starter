@@ -2,7 +2,7 @@
 import * as React from 'react';
 
 import { useTranslations } from 'next-intl';
-import { Reveal } from '@/components/reveal';
+import { Reveal } from '@/components/common/reveal';
 
 export const TechStackText = () => {
   const t = useTranslations('Landing');

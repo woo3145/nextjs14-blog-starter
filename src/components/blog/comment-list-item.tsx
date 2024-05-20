@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button';
-import { Comment } from '@/lib/init-supabase';
 import { X } from 'lucide-react';
 import { CommentDeleteDialog } from './comment-delete-dialog';
+import { Comment } from '@/types/comment';
 
 export const CommentListItem = ({ comment }: { comment: Comment }) => {
   return (

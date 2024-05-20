@@ -15,7 +15,12 @@ import { IconHandClick } from '@tabler/icons-react';
 const MAX_BALLS = 15;
 const ballSize = 24; // 공 크기
 const ballImageSize = 432; // 이미지 크기 (픽셀)
-const ballImages = ['ball_1.png', 'ball_2.png', 'ball_3.png', 'ball_4.png'];
+const ballImages = [
+  '/static/ball_1.png',
+  '/static/ball_2.png',
+  '/static/ball_3.png',
+  '/static/ball_4.png',
+];
 
 export const WatermelonGame = () => {
   const sceneRef = useRef<HTMLDivElement>(null);

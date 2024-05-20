@@ -2,7 +2,7 @@ import Image from 'next/image';
 import * as React from 'react';
 
 import { CDN_IMAGES } from '@/data/cdn-images';
-import { Reveal } from '@/components/reveal';
+import { Reveal } from '@/components/common/reveal';
 
 export const NextJsCard = () => {
   return (

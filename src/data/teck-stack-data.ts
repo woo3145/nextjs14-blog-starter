@@ -9,67 +9,77 @@ export interface TechStack {
 
 export const languageStacks: TechStack[] = [
   {
-    imageSrc: '/stacks/js.png',
+    imageSrc: '/static/stacks/js.png',
     width: 100,
     height: 100,
     title: 'javascript',
   },
   {
-    imageSrc: '/stacks/ts.png',
+    imageSrc: '/static/stacks/ts.png',
     width: 100,
     height: 100,
     title: 'typescript',
   },
-  { imageSrc: '/stacks/python.svg', width: 100, height: 100, title: 'python' },
-  { imageSrc: '/stacks/dart.svg', width: 100, height: 100, title: 'dart' },
+  {
+    imageSrc: '/static/stacks/python.svg',
+    width: 100,
+    height: 100,
+    title: 'python',
+  },
+  {
+    imageSrc: '/static/stacks/dart.svg',
+    width: 100,
+    height: 100,
+    title: 'dart',
+  },
 ];
 
 export const frontStacks: TechStack[] = [
   {
-    imageSrc: '/stacks/react-icon.png',
+    imageSrc: '/static/stacks/react-icon.png',
     width: 100,
     height: 100,
     title: 'react',
   },
   {
-    imageSrc: '/stacks/nextjs.svg',
-    darkImageSrc: '/stacks/nextjs-dark.svg',
+    imageSrc: '/static/stacks/nextjs.svg',
+    darkImageSrc: '/static/stacks/nextjs-dark.svg',
     width: 100,
     height: 100,
     title: 'nextjs',
   },
   {
-    imageSrc: '/stacks/flutter.svg',
+    imageSrc: '/static/stacks/flutter.svg',
     width: 100,
     height: 100,
     title: 'flutter',
   },
   {
-    imageSrc: '/stacks/react-query.svg',
+    imageSrc: '/static/stacks/react-query.svg',
     width: 100,
     height: 100,
     title: 'react-query',
   },
   {
-    imageSrc: '/stacks/zustand.png',
+    imageSrc: '/static/stacks/zustand.png',
     width: 100,
     height: 100,
     title: 'zustand',
   },
   {
-    imageSrc: '/stacks/tailwind-css.svg',
+    imageSrc: '/static/stacks/tailwind-css.svg',
     width: 100,
     height: 100,
     title: 'tailwindCSS',
   },
   {
-    imageSrc: '/stacks/shadcn-ui.png',
+    imageSrc: '/static/stacks/shadcn-ui.png',
     width: 100,
     height: 100,
     title: 'shadcn/ui',
   },
   {
-    imageSrc: '/stacks/socket-io.svg',
+    imageSrc: '/static/stacks/socket-io.svg',
     width: 100,
     height: 100,
     title: 'socket.io',
@@ -78,26 +88,26 @@ export const frontStacks: TechStack[] = [
 
 export const backStacks: TechStack[] = [
   {
-    imageSrc: '/stacks/express.svg',
-    darkImageSrc: '/stacks/express-dark.svg',
+    imageSrc: '/static/stacks/express.svg',
+    darkImageSrc: '/static/stacks/express-dark.svg',
     width: 100,
     height: 100,
     title: 'expressjs',
   },
   {
-    imageSrc: '/stacks/nestjs.svg',
+    imageSrc: '/static/stacks/nestjs.svg',
     width: 100,
     height: 100,
     title: 'nestjs',
   },
   {
-    imageSrc: '/stacks/nginx.png',
+    imageSrc: '/static/stacks/nginx.png',
     width: 100,
     height: 100,
     title: 'nginx',
   },
   {
-    imageSrc: '/stacks/serverless.svg',
+    imageSrc: '/static/stacks/serverless.svg',
     width: 100,
     height: 100,
     title: 'serverless',
@@ -105,27 +115,32 @@ export const backStacks: TechStack[] = [
 ];
 
 export const dbStacks: TechStack[] = [
-  { imageSrc: '/stacks/mysql.png', width: 100, height: 100, title: 'MySQL' },
   {
-    imageSrc: '/stacks/postgre.png',
+    imageSrc: '/static/stacks/mysql.png',
+    width: 100,
+    height: 100,
+    title: 'MySQL',
+  },
+  {
+    imageSrc: '/static/stacks/postgre.png',
     width: 100,
     height: 100,
     title: 'postgreSQL',
   },
   {
-    imageSrc: '/stacks/mongodb.png',
+    imageSrc: '/static/stacks/mongodb.png',
     width: 100,
     height: 100,
     title: 'mongodb',
   },
   {
-    imageSrc: '/stacks/firebase.png',
+    imageSrc: '/static/stacks/firebase.png',
     width: 100,
     height: 100,
     title: 'firebase',
   },
   {
-    imageSrc: '/stacks/supabase.png',
+    imageSrc: '/static/stacks/supabase.png',
     width: 100,
     height: 100,
     title: 'supabase',
@@ -134,20 +149,20 @@ export const dbStacks: TechStack[] = [
 
 export const otherStacks: TechStack[] = [
   {
-    imageSrc: '/stacks/aws.png',
+    imageSrc: '/static/stacks/aws.png',
     width: 100,
     height: 100,
     title: 'aws',
   },
   {
-    imageSrc: '/stacks/docker.png',
+    imageSrc: '/static/stacks/docker.png',
     width: 100,
     height: 100,
     title: 'docker',
   },
   {
-    imageSrc: '/stacks/vercel.svg',
-    darkImageSrc: '/stacks/vercel-dark.svg',
+    imageSrc: '/static/stacks/vercel.svg',
+    darkImageSrc: '/static/stacks/vercel-dark.svg',
     width: 100,
     height: 100,
     title: 'vercel',
