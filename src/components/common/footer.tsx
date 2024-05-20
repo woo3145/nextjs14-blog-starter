@@ -5,9 +5,10 @@ import Link from 'next/link';
 
 export const Footer = () => {
   const hero = useTranslations('Hero');
+  const metadata = useTranslations('Metadata');
   return (
     <footer className="mx-auto py-12 px-6 lg:px-0 flex justify-between items-center w-full max-w-screen-lg">
-      <Link href="https://github.com/woo3145/woo3145.com" target="_blank">
+      <Link href={metadata('repoURL')} target="_blank">
         <p className="text-center text-md text-muted-foreground hover:text-foreground transition-all">
           © Designed & Built by Changwoo Lee · 2024
         </p>

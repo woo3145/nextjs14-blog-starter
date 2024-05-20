@@ -35,7 +35,7 @@ const addPostsToFeed = (feed: RSS, posts: any[], locale: string) => {
       title: post.title,
       description: post.description,
       date: new Date(post.date),
-      author: siteMetadata.hero.author,
+      author: siteMetadata.author,
       url,
       guid: url,
     });

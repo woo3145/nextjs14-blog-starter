@@ -12,6 +12,7 @@
     "title": "Woo3145 Blog",
     "description": "Welcome to Woo3145's developer page. I'm Changwoo Lee, a web developer primarily working with TypeScript, React, Next.js, and Flutter.",
     "siteUrl": "https://woo3145.com",
+    "repoURL": "https://github.com/woo3145/woo3145.com",
     "locale": "en",
     "language": "en-us"
   },

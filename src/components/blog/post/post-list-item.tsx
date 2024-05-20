@@ -8,7 +8,7 @@ interface Props {
   post: Post;
 }
 
-export const PostCard = ({ post }: Props) => {
+export const PostListItem = ({ post }: Props) => {
   return (
     <li className="py-4 px-4 group transition-transform shadow-sm bg-background hover:-translate-x-2 duration-200 hover:bg-accent rounded-lg">
       <Link href={`/${post.slug}`} className="space-y-2">

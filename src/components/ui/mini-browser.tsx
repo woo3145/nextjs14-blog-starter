@@ -1,3 +1,4 @@
+import { CDN_IMAGES } from '@/data/cdn-images';
 import { Variants, motion } from 'framer-motion';
 import Image from 'next/image';
 
@@ -67,7 +68,7 @@ export const MiniBrowser = () => {
                 className="flex items-center justify-center border rounded-full"
               >
                 <Image
-                  src="/octopus_1.png"
+                  src={CDN_IMAGES.landing.octopus_1}
                   alt="octopus"
                   width={80}
                   height={80}

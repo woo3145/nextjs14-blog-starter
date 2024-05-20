@@ -1,3 +1,4 @@
+'use client';
 import { motion } from 'framer-motion';
 import { IconDatabase, IconGhost2, IconTestPipe } from '@tabler/icons-react';
 

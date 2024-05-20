@@ -8,7 +8,7 @@ interface TagListProps {
   totalPosts: number;
 }
 
-export default function TagList({ tags, totalPosts }: TagListProps) {
+export const TagList = ({ tags, totalPosts }: TagListProps) => {
   const router = useRouter();
   const locale = useLocale();
   const params = useSearchParams();
@@ -45,4 +45,4 @@ export default function TagList({ tags, totalPosts }: TagListProps) {
       </div>
     </div>
   );
-}
+};

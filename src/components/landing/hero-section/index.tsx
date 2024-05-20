@@ -1,16 +1,14 @@
 'use client';
 import * as React from 'react';
 import { motion } from 'framer-motion';
-import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 
 import { cn } from '@/lib/utils';
-import { CDN_IMAGES } from '@/data/cdn-images';
 import { Highlight } from '@/components/ui/highlight';
 import { SnakeBeam } from './snake-beam';
-import { FlipImage } from './flip-image';
 import { BubbleMessage } from './bubble-message';
 import { Reveal } from '@/components/common/reveal';
+import { LanguageToggleImage } from '@/components/common/language-toggle-image';
 
 interface HeroSectionProps {
   className?: string;
@@ -104,27 +102,7 @@ export const HeroSection = ({ className }: HeroSectionProps) => {
           }}
           className="flex flex-col items-center justify-center md:mt-10 relative"
         >
-          <FlipImage
-            frontImage={
-              <Image
-                src={CDN_IMAGES.landing.octopus_1}
-                alt="front"
-                width={300}
-                height={300}
-                priority
-                className="px-10 md:px-0"
-              />
-            }
-            backImage={
-              <Image
-                src={CDN_IMAGES.landing.octopus_2}
-                alt="back"
-                width={300}
-                height={300}
-                className="px-10 md:px-0"
-              />
-            }
-          />
+          <LanguageToggleImage />
           <Reveal
             initial={{ opacity: 0, x: 100 }}
             whileInView={{

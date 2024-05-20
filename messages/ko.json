@@ -12,6 +12,7 @@
     "title": "Woo3145 블로그",
     "description": "Woo3145 개발자 페이지에 오신 것을 환영합니다. 저는 TypeScript, React, Next.js, Flutter를 주로 다루는 웹 개발자 이창우입니다.",
     "siteUrl": "https://woo3145.com",
+    "repoURL": "https://github.com/woo3145/woo3145.com",
     "locale": "ko",
     "language": "ko-kr"
   },

@@ -4,7 +4,7 @@ import { Post } from '#site/content';
 import { Separator } from '@/components/ui/separator';
 import { cn, formatDate } from '@/lib/utils';
 
-export const BlogHeader = ({ post }: { post: Post }) => {
+export const PostHeader = ({ post }: { post: Post }) => {
   return (
     <header className={cn('flex flex-col gap-4 pb-12')}>
       <h2 className="font-heading mt-2 scroll-m-20 text-2xl md:text-3xl font-bold leading-tight">

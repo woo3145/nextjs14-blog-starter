@@ -16,10 +16,10 @@ const MAX_BALLS = 15;
 const ballSize = 24; // 공 크기
 const ballImageSize = 432; // 이미지 크기 (픽셀)
 const ballImages = [
-  '/static/ball_1.png',
-  '/static/ball_2.png',
-  '/static/ball_3.png',
-  '/static/ball_4.png',
+  '/images/ball_1.png',
+  '/images/ball_2.png',
+  '/images/ball_3.png',
+  '/images/ball_4.png',
 ];
 
 export const WatermelonGame = () => {

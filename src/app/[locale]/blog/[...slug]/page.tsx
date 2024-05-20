@@ -8,9 +8,9 @@ import { TracingBeam } from '@/components/ui/tracking-beam';
 import { BlogMdx } from '@/components/mdx/blog-mdx-components';
 import { buttonVariants } from '@/components/ui/button';
 import { getPostBySlug, getSortedPosts } from '@/lib/velite/post-utils';
-import { BlogHeader } from '@/components/blog/blog-header';
-import { CommentList } from '@/components/blog/comment-list';
-import { TableOfContents } from '@/components/blog/toc';
+import { PostHeader } from '@/components/blog/post/post-header';
+import { CommentList } from '@/components/blog/comment/comment-list';
+import { TableOfContents } from '@/components/blog/post/toc';
 
 interface PostPageProps {
   params: {
@@ -66,7 +66,7 @@ export default function PostPage({ params }: PostPageProps) {
               <ChevronLeft className="mr-2 size-4" />
               See all posts
             </Link>
-            <BlogHeader post={post} />
+            <PostHeader post={post} />
             <BlogMdx code={post.body} />
           </TracingBeam>
 

@@ -2,9 +2,9 @@
 
 import { Post } from '#site/content';
 import { useEffect, useRef, useState } from 'react';
-import { PostCard } from './post-card';
 import { useSearchParams } from 'next/navigation';
 import { filterPostsByTag } from '@/lib/velite/post-utils';
+import { PostListItem } from './post-list-item';
 
 interface Props {
   posts: Post[];
@@ -50,7 +50,7 @@ export const PostList = ({ posts }: Props) => {
     <>
       <ul className="space-y-4 grid grid-cols-1 md:grid-cols-2 gap-2">
         {filteredPosts.slice(0, visibleCount).map((post) => {
-          return <PostCard key={post.slug} post={post} />;
+          return <PostListItem key={post.slug} post={post} />;
         })}
       </ul>
       {visibleCount < filteredPosts.length && (

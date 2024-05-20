@@ -36,7 +36,7 @@ export default async function DocPage({ params }: DocPageProps) {
 
   return (
     <div className="w-full flex flex-col md:px-6">
-      <Bread items={['Docs', 'Introduce']} />
+      <Bread items={params.slug ?? []} />
 
       <TracingBeam className="">
         <div className="w-full">

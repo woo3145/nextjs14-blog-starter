@@ -1,3 +1,4 @@
+'use client';
 import { CDN_IMAGES } from '@/data/cdn-images';
 import { Variants, motion } from 'framer-motion';
 import Image from 'next/image';
