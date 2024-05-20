@@ -1,5 +1,5 @@
-import { siteMetadata } from '@/data/siteMetadata';
 import { Pathnames } from 'next-intl/navigation';
+import { siteMetadata } from './data/site-metadata';
 
 export const port = process.env.PORT || 3000;
 export const host = process.env.VERCEL_URL

@@ -2,7 +2,7 @@ import fs from 'fs';
 import RSS from 'rss';
 import path from 'path';
 import matter from 'gray-matter';
-import { siteMetadata } from '../data/siteMetadata';
+import { siteMetadata } from '../src/data/site-metadata';
 
 const getPosts = (locale: string): File[] => {
   try {
