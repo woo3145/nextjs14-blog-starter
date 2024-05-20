@@ -1,8 +1,8 @@
-import { ContactSection } from './_components/contact-section';
-import { HeroSection } from './_components/hero-section';
-import { ProjectSection } from './_components/project-section/project-section';
-import { SkillSection } from './_components/skill-section/skill-section';
-import { TechStackSection } from './_components/tech-stack-section/tech-stack-section';
+import { ContactSection } from '@/components/landing/contact-section';
+import { HeroSection } from '@/components/landing/hero-section';
+import { ProjectSection } from '@/components/landing/project-section';
+import { SkillSection } from '@/components/landing/skill-section';
+import { TechStackSection } from '@/components/landing/tech-stack-section';
 
 interface LandingPageProps {
   params: {

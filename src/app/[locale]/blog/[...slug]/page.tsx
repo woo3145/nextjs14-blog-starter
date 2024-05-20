@@ -5,12 +5,12 @@ import { ChevronLeft } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 import { TracingBeam } from '@/components/ui/tracking-beam';
-import { CommentList } from './_components/comment-list';
 import { BlogMdx } from '@/components/mdx/blog-mdx-components';
-import { TableOfContents } from './_components/toc';
 import { buttonVariants } from '@/components/ui/button';
-import { BlogHeader } from './_components/blog-header';
-import { getPostBySlug, getSortedPosts } from '@/lib/post-utils';
+import { getPostBySlug, getSortedPosts } from '@/lib/velite/post-utils';
+import { PostHeader } from '@/components/blog/post/post-header';
+import { CommentList } from '@/components/blog/comment/comment-list';
+import { TableOfContents } from '@/components/blog/post/toc';
 
 interface PostPageProps {
   params: {
@@ -66,7 +66,7 @@ export default function PostPage({ params }: PostPageProps) {
               <ChevronLeft className="mr-2 size-4" />
               See all posts
             </Link>
-            <BlogHeader post={post} />
+            <PostHeader post={post} />
             <BlogMdx code={post.body} />
           </TracingBeam>
 

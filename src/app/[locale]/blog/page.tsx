@@ -1,8 +1,8 @@
-import { HeroCard } from './_components/hero-card';
-import { PostList } from './_components/post-list';
-import TagList from './_components/tag-list';
 import { Suspense } from 'react';
-import { getAllPostTags, getSortedPosts } from '@/lib/post-utils';
+import { getAllPostTags, getSortedPosts } from '@/lib/velite/post-utils';
+import { HeroSection } from '@/components/blog/hero-section';
+import { TagList } from '@/components/blog/tag/tag-list';
+import { PostList } from '@/components/blog/post/post-list';
 
 interface BlogPageProps {
   params: {
@@ -19,7 +19,7 @@ export default async function BlogPage({ params }: BlogPageProps) {
     <div className="w-full flex flex-col pt-6 md:pt-12">
       <div className="w-full flex flex-col max-w-screen-lg mx-auto">
         <div className="w-full max-w-screen-md mx-auto">
-          <HeroCard />
+          <HeroSection />
         </div>
 
         <div className="py-12">

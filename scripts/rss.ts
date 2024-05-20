@@ -2,7 +2,7 @@ import fs from 'fs';
 import RSS from 'rss';
 import path from 'path';
 import matter from 'gray-matter';
-import { siteMetadata } from '../data/siteMetadata';
+import { siteMetadata } from '../src/data/site-metadata';
 
 const getPosts = (locale: string): File[] => {
   try {
@@ -35,7 +35,7 @@ const addPostsToFeed = (feed: RSS, posts: any[], locale: string) => {
       title: post.title,
       description: post.description,
       date: new Date(post.date),
-      author: siteMetadata.hero.author,
+      author: siteMetadata.author,
       url,
       guid: url,
     });

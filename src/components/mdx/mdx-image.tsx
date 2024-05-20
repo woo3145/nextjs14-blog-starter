@@ -1,6 +1,6 @@
-import { siteMetadata } from '@/data/siteMetadata';
 import { cn } from '@/lib/utils';
 import ZoomableImage from '../ui/zoomable-image';
+import { host } from '@/config/app-config';
 
 // 마크다운 이미지 태그에서 width와 height를 추출하여 next/image 컴포넌트에 적용하는 컴포넌트
 export function MDXImage({
@@ -14,7 +14,7 @@ export function MDXImage({
   alt: string;
 }) {
   let widthFromSrc, heightFromSrc;
-  const url = new URL(src, siteMetadata.siteUrl);
+  const url = new URL(src, host);
   const widthParam = url.searchParams.get('w') || url.searchParams.get('width');
   const heightParam =
     url.searchParams.get('h') || url.searchParams.get('height');

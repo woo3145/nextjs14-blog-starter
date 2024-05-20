@@ -6,15 +6,13 @@ import './styles/globals.css';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { ThemeProvider } from '@/components/providers/theme-provider';
-import { FileCode2Icon, HomeIcon, NotebookPenIcon } from 'lucide-react';
-import { FloatingNav } from '@/components/ui/floating-navbar';
 import { cn } from '@/lib/utils';
-import { IconPlanet } from '@tabler/icons-react';
 import { Toaster } from '@/components/ui/sonner';
-import { AppPathnames, locales } from '@/config';
-import { ReactNode } from 'react';
-import { GoogleAdsense } from '@/components/google-adsense';
-import { Footer } from '@/components/footer';
+import { GoogleAdsense } from '@/components/common/google-adsense';
+import { FloatingNav } from '@/components/common/floating-navbar';
+import { Footer } from '@/components/common/footer';
+import { headerNavLinks } from '@/config/nav-config';
+import { locales } from '@/config/app-config';
 
 const inter = Noto_Sans_KR({
   weight: ['400', '600', '800'],
@@ -34,9 +32,6 @@ export async function generateMetadata({
       default: `${metadata('title')}`,
     },
     description: metadata('description'),
-    icons: {
-      shortcut: '/favicon.ico',
-    },
     alternates: {
       types: {
         'application/rss+xml': `${metadata('siteUrl')}/feed.xml`,
@@ -51,33 +46,6 @@ export const viewport = {
     { media: '(prefers-color-scheme: dark)', color: '#000' },
   ],
 };
-
-const navItems: {
-  name: string;
-  link: AppPathnames;
-  icon: ReactNode;
-}[] = [
-  {
-    name: 'Main',
-    link: '/',
-    icon: <HomeIcon className="h-4 w-4 text-foreground/60" />,
-  },
-  {
-    name: 'Blog',
-    link: '/blog',
-    icon: <NotebookPenIcon className="h-4 w-4 text-foreground/60" />,
-  },
-  {
-    name: 'Projects',
-    link: '/projects',
-    icon: <IconPlanet className="h-4 w-4 text-foreground/60" />,
-  },
-  {
-    name: 'Docs',
-    link: '/docs',
-    icon: <FileCode2Icon className="h-4 w-4 text-foreground/60" />,
-  },
-];
 
 // 참고 (unstable_setRequestLocale)
 // https://next-intl-docs.vercel.app/docs/getting-started/app-router#add-unstable_setrequestlocale-to-all-layouts-and-pages
@@ -107,7 +75,7 @@ export default async function RootLayout({
           disableTransitionOnChange
         >
           <NextIntlClientProvider messages={messages}>
-            <FloatingNav navItems={navItems} />
+            <FloatingNav navItems={headerNavLinks} />
 
             <div className="h-auto min-h-screen w-full rounded-md bg-background bg-grid-black/[0.04] dark:bg-grid-white/[0.04] font-noto-sans">
               <main>{children}</main>
