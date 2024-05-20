@@ -1,4 +1,4 @@
-import { ProjectSection } from '../(landing)/_components/project-section/project-section';
+import { ProjectSection } from '@/components/landing/project-section';
 
 interface ProjectPagesProps {
   params: {

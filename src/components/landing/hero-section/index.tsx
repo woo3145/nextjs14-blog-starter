@@ -2,15 +2,15 @@
 import * as React from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import { useTranslations } from 'next-intl';
 
+import { cn } from '@/lib/utils';
+import { CDN_IMAGES } from '@/data/cdn-images';
 import { Highlight } from '@/components/ui/highlight';
+import { Reveal } from '@/components/reveal';
 import { SnakeBeam } from './snake-beam';
 import { FlipImage } from './flip-image';
-import { CDN_IMAGES } from '@/data/cdn-images';
 import { BubbleMessage } from './bubble-message';
-import { cn } from '@/lib/utils';
-import { useTranslations } from 'next-intl';
-import { Reveal } from '@/components/reveal';
 
 interface HeroSectionProps {
   className?: string;

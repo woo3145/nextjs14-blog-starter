@@ -1,6 +1,6 @@
-import { siteMetadata } from '@/data/siteMetadata';
 import { cn } from '@/lib/utils';
 import ZoomableImage from '../ui/zoomable-image';
+import { siteMetadata } from '@/data/site-metadata';
 
 // 마크다운 이미지 태그에서 width와 height를 추출하여 next/image 컴포넌트에 적용하는 컴포넌트
 export function MDXImage({

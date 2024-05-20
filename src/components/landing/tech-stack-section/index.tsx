@@ -6,7 +6,7 @@ import {
   frontStacks,
   languageStacks,
   otherStacks,
-} from './teck-stack-data';
+} from '../../../data/teck-stack-data';
 import { TechStackItem } from './tech-stack-item';
 import { cn } from '@/lib/utils';
 

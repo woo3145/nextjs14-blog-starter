@@ -1,5 +1,5 @@
 'use client';
-import { SnakeBeam } from '@/app/[locale]/(landing)/_components/hero-section/snake-beam';
+import { SnakeBeam } from '../landing/hero-section/snake-beam';
 import { ComponentPreviewContainer } from './component-preview-container';
 
 export const SnakeBeamPreview = () => {

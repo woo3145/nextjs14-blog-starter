@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { TechStack } from './teck-stack-data';
+import { TechStack } from '../../../data/teck-stack-data';
 
 interface TechStackItemProps {
   stack: TechStack;
