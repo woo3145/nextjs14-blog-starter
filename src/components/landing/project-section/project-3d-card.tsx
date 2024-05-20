@@ -1,9 +1,9 @@
 import { ExternalLink } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Badge } from '../ui/badge';
-import { Button } from '../ui/button';
-import { CardBody, CardContainer, CardItem } from '../ui/3d-card';
+import { Badge } from '../../ui/badge';
+import { Button } from '../../ui/button';
+import { CardBody, CardContainer, CardItem } from '../../ui/3d-card';
 import { Project } from '#site/content';
 import {
   IconBrandAppstore,
